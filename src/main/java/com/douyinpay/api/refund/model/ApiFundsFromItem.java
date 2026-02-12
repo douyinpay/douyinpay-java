@@ -1,0 +1,42 @@
+
+package com.douyinpay.api.refund.model;
+
+import com.google.gson.annotations.SerializedName;
+
+import static com.douyinpay.util.StringUtil.toIndentedString;
+
+/** FundsFromItem */
+public class ApiFundsFromItem {
+  /** 出资金额 说明：对应账户出资金额 */
+  @SerializedName("amount")
+  private Long amount;
+  /** 出资账户类型 说明：下面枚举值多选一。 枚举值： AVAILABLE : 可用余额 UNAVAILABLE : 不可用余额 */
+  @SerializedName("account")
+  private Account account;
+
+  public Long getAmount() {
+    return amount;
+  }
+
+  public void setAmount(Long amount) {
+    this.amount = amount;
+  }
+
+  public Account getAccount() {
+    return account;
+  }
+
+  public void setAccount(Account account) {
+    this.account = account;
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class FundsFromItem {\n");
+    sb.append("    amount: ").append(toIndentedString(amount)).append("\n");
+    sb.append("    account: ").append(toIndentedString(account)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+}
