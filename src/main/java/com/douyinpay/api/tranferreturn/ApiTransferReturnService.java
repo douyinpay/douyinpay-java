@@ -3,7 +3,6 @@ package com.douyinpay.api.tranferreturn;
 import com.douyinpay.api.DouyinpayClient;
 import com.douyinpay.api.DouyinpayRequest;
 import com.douyinpay.api.DouyinpayResponse;
-import com.douyinpay.api.splitfund.ApiSplitFundPaymentsService;
 import com.douyinpay.api.tranferreturn.models.*;
 import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.component.http.QueryParameter;
