@@ -3,8 +3,18 @@ package com.douyinpay.api.splitfund;
 import com.douyinpay.api.DouyinpayClient;
 import com.douyinpay.api.DouyinpayRequest;
 import com.douyinpay.api.DouyinpayResponse;
+import com.douyinpay.api.splitfund.models.ApiDeleteSplitReceiverRequest;
+import com.douyinpay.api.splitfund.models.ApiDeleteSplitReceiverResponse;
+import com.douyinpay.api.splitfund.models.ApiFinishSplitFundRequest;
+import com.douyinpay.api.splitfund.models.ApiFinishSplitFundResponse;
+import com.douyinpay.api.splitfund.models.ApiQueryReturnSplitFundRequest;
+import com.douyinpay.api.splitfund.models.ApiQueryReturnSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ApiQuerySplitFundRequest;
 import com.douyinpay.api.splitfund.models.ApiQuerySplitFundResponse;
+import com.douyinpay.api.splitfund.models.ApiQueryUnSplitFundRequest;
+import com.douyinpay.api.splitfund.models.ApiQueryUnSplitFundResponse;
+import com.douyinpay.api.splitfund.models.ApiReturnSplitFundRequest;
+import com.douyinpay.api.splitfund.models.ApiReturnSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ApiSplitFundRequest;
 import com.douyinpay.api.splitfund.models.ApiSplitFundResponse;
 import com.douyinpay.component.http.HttpMethod;
@@ -24,7 +34,36 @@ public class ApiSplitFundPaymentsService {
      */
     private static final String QUERY_SPLIT_FUND_URI = "/v1/trade/profitsharing/orders/{out_trade_no}";
 
+    /**
+     * 分账回退接口URI
+     */
+    private static final String RETURN_SPLIT_FUND_URI = "/v1/trade/profitsharing/return-orders";
+
+    /**
+     * 分账回退查询接口URI
+     */
+    private static final String QUERY_RETURN_SPLIT_FUND_URI = "/v1/trade/profitsharing/return-orders/{out_return_no}";
+
+    /**
+     * 完结分账接口URI
+     */
+    private static final String FINISH_SPLIT_FUND_URI = "/v1/trade/profitsharing/finish-orders";
+
+    /**
+     * 查询剩余待分金额接口URI
+     */
+    private static final String QUERY_UNSPLIT_FUND_URI = "/v1/trade/profitsharing/order/{transaction_id}/amounts";
+
+    /**
+     * 删除分账接收方接口URI
+     */
+    private static final String DELETE_SPLIT_RECEIVER_URI = "/v1/trade/profitsharing/receivers/delete";
+
     private static final String OUT_TRADE_NO_PATTERN = "{out_trade_no}";
+
+    private static final String OUT_RETURN_NO_PATTERN = "{out_return_no}";
+
+    private static final String TRANSACTION_ID_PATTERN = "{transaction_id}";
 
     private final DouyinpayClient douyinpayClient;
     private final DomainName domainName;//请求域名
@@ -125,6 +164,99 @@ public class ApiSplitFundPaymentsService {
 
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.GET, requestUrl, requestPath, null, null);
         DouyinpayResponse<ApiQuerySplitFundResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiQuerySplitFundResponse.class);
+
+        return apiResponse.getApiResponse();
+    }
+
+    /**
+     * 分账回退
+     *
+     * @param request 请求参数
+     * @return ApiReturnSplitFundResponse
+     */
+    public ApiReturnSplitFundResponse returnSplitFund(ApiReturnSplitFundRequest request) {
+        String requestUrl = getRequestUrl();
+        String body = GsonUtil.objectToJson(request);
+
+        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, RETURN_SPLIT_FUND_URI, null, body);
+        DouyinpayResponse<ApiReturnSplitFundResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiReturnSplitFundResponse.class);
+
+        return apiResponse.getApiResponse();
+    }
+
+    /**
+     * 查询分账回退结果
+     *
+     * @param request 请求参数
+     * @return ApiQueryReturnSplitFundResponse
+     */
+    public ApiQueryReturnSplitFundResponse queryReturnSplitFund(ApiQueryReturnSplitFundRequest request) {
+        String requestUrl = getRequestUrl();
+        String requestPath = QUERY_RETURN_SPLIT_FUND_URI.replace(OUT_RETURN_NO_PATTERN, StringUtil.urlEncode(request.getOutReturnNo()));
+        QueryParameter queryParameter = new QueryParameter();
+        if (request.getMerchantId() != null) {
+            queryParameter.add("mchid", StringUtil.urlEncode(request.getMerchantId()));
+        }
+        if (request.getOutOrderNo() != null) {
+            queryParameter.add("out_order_no", StringUtil.urlEncode(request.getOutOrderNo()));
+        }
+        requestPath += queryParameter.getQueryStr();
+
+        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.GET, requestUrl, requestPath, null, null);
+        DouyinpayResponse<ApiQueryReturnSplitFundResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiQueryReturnSplitFundResponse.class);
+
+        return apiResponse.getApiResponse();
+    }
+
+    /**
+     * 完结分账
+     *
+     * @param request 请求参数
+     * @return ApiFinishSplitFundResponse
+     */
+    public ApiFinishSplitFundResponse finishSplitFund(ApiFinishSplitFundRequest request) {
+        String requestUrl = getRequestUrl();
+        String body = GsonUtil.objectToJson(request);
+
+        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, FINISH_SPLIT_FUND_URI, null, body);
+        DouyinpayResponse<ApiFinishSplitFundResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiFinishSplitFundResponse.class);
+
+        return apiResponse.getApiResponse();
+    }
+
+    /**
+     * 查询剩余待分金额
+     *
+     * @param request 请求参数
+     * @return ApiQueryUnSplitFundResponse
+     */
+    public ApiQueryUnSplitFundResponse queryUnSplitFund(ApiQueryUnSplitFundRequest request) {
+        String requestUrl = getRequestUrl();
+        String requestPath = QUERY_UNSPLIT_FUND_URI.replace(TRANSACTION_ID_PATTERN, StringUtil.urlEncode(request.getTransactionId()));
+        QueryParameter queryParameter = new QueryParameter();
+        if (request.getMerchantId() != null) {
+            queryParameter.add("mchid", StringUtil.urlEncode(request.getMerchantId()));
+        }
+        requestPath += queryParameter.getQueryStr();
+
+        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.GET, requestUrl, requestPath, null, null);
+        DouyinpayResponse<ApiQueryUnSplitFundResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiQueryUnSplitFundResponse.class);
+
+        return apiResponse.getApiResponse();
+    }
+
+    /**
+     * 删除分账接收方
+     *
+     * @param request 请求参数
+     * @return ApiDeleteSplitReceiverResponse
+     */
+    public ApiDeleteSplitReceiverResponse deleteSplitReceiver(ApiDeleteSplitReceiverRequest request) {
+        String requestUrl = getRequestUrl();
+        String body = GsonUtil.objectToJson(request);
+
+        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, DELETE_SPLIT_RECEIVER_URI, null, body);
+        DouyinpayResponse<ApiDeleteSplitReceiverResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiDeleteSplitReceiverResponse.class);
 
         return apiResponse.getApiResponse();
     }
