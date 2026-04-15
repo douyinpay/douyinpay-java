@@ -23,7 +23,6 @@ import com.douyinpay.api.splitfund.models.ApiSplitFundRequest;
 import com.douyinpay.api.splitfund.models.ApiSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ReceiverInfoDto;
 import com.douyinpay.api.splitfund.models.ReceiverSplitResultDto;
-import com.douyinpay.api.splitfund.models.SplitFundReceiverType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class ApiSplitFundPaymentsServiceMockTest {
         ApiSplitFundPaymentsService service = mock(ApiSplitFundPaymentsService.class);
 
         ReceiverInfoDto receiverInfoDto = new ReceiverInfoDto();
-        receiverInfoDto.setType(SplitFundReceiverType.MERCHANT_ID);
+        receiverInfoDto.setType("MERCHANT_ID");
         receiverInfoDto.setAccount("6020231219024876");
         receiverInfoDto.setAmount(10);
         receiverInfoDto.setDescription("测试分账");
@@ -76,7 +75,7 @@ public class ApiSplitFundPaymentsServiceMockTest {
         ReceiverSplitResultDto receiverSplitResultDto = new ReceiverSplitResultDto();
         receiverSplitResultDto.setAmount(10);
         receiverSplitResultDto.setDescription("测试分账");
-        receiverSplitResultDto.setType(SplitFundReceiverType.MERCHANT_ID);
+        receiverSplitResultDto.setType("MERCHANT_ID");
         receiverSplitResultDto.setAccount("6020231219024876");
         receiverSplitResultDto.setResult("SUCCESS");
         receiverSplitResultDto.setCreateTime("2025-01-03T11:46:32+08:00");

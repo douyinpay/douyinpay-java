@@ -1,5 +1,6 @@
 package com.douyinpay.api.splitfund.models;
 
+import com.douyinpay.enums.SplitFundReturnResultEnum;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.annotations.SerializedName;
 
@@ -43,6 +44,7 @@ public class ApiReturnSplitFundResponse {
 
     /**
      * 回退结果
+     * @see SplitFundReturnResultEnum
      */
     @SerializedName("result")
     private String result;

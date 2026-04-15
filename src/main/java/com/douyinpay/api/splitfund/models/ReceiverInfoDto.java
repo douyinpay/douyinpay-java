@@ -1,5 +1,6 @@
 package com.douyinpay.api.splitfund.models;
 
+import com.douyinpay.enums.SplitFundReceiverTypeEnum;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,9 +8,10 @@ public class ReceiverInfoDto {
 
     /**
      * 分账接收方类型，MERCHANT_ID：商户号， PERSONAL_OPENID：个人
+     * @see SplitFundReceiverTypeEnum
      */
     @SerializedName("type")
-    private SplitFundReceiverType type;
+    private String type;
 
     /**
      * type = MERCHANT_ID 时为商户号
@@ -35,11 +37,11 @@ public class ReceiverInfoDto {
     @SerializedName("description")
     private String description;
 
-    public SplitFundReceiverType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(SplitFundReceiverType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

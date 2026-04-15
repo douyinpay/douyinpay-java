@@ -18,7 +18,6 @@ import com.douyinpay.api.splitfund.models.ApiReturnSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ApiSplitFundRequest;
 import com.douyinpay.api.splitfund.models.ApiSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ReceiverInfoDto;
-import com.douyinpay.api.splitfund.models.SplitFundReceiverType;
 import com.douyinpay.define.Constants;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.define.GlobalConfig;
@@ -101,7 +100,7 @@ public class ApiSplitFundPaymentsServiceTest {
                 .domainName(DomainName.API).build();
 
         ReceiverInfoDto receiverInfoDto = new ReceiverInfoDto();
-        receiverInfoDto.setType(SplitFundReceiverType.MERCHANT_ID);
+        receiverInfoDto.setType("MERCHANT_ID");
         receiverInfoDto.setAccount("6020231219024876");
         receiverInfoDto.setAmount(10);
         receiverInfoDto.setDescription("测试分账");

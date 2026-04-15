@@ -1,5 +1,6 @@
 package com.douyinpay.api.splitfund.models;
 
+import com.douyinpay.enums.SplitFundReceiverTypeEnum;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.annotations.SerializedName;
 
@@ -19,6 +20,7 @@ public class ApiDeleteSplitReceiverRequest {
 
     /**
      * 分账接收方类型
+     * @see SplitFundReceiverTypeEnum
      */
     @SerializedName("type")
     private String type;
