@@ -1,20 +1,21 @@
 package com.douyinpay.api.splitfund.models;
 
 import com.douyinpay.enums.SplitFundReceiverTypeEnum;
+import com.douyinpay.enums.SplitFundRelationTypeEnum;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.annotations.SerializedName;
 
-public class ReceiverInfoDto {
+public class ApiAddSplitReceiverResponse {
 
     /**
-     * 分账接收方类型，MERCHANT_ID：商户号， PERSONAL_OPENID：个人
+     * 分账接收方类型
      * @see SplitFundReceiverTypeEnum
      */
     @SerializedName("type")
     private String type;
 
     /**
-     * type = MERCHANT_ID 时为商户号，type = PERSONAL_OPENID 时为个人openid
+     * 分账接收方账号
      */
     @SerializedName("account")
     private String account;
@@ -26,16 +27,17 @@ public class ReceiverInfoDto {
     private String name;
 
     /**
-     * 分账金额
+     * 与分账方的关系类型
+     * @see SplitFundRelationTypeEnum
      */
-    @SerializedName("amount")
-    private Integer amount;
+    @SerializedName("relation_type")
+    private String relationType;
 
     /**
-     * 分账描述
+     * 自定义的分账关系
      */
-    @SerializedName("description")
-    private String description;
+    @SerializedName("custom_relation")
+    private String customRelation;
 
     public String getType() {
         return type;
@@ -61,20 +63,20 @@ public class ReceiverInfoDto {
         this.name = name;
     }
 
-    public Integer getAmount() {
-        return amount;
+    public String getRelationType() {
+        return relationType;
     }
 
-    public void setAmount(Integer amount) {
-        this.amount = amount;
+    public void setRelationType(String relationType) {
+        this.relationType = relationType;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCustomRelation() {
+        return customRelation;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCustomRelation(String customRelation) {
+        this.customRelation = customRelation;
     }
 
     @Override

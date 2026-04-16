@@ -6,11 +6,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ApiQuerySplitFundResponse {
+    @SerializedName("mchid")
+    private String merchantId;
+
     @SerializedName("transaction_id")
     private String tradeNo;
 
     @SerializedName("out_order_no")
-    private String outTradeNO;
+    private String outTradeNo;
 
     @SerializedName("order_id")
     private String orderId;
@@ -30,6 +33,14 @@ public class ApiQuerySplitFundResponse {
     @SerializedName("split_finish_time")
     private String splitFinishTime;
 
+    public String getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
+    }
+
     public String getTradeNo() {
         return tradeNo;
     }
@@ -38,12 +49,12 @@ public class ApiQuerySplitFundResponse {
         this.tradeNo = tradeNo;
     }
 
-    public String getOutTradeNO() {
-        return outTradeNO;
+    public String getOutTradeNo() {
+        return outTradeNo;
     }
 
-    public void setOutTradeNO(String outTradeNO) {
-        this.outTradeNO = outTradeNO;
+    public void setOutTradeNo(String outTradeNo) {
+        this.outTradeNo = outTradeNo;
     }
 
     public String getOrderId() {

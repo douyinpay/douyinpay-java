@@ -3,7 +3,7 @@ package com.douyinpay.component.crypto;
 import com.douyinpay.exception.DouyinpayException;
 
 /**
- * 非对称加密算法
+ * 对称加密算法
  */
 public interface ISymmetricCrypto {
 

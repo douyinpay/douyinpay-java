@@ -7,6 +7,8 @@ import org.junit.Test;
 
 import com.doupay.api.secret.Config;
 import com.douyinpay.api.splitfund.ApiSplitFundPaymentsService;
+import com.douyinpay.api.splitfund.models.ApiAddSplitReceiverRequest;
+import com.douyinpay.api.splitfund.models.ApiAddSplitReceiverResponse;
 import com.douyinpay.api.splitfund.models.ApiDeleteSplitReceiverRequest;
 import com.douyinpay.api.splitfund.models.ApiDeleteSplitReceiverResponse;
 import com.douyinpay.api.splitfund.models.ApiFinishSplitFundRequest;
@@ -30,6 +32,32 @@ import java.util.List;
 public class ApiSplitFundPaymentsServiceMockTest {
 
     @Test
+    public void testAddSplitReceiver() {
+        ApiSplitFundPaymentsService service = mock(ApiSplitFundPaymentsService.class);
+
+        ApiAddSplitReceiverRequest request = new ApiAddSplitReceiverRequest();
+        request.setMerchantId(Config.MCHID);
+        request.setAppId(Config.APPID);
+        request.setType("MERCHANT_ID");
+        request.setAccount("6020260126898210");
+        request.setName("CDEgKhcAkOQVESRENiMsdtfoRDOsLPOfCmJPR");
+        request.setRelationType("STORE");
+
+        ApiAddSplitReceiverResponse expectedResponse = new ApiAddSplitReceiverResponse();
+        expectedResponse.setType("MERCHANT_ID");
+        expectedResponse.setAccount("6020260126898210");
+        expectedResponse.setName("XIBWBlVpNbKdpcoTljZbRAavYtd");
+        expectedResponse.setRelationType("STORE");
+
+        when(service.addSplitReceiver(request)).thenReturn(expectedResponse);
+        ApiAddSplitReceiverResponse response = service.addSplitReceiver(request);
+        Assert.assertNotNull(response);
+        Assert.assertEquals("MERCHANT_ID", response.getType());
+        Assert.assertEquals("6020260126898210", response.getAccount());
+        Assert.assertEquals("STORE", response.getRelationType());
+    }
+
+    @Test
     public void testSplitFund() {
         ApiSplitFundPaymentsService service = mock(ApiSplitFundPaymentsService.class);
 
@@ -48,11 +76,13 @@ public class ApiSplitFundPaymentsServiceMockTest {
         request.setOutTradeNo("OUT_31357802300250606199830");
         request.setReceiverInfoDtos(receiverInfoDtos);
         request.setUnfreezeUnsplit(false);
+        request.setNotifyUrl("https://www.mock.douyinpay.com");
 
         ApiSplitFundResponse expectedResponse = new ApiSplitFundResponse();
         expectedResponse.setTradeNo("TP2022101317144741443210681000");
         expectedResponse.setOutTradeNo("OUT_31357802300250606199830");
         expectedResponse.setOrderId("11777200250103110500000223512022");
+        expectedResponse.setMerchantId(Config.MCHID);
 
         when(service.splitFund(request)).thenReturn(expectedResponse);
         ApiSplitFundResponse response = service.splitFund(request);
@@ -60,6 +90,7 @@ public class ApiSplitFundPaymentsServiceMockTest {
         Assert.assertEquals("TP2022101317144741443210681000", response.getTradeNo());
         Assert.assertEquals("OUT_31357802300250606199830", response.getOutTradeNo());
         Assert.assertEquals("11777200250103110500000223512022", response.getOrderId());
+        Assert.assertEquals(Config.MCHID, response.getMerchantId());
     }
 
     @Test
@@ -85,8 +116,9 @@ public class ApiSplitFundPaymentsServiceMockTest {
         receiverSplitResultDtos.add(receiverSplitResultDto);
 
         ApiQuerySplitFundResponse expectedResponse = new ApiQuerySplitFundResponse();
+        expectedResponse.setMerchantId(Config.MCHID);
         expectedResponse.setTradeNo("TP2022101317144741443210681000");
-        expectedResponse.setOutTradeNO("OUT_31357802300250606199830");
+        expectedResponse.setOutTradeNo("OUT_31357802300250606199830");
         expectedResponse.setOrderId("11777200250103110500000223512022");
         expectedResponse.setState("FINISHED");
         expectedResponse.setReceiverSplitResultDtos(receiverSplitResultDtos);
@@ -97,6 +129,7 @@ public class ApiSplitFundPaymentsServiceMockTest {
         when(service.querySplitFund(request)).thenReturn(expectedResponse);
         ApiQuerySplitFundResponse response = service.querySplitFund(request);
         Assert.assertNotNull(response);
+        Assert.assertEquals(Config.MCHID, response.getMerchantId());
         Assert.assertEquals("FINISHED", response.getState());
         Assert.assertEquals(Integer.valueOf(10), response.getFinishAmount());
         Assert.assertEquals(1, response.getReceiverSplitResultDtos().size());

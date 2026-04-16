@@ -6,13 +6,13 @@ import com.google.gson.annotations.SerializedName;
 public class ApiSplitFundResponse {
 
     /**
-     * 交易单号
+     * 抖音支付订单号
      */
     @SerializedName("transaction_id")
     private String tradeNo;
 
     /**
-     * 外部商户单号
+     * 商户分账单号
      */
     @SerializedName("out_order_no")
     private String outTradeNo;
@@ -22,6 +22,12 @@ public class ApiSplitFundResponse {
      */
     @SerializedName("order_id")
     private String orderId;
+
+    /**
+     * 直连商户号
+     */
+    @SerializedName("mchid")
+    private String merchantId;
 
     public String getTradeNo() {
         return tradeNo;
@@ -45,6 +51,14 @@ public class ApiSplitFundResponse {
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public String getMerchantId() {
+        return merchantId;
+    }
+
+    public void setMerchantId(String merchantId) {
+        this.merchantId = merchantId;
     }
 
     @Override

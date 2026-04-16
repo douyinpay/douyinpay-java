@@ -3,6 +3,8 @@ package com.douyinpay.api.splitfund;
 import com.douyinpay.api.DouyinpayClient;
 import com.douyinpay.api.DouyinpayRequest;
 import com.douyinpay.api.DouyinpayResponse;
+import com.douyinpay.api.splitfund.models.ApiAddSplitReceiverRequest;
+import com.douyinpay.api.splitfund.models.ApiAddSplitReceiverResponse;
 import com.douyinpay.api.splitfund.models.ApiDeleteSplitReceiverRequest;
 import com.douyinpay.api.splitfund.models.ApiDeleteSplitReceiverResponse;
 import com.douyinpay.api.splitfund.models.ApiFinishSplitFundRequest;
@@ -53,6 +55,11 @@ public class ApiSplitFundPaymentsService {
      * 查询剩余待分金额接口URI
      */
     private static final String QUERY_UNSPLIT_FUND_URI = "/v1/trade/profitsharing/order/{transaction_id}/amounts";
+
+    /**
+     * 添加分账接收方接口URI
+     */
+    private static final String ADD_SPLIT_RECEIVER_URI = "/v1/trade/profitsharing/receivers/add";
 
     /**
      * 删除分账接收方接口URI
@@ -241,6 +248,22 @@ public class ApiSplitFundPaymentsService {
 
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.GET, requestUrl, requestPath, null, null);
         DouyinpayResponse<ApiQueryUnSplitFundResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiQueryUnSplitFundResponse.class);
+
+        return apiResponse.getApiResponse();
+    }
+
+    /**
+     * 添加分账接收方
+     *
+     * @param request 请求参数
+     * @return ApiAddSplitReceiverResponse
+     */
+    public ApiAddSplitReceiverResponse addSplitReceiver(ApiAddSplitReceiverRequest request) {
+        String requestUrl = getRequestUrl();
+        String body = GsonUtil.objectToJson(request);
+
+        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, ADD_SPLIT_RECEIVER_URI, null, body);
+        DouyinpayResponse<ApiAddSplitReceiverResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiAddSplitReceiverResponse.class);
 
         return apiResponse.getApiResponse();
     }

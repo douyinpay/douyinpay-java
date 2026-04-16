@@ -8,7 +8,7 @@ import java.util.List;
 public class ApiSplitFundRequest {
 
     /**
-     * 商户应用号
+     * 应用ID
      */
     @SerializedName("appid")
     private String appId;
@@ -20,28 +20,34 @@ public class ApiSplitFundRequest {
     private String merchantId;
 
     /**
-     * 交易订单号
+     * 抖音支付订单号
      */
     @SerializedName("transaction_id")
     private String tradeNo;
 
     /**
-     * 外部商户单号
+     * 商户分账单号
      */
     @SerializedName("out_order_no")
     private String outTradeNo;
 
     /**
-     * 分账方信息
+     * 分账接收方列表
      */
     @SerializedName("receivers")
     private List<ReceiverInfoDto> receiverInfoDtos;
 
     /**
-     * 是否完结分账
+     * 是否解冻剩余未分账资金
      */
     @SerializedName("unfreeze_unsplit")
     private Boolean unfreezeUnsplit;
+
+    /**
+     * 分账回调地址
+     */
+    @SerializedName("notify_url")
+    private String notifyUrl;
 
     public String getAppId() {
         return appId;
@@ -89,6 +95,14 @@ public class ApiSplitFundRequest {
 
     public void setUnfreezeUnsplit(Boolean unfreezeUnsplit) {
         this.unfreezeUnsplit = unfreezeUnsplit;
+    }
+
+    public String getNotifyUrl() {
+        return notifyUrl;
+    }
+
+    public void setNotifyUrl(String notifyUrl) {
+        this.notifyUrl = notifyUrl;
     }
 
     @Override

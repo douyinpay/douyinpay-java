@@ -3,6 +3,8 @@ package com.doupay.api.splitfund;
 import com.douyinpay.api.DefaultDouyinpayClient;
 import com.douyinpay.api.DouyinpayClient;
 import com.douyinpay.api.splitfund.ApiSplitFundPaymentsService;
+import com.douyinpay.api.splitfund.models.ApiAddSplitReceiverRequest;
+import com.douyinpay.api.splitfund.models.ApiAddSplitReceiverResponse;
 import com.douyinpay.api.splitfund.models.ApiDeleteSplitReceiverRequest;
 import com.douyinpay.api.splitfund.models.ApiDeleteSplitReceiverResponse;
 import com.douyinpay.api.splitfund.models.ApiFinishSplitFundRequest;
@@ -95,6 +97,32 @@ public class ApiSplitFundPaymentsServiceTest {
     }
 
     @Test
+    public void testAddSplitReceiver() {
+        ApiSplitFundPaymentsService service = new ApiSplitFundPaymentsService.Builder().douyinpayClient(douyinpayClient)
+                .domainName(DomainName.API).build();
+
+        ApiAddSplitReceiverRequest request = new ApiAddSplitReceiverRequest();
+        request.setMerchantId(MCHID);
+        request.setAppId(APPID);
+        request.setType("MERCHANT_ID");
+        request.setAccount("6020260126898210");
+        request.setName("CDEgKhcAkOQVESRENiMsdtfoRDOsLPOfCmJPR");
+        request.setRelationType("STORE");
+
+        System.out.println(request);
+        try {
+            ApiAddSplitReceiverResponse response = service.addSplitReceiver(request);
+            System.out.println(response);
+            Assert.assertNotNull(response);
+        } catch (ServiceException e) {
+            System.out.printf("code:%s,message:%s,httpbody:%s\n", e.getErrorCode(), e.getErrorMessage(),
+                    e.getResponseBody());
+        } catch (DouyinpayException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @Test
     public void testSplitFund() {
         ApiSplitFundPaymentsService service = new ApiSplitFundPaymentsService.Builder().douyinpayClient(douyinpayClient)
                 .domainName(DomainName.API).build();
@@ -114,6 +142,7 @@ public class ApiSplitFundPaymentsServiceTest {
         request.setOutTradeNo("OUT_31357802300250606199830");
         request.setReceiverInfoDtos(receiverInfoDtos);
         request.setUnfreezeUnsplit(false);
+        request.setNotifyUrl("https://www.mock.douyinpay.com");
 
         System.out.println(request);
         try {
