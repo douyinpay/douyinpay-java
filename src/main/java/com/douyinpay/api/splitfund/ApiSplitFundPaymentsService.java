@@ -21,9 +21,13 @@ import com.douyinpay.api.splitfund.models.ApiSplitFundRequest;
 import com.douyinpay.api.splitfund.models.ApiSplitFundResponse;
 import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.component.http.QueryParameter;
+import com.douyinpay.define.Constants;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ApiSplitFundPaymentsService {
     /**
@@ -139,8 +143,13 @@ public class ApiSplitFundPaymentsService {
     public ApiSplitFundResponse splitFund(ApiSplitFundRequest request) {
         String requestUrl = getRequestUrl();
         String body = GsonUtil.objectToJson(request);
+        Map<String, String> headers = null;
+        if (request.getSerialNo() != null && !request.getSerialNo().isEmpty()) {
+            headers = new HashMap<>();
+            headers.put(Constants.DOUYIN_PAY_SERIAL, request.getSerialNo());
+        }
 
-        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, SPLIT_FUND_URI, null, body);
+        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, SPLIT_FUND_URI, headers, body);
         DouyinpayResponse<ApiSplitFundResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiSplitFundResponse.class);
 
         return apiResponse.getApiResponse();
@@ -261,8 +270,13 @@ public class ApiSplitFundPaymentsService {
     public ApiAddSplitReceiverResponse addSplitReceiver(ApiAddSplitReceiverRequest request) {
         String requestUrl = getRequestUrl();
         String body = GsonUtil.objectToJson(request);
+        Map<String, String> headers = null;
+        if (request.getSerialNo() != null && !request.getSerialNo().isEmpty()) {
+            headers = new HashMap<>();
+            headers.put(Constants.DOUYIN_PAY_SERIAL, request.getSerialNo());
+        }
 
-        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, ADD_SPLIT_RECEIVER_URI, null, body);
+        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, ADD_SPLIT_RECEIVER_URI, headers, body);
         DouyinpayResponse<ApiAddSplitReceiverResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiAddSplitReceiverResponse.class);
 
         return apiResponse.getApiResponse();

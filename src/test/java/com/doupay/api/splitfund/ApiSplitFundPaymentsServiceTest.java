@@ -108,6 +108,7 @@ public class ApiSplitFundPaymentsServiceTest {
         request.setAccount("6020260126898210");
         request.setName("CDEgKhcAkOQVESRENiMsdtfoRDOsLPOfCmJPR");
         request.setRelationType("STORE");
+        request.setSerialNo(MERCHANT_SERIAL_NO);
 
         System.out.println(request);
         try {
@@ -132,6 +133,7 @@ public class ApiSplitFundPaymentsServiceTest {
         receiverInfoDto.setAccount("6020231219024876");
         receiverInfoDto.setAmount(10);
         receiverInfoDto.setDescription("测试分账");
+        receiverInfoDto.setName("");
         List<ReceiverInfoDto> receiverInfoDtos = new ArrayList<>();
         receiverInfoDtos.add(receiverInfoDto);
 
@@ -143,6 +145,7 @@ public class ApiSplitFundPaymentsServiceTest {
         request.setReceiverInfoDtos(receiverInfoDtos);
         request.setUnfreezeUnsplit(false);
         request.setNotifyUrl("https://www.mock.douyinpay.com");
+        request.setSerialNo(MERCHANT_SERIAL_NO);
 
         System.out.println(request);
         try {
