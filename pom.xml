@@ -11,6 +11,8 @@
         <java.version>1.8</java.version>
     </properties>
 
+    <description>抖音支付 Java SDK</description>
+
     <!-- 许可证 -->
     <licenses>
         <license>
@@ -29,10 +31,11 @@
     <!-- 开发者信息 -->
     <developers>
         <developer>
+            <id>douyinpay</id>
             <name>douyinpay</name>
             <organization>douyinpay</organization>
             <organizationUrl>https://pay.douyinpay.com</organizationUrl>
-            <email>你的邮箱</email>
+            <email>lizhonglv.1102@bytedance.com</email>
         </developer>
     </developers>
 
@@ -154,6 +157,12 @@
                         <goals><goal>sign</goal></goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <!-- 你的密钥ID，就是日志里显示的那个 -->
+                    <keyname>8168548E67AE2FF3</keyname>
+                    <!-- 从环境变量读取密码，不要写明文 -->
+                    <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+                </configuration>
             </plugin>
             <!-- Central发布插件 -->
             <plugin>
