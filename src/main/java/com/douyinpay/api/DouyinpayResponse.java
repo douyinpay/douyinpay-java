@@ -82,18 +82,6 @@ public final class DouyinpayResponse<T> {
         if (isInvalidHttpCode(this.statusCode)) {
             throw new ServiceException(this.request,this.body,this.statusCode);
         }
-
-
-
-        if (this.body != null
-                && !this.body.isEmpty()
-                && !StringUtils.equals(this.contentType, Constants.APPLICATION_JSON)) {
-            throw new DouyinpayException(
-                    String.format(
-                            "Unsupported content-type[%s]%nhttpRequest[%s]",
-                            this.contentType, this.request));
-        }
-
     }
 
 
