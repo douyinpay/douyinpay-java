@@ -83,16 +83,6 @@ public final class DouyinpayResponse<T> {
             throw new ServiceException(this.request,this.body,this.statusCode);
         }
 
-
-
-        if (this.body != null
-                && !this.body.isEmpty()) {
-            throw new DouyinpayException(
-                    String.format(
-                            "Unsupported content-type[%s]%nhttpRequest[%s]",
-                            this.contentType, this.request));
-        }
-
     }
 
 

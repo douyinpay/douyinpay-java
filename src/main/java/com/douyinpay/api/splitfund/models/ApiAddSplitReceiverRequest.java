@@ -113,6 +113,14 @@ public class ApiAddSplitReceiverRequest {
         this.customRelation = customRelation;
     }
 
+    public String getSerialNo() {
+        return serialNo;
+    }
+
+    public void setSerialNo(String serialNo) {
+        this.serialNo = serialNo;
+    }
+
     @Override
     public String toString() {
         return GsonUtil.objectToJson(this);

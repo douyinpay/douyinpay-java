@@ -1,5 +1,6 @@
 package com.douyinpay.api.splitfund;
 
+import com.douyinpay.api.DefaultDouyinpayClient;
 import com.douyinpay.api.DouyinpayClient;
 import com.douyinpay.api.DouyinpayRequest;
 import com.douyinpay.api.DouyinpayResponse;
@@ -19,14 +20,21 @@ import com.douyinpay.api.splitfund.models.ApiReturnSplitFundRequest;
 import com.douyinpay.api.splitfund.models.ApiReturnSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ApiSplitFundRequest;
 import com.douyinpay.api.splitfund.models.ApiSplitFundResponse;
+import com.douyinpay.api.splitfund.models.ReceiverInfoDto;
+import com.douyinpay.component.crypto.RsaEncryptor;
 import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.component.http.QueryParameter;
 import com.douyinpay.define.Constants;
 import com.douyinpay.define.DomainName;
+import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
 
+import java.security.cert.X509Certificate;
+import java.security.interfaces.RSAPublicKey;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ApiSplitFundPaymentsService {
@@ -142,6 +150,7 @@ public class ApiSplitFundPaymentsService {
      */
     public ApiSplitFundResponse splitFund(ApiSplitFundRequest request) {
         String requestUrl = getRequestUrl();
+        encryptSplitFundReceiverNames(request);
         String body = GsonUtil.objectToJson(request);
         Map<String, String> headers = null;
         if (request.getSerialNo() != null && !request.getSerialNo().isEmpty()) {
@@ -269,6 +278,7 @@ public class ApiSplitFundPaymentsService {
      */
     public ApiAddSplitReceiverResponse addSplitReceiver(ApiAddSplitReceiverRequest request) {
         String requestUrl = getRequestUrl();
+        request.setName(encryptSensitiveName(request.getName()));
         String body = GsonUtil.objectToJson(request);
         Map<String, String> headers = null;
         if (request.getSerialNo() != null && !request.getSerialNo().isEmpty()) {
@@ -280,6 +290,54 @@ public class ApiSplitFundPaymentsService {
         DouyinpayResponse<ApiAddSplitReceiverResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiAddSplitReceiverResponse.class);
 
         return apiResponse.getApiResponse();
+    }
+
+    private void encryptSplitFundReceiverNames(ApiSplitFundRequest request) {
+        List<ReceiverInfoDto> receiverInfoDtos = request.getReceiverInfoDtos();
+        if (receiverInfoDtos == null || receiverInfoDtos.isEmpty()) {
+            return;
+        }
+        for (ReceiverInfoDto receiverInfoDto : receiverInfoDtos) {
+            if (receiverInfoDto == null) {
+                continue;
+            }
+            receiverInfoDto.setName(encryptSensitiveName(receiverInfoDto.getName()));
+        }
+    }
+
+    private String encryptSensitiveName(String name) {
+        if (name == null || name.isEmpty()) {
+            return name;
+        }
+        X509Certificate platformCertificate = getPlatformCertificate();
+        if (platformCertificate == null) {
+            throw new DouyinpayException("缺少平台证书信息，无法加密敏感字段");
+        }
+        if (isAlreadyEncrypted(name, platformCertificate)) {
+            return name;
+        }
+        return new RsaEncryptor().encrypt(name, platformCertificate);
+    }
+
+    private X509Certificate getPlatformCertificate() {
+        if (douyinpayClient instanceof DefaultDouyinpayClient) {
+            return ((DefaultDouyinpayClient) douyinpayClient).getPlatformCertificate();
+        }
+        throw new DouyinpayException("当前DouyinpayClient不支持自动加密敏感字段");
+    }
+
+    private boolean isAlreadyEncrypted(String value, X509Certificate certificate) {
+        try {
+            if (!(certificate.getPublicKey() instanceof RSAPublicKey)) {
+                return false;
+            }
+            byte[] decoded = Base64.getDecoder().decode(value);
+            RSAPublicKey publicKey = (RSAPublicKey) certificate.getPublicKey();
+            int keySize = (publicKey.getModulus().bitLength() + 7) / 8;
+            return decoded.length == keySize;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
     }
 
     /**

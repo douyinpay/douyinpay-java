@@ -15,7 +15,6 @@ import com.douyinpay.define.AutoPlatformCertificateConfig;
 import com.douyinpay.exception.ServiceException;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.NonceUtil;
-import com.douyinpay.util.StringUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -102,6 +101,10 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
         this.platformCertificate = this.signer.loadX509Certificate(globalConfig.praticalCetificate());
 
+    }
+
+    public X509Certificate getPlatformCertificate() {
+        return platformCertificate;
     }
 
     public static class AutoRSABuilder {
