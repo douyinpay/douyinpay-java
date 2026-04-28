@@ -1,10 +1,12 @@
 package com.douyinpay.api;
 
 import com.douyinpay.component.certificate.AutoCertificateProvider;
+import com.douyinpay.component.certificate.CertificateProvider;
 import com.douyinpay.component.crypto.AsymmetricFactory;
 import com.douyinpay.component.crypto.IAsymmetricCrypto;
 import com.douyinpay.component.crypto.ISymmetricCrypto;
 import com.douyinpay.component.crypto.SymmetricFactory;
+import com.douyinpay.component.crypto.RsaEncryptor;
 import com.douyinpay.component.crypto.IVerifier;
 import com.douyinpay.component.crypto.VerifierFactory;
 import com.douyinpay.component.http.DefaultHttpClientBuilder;
@@ -43,6 +45,7 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
     private PrivateKey merchantPrivateKey;//私钥（pem格式）
 
     private X509Certificate platformCertificate; //平台证书
+    private CertificateProvider certificateProvider; // 自动更新平台证书提供器
     private String encryptKey;//对称密钥
     private IAsymmetricCrypto signer;//非对称算法
     private IVerifier verifier;
@@ -105,6 +108,12 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
     }
 
     public X509Certificate getPlatformCertificate() {
+        if (platformCertificate != null) {
+            return platformCertificate;
+        }
+        if (certificateProvider != null) {
+            return certificateProvider.getAvailableCertificate();
+        }
         return platformCertificate;
     }
 
@@ -272,7 +281,11 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.merchantSerialNumber = requireNonNull(config.getMerchantSerialNumber());
 
         this.headers = config.getCustomHeaders();
+        this.certificateProvider = config.getCertificateProvider();
         this.merchantPrivateKey = this.signer.loadPrivateKey(config.praticalPrivateKey());
+        if (this.certificateProvider != null) {
+            this.platformCertificate = this.certificateProvider.getAvailableCertificate();
+        }
 
     }
 
