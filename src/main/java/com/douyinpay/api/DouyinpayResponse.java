@@ -82,7 +82,6 @@ public final class DouyinpayResponse<T> {
         if (isInvalidHttpCode(this.statusCode)) {
             throw new ServiceException(this.request,this.body,this.statusCode);
         }
-
     }
 
 
