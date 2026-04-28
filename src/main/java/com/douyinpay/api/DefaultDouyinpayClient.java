@@ -47,6 +47,7 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
     private IAsymmetricCrypto signer;//非对称算法
     private IVerifier verifier;
     private ISymmetricCrypto encryptor;//对称算法
+    private final RsaEncryptor rsaEncryptor = new RsaEncryptor();//RSA算法
 
     /**
      * 商户证书序列号
@@ -105,6 +106,10 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
     public X509Certificate getPlatformCertificate() {
         return platformCertificate;
+    }
+
+    public RsaEncryptor getRsaEncryptor() {
+        return rsaEncryptor;
     }
 
     public static class AutoRSABuilder {

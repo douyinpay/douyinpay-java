@@ -28,6 +28,7 @@ import com.douyinpay.define.Constants;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.util.GsonUtil;
+import com.douyinpay.util.PemUtil;
 import com.douyinpay.util.StringUtil;
 
 import java.security.cert.X509Certificate;
@@ -152,12 +153,7 @@ public class ApiSplitFundPaymentsService {
         String requestUrl = getRequestUrl();
         encryptSplitFundReceiverNames(request);
         String body = GsonUtil.objectToJson(request);
-        Map<String, String> headers = null;
-        if (request.getSerialNo() != null && !request.getSerialNo().isEmpty()) {
-            headers = new HashMap<>();
-            headers.put(Constants.DOUYIN_PAY_SERIAL, request.getSerialNo());
-        }
-
+        Map<String, String> headers = buildPlatformCertificateSerialHeaders();
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, SPLIT_FUND_URI, headers, body);
         DouyinpayResponse<ApiSplitFundResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiSplitFundResponse.class);
 
@@ -280,12 +276,7 @@ public class ApiSplitFundPaymentsService {
         String requestUrl = getRequestUrl();
         request.setName(encryptSensitiveName(request.getName()));
         String body = GsonUtil.objectToJson(request);
-        Map<String, String> headers = null;
-        if (request.getSerialNo() != null && !request.getSerialNo().isEmpty()) {
-            headers = new HashMap<>();
-            headers.put(Constants.DOUYIN_PAY_SERIAL, request.getSerialNo());
-        }
-
+        Map<String, String> headers = buildPlatformCertificateSerialHeaders();
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, ADD_SPLIT_RECEIVER_URI, headers, body);
         DouyinpayResponse<ApiAddSplitReceiverResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiAddSplitReceiverResponse.class);
 
@@ -316,7 +307,7 @@ public class ApiSplitFundPaymentsService {
         if (isAlreadyEncrypted(name, platformCertificate)) {
             return name;
         }
-        return new RsaEncryptor().encrypt(name, platformCertificate);
+        return getRsaEncryptor().encrypt(name, platformCertificate);
     }
 
     private X509Certificate getPlatformCertificate() {
@@ -324,6 +315,20 @@ public class ApiSplitFundPaymentsService {
             return ((DefaultDouyinpayClient) douyinpayClient).getPlatformCertificate();
         }
         throw new DouyinpayException("当前DouyinpayClient不支持自动加密敏感字段");
+    }
+
+    private RsaEncryptor getRsaEncryptor() {
+        if (douyinpayClient instanceof DefaultDouyinpayClient) {
+            return ((DefaultDouyinpayClient) douyinpayClient).getRsaEncryptor();
+        }
+        throw new DouyinpayException("当前DouyinpayClient不支持自动加密敏感字段");
+    }
+
+    private Map<String, String> buildPlatformCertificateSerialHeaders() {
+        X509Certificate platformCertificate = getPlatformCertificate();
+        Map<String, String> headers = new HashMap<>();
+        headers.put(Constants.DOUYIN_PAY_SERIAL, PemUtil.getSerialNumber(platformCertificate));
+        return headers;
     }
 
     private boolean isAlreadyEncrypted(String value, X509Certificate certificate) {

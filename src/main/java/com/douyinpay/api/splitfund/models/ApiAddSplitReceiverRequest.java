@@ -51,12 +51,6 @@ public class ApiAddSplitReceiverRequest {
     @SerializedName("custom_relation")
     private String customRelation;
 
-    /**
-     * 抖音支付平台证书序列号。
-     * 该字段透传到请求头 Douyinpay-Serial，不参与 body 序列化。
-     */
-    private transient String serialNo;
-
     public String getMerchantId() {
         return merchantId;
     }
@@ -111,14 +105,6 @@ public class ApiAddSplitReceiverRequest {
 
     public void setCustomRelation(String customRelation) {
         this.customRelation = customRelation;
-    }
-
-    public String getSerialNo() {
-        return serialNo;
-    }
-
-    public void setSerialNo(String serialNo) {
-        this.serialNo = serialNo;
     }
 
     @Override

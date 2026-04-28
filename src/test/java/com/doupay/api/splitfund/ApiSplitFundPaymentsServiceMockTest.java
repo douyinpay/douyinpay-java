@@ -42,7 +42,6 @@ public class ApiSplitFundPaymentsServiceMockTest {
         request.setAccount("6020260126898210");
         request.setName("CDEgKhcAkOQVESRENiMsdtfoRDOsLPOfCmJPR");
         request.setRelationType("STORE");
-        request.setSerialNo("2CA4C247AA677BCD");
 
         ApiAddSplitReceiverResponse expectedResponse = new ApiAddSplitReceiverResponse();
         expectedResponse.setType("MERCHANT_ID");
@@ -78,7 +77,6 @@ public class ApiSplitFundPaymentsServiceMockTest {
         request.setReceiverInfoDtos(receiverInfoDtos);
         request.setUnfreezeUnsplit(false);
         request.setNotifyUrl("https://www.mock.douyinpay.com");
-        request.setSerialNo("2CA4C247AA677BCD");
 
         ApiSplitFundResponse expectedResponse = new ApiSplitFundResponse();
         expectedResponse.setTradeNo("TP2022101317144741443210681000");
