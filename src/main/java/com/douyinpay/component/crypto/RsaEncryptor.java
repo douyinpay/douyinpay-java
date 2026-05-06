@@ -24,7 +24,7 @@ import java.util.Base64;
 /**
  * RSA PKCS#1 v1.5 加密器
  */
-public class RsaEncryptor {
+public class RsaEncryptor extends Encryptor {
 
     private static final String RSA_ALGORITHM = "RSA";
     private static final String RSA_PKCS1_PADDING = "RSA/ECB/PKCS1Padding";
@@ -60,6 +60,7 @@ public class RsaEncryptor {
      * @return Base64 编码密文
      * @throws DouyinpayException 加密失败时抛出
      */
+    @Override
     public String encrypt(String plainText, X509Certificate certificate) throws DouyinpayException {
         if (certificate == null) {
             throw new DouyinpayException("RSA加密证书不能为空");

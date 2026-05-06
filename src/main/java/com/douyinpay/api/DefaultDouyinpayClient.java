@@ -6,7 +6,6 @@ import com.douyinpay.component.crypto.AsymmetricFactory;
 import com.douyinpay.component.crypto.IAsymmetricCrypto;
 import com.douyinpay.component.crypto.ISymmetricCrypto;
 import com.douyinpay.component.crypto.SymmetricFactory;
-import com.douyinpay.component.crypto.RsaEncryptor;
 import com.douyinpay.component.crypto.IVerifier;
 import com.douyinpay.component.crypto.VerifierFactory;
 import com.douyinpay.component.http.DefaultHttpClientBuilder;
@@ -50,7 +49,6 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
     private IAsymmetricCrypto signer;//非对称算法
     private IVerifier verifier;
     private ISymmetricCrypto encryptor;//对称算法
-    private final RsaEncryptor rsaEncryptor = new RsaEncryptor();//RSA算法
 
     /**
      * 商户证书序列号
@@ -117,8 +115,8 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         return platformCertificate;
     }
 
-    public RsaEncryptor getRsaEncryptor() {
-        return rsaEncryptor;
+    public String getSignType() {
+        return signType;
     }
 
     public static class AutoRSABuilder {

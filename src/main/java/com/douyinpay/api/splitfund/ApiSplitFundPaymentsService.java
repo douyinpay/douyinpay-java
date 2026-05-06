@@ -21,7 +21,8 @@ import com.douyinpay.api.splitfund.models.ApiReturnSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ApiSplitFundRequest;
 import com.douyinpay.api.splitfund.models.ApiSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ReceiverInfoDto;
-import com.douyinpay.component.crypto.RsaEncryptor;
+import com.douyinpay.component.crypto.Encryptor;
+import com.douyinpay.component.crypto.EncryptorFactory;
 import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.component.http.QueryParameter;
 import com.douyinpay.define.Constants;
@@ -87,10 +88,12 @@ public class ApiSplitFundPaymentsService {
 
     private final DouyinpayClient douyinpayClient;
     private final DomainName domainName;//请求域名
+    private final Encryptor encryptor;
 
     private ApiSplitFundPaymentsService(DouyinpayClient douyinpayClient, DomainName domainName) {
         this.douyinpayClient = douyinpayClient;
         this.domainName = domainName;
+        this.encryptor = EncryptorFactory.getByName(getSignType());
     }
 
 
@@ -307,7 +310,7 @@ public class ApiSplitFundPaymentsService {
         if (isAlreadyEncrypted(name, platformCertificate)) {
             return name;
         }
-        return getRsaEncryptor().encrypt(name, platformCertificate);
+        return encryptor.encrypt(name, platformCertificate);
     }
 
     private X509Certificate getPlatformCertificate() {
@@ -317,11 +320,11 @@ public class ApiSplitFundPaymentsService {
         throw new DouyinpayException("当前DouyinpayClient不支持自动加密敏感字段");
     }
 
-    private RsaEncryptor getRsaEncryptor() {
+    private String getSignType() {
         if (douyinpayClient instanceof DefaultDouyinpayClient) {
-            return ((DefaultDouyinpayClient) douyinpayClient).getRsaEncryptor();
+            return ((DefaultDouyinpayClient) douyinpayClient).getSignType();
         }
-        throw new DouyinpayException("当前DouyinpayClient不支持自动加密敏感字段");
+        throw new DouyinpayException("当前DouyinpayClient不支持自动识别敏感字段加密算法");
     }
 
     private Map<String, String> buildPlatformCertificateSerialHeaders() {
