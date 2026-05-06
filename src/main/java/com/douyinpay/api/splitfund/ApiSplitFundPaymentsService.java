@@ -21,8 +21,8 @@ import com.douyinpay.api.splitfund.models.ApiReturnSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ApiSplitFundRequest;
 import com.douyinpay.api.splitfund.models.ApiSplitFundResponse;
 import com.douyinpay.api.splitfund.models.ReceiverInfoDto;
-import com.douyinpay.component.crypto.Encryptor;
-import com.douyinpay.component.crypto.EncryptorFactory;
+import com.douyinpay.component.crypto.CryptorFactory;
+import com.douyinpay.component.crypto.ICryptor;
 import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.component.http.QueryParameter;
 import com.douyinpay.define.Constants;
@@ -32,6 +32,7 @@ import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.PemUtil;
 import com.douyinpay.util.StringUtil;
 
+import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
@@ -88,12 +89,12 @@ public class ApiSplitFundPaymentsService {
 
     private final DouyinpayClient douyinpayClient;
     private final DomainName domainName;//请求域名
-    private final Encryptor encryptor;
+    private final ICryptor cryptor;
 
     private ApiSplitFundPaymentsService(DouyinpayClient douyinpayClient, DomainName domainName) {
         this.douyinpayClient = douyinpayClient;
         this.domainName = domainName;
-        this.encryptor = EncryptorFactory.getByName(getSignType());
+        this.cryptor = CryptorFactory.getByName(getSignType());
     }
 
 
@@ -282,8 +283,11 @@ public class ApiSplitFundPaymentsService {
         Map<String, String> headers = buildPlatformCertificateSerialHeaders();
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, ADD_SPLIT_RECEIVER_URI, headers, body);
         DouyinpayResponse<ApiAddSplitReceiverResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiAddSplitReceiverResponse.class);
-
-        return apiResponse.getApiResponse();
+        ApiAddSplitReceiverResponse response = apiResponse.getApiResponse();
+        if (response != null) {
+            response.setName(decryptSensitiveName(response.getName()));
+        }
+        return response;
     }
 
     private void encryptSplitFundReceiverNames(ApiSplitFundRequest request) {
@@ -310,7 +314,18 @@ public class ApiSplitFundPaymentsService {
         if (isAlreadyEncrypted(name, platformCertificate)) {
             return name;
         }
-        return encryptor.encrypt(name, platformCertificate);
+        return cryptor.encrypt(name, platformCertificate);
+    }
+
+    private String decryptSensitiveName(String name) {
+        if (name == null || name.isEmpty()) {
+            return name;
+        }
+        PrivateKey merchantPrivateKey = getMerchantPrivateKey();
+        if (merchantPrivateKey == null) {
+            throw new DouyinpayException("缺少商户私钥信息，无法解密敏感字段");
+        }
+        return cryptor.decrypt(name, merchantPrivateKey);
     }
 
     private X509Certificate getPlatformCertificate() {
@@ -325,6 +340,13 @@ public class ApiSplitFundPaymentsService {
             return ((DefaultDouyinpayClient) douyinpayClient).getSignType();
         }
         throw new DouyinpayException("当前DouyinpayClient不支持自动识别敏感字段加密算法");
+    }
+
+    private PrivateKey getMerchantPrivateKey() {
+        if (douyinpayClient instanceof DefaultDouyinpayClient) {
+            return ((DefaultDouyinpayClient) douyinpayClient).getMerchantPrivateKey();
+        }
+        throw new DouyinpayException("当前DouyinpayClient不支持自动解密敏感字段");
     }
 
     private Map<String, String> buildPlatformCertificateSerialHeaders() {

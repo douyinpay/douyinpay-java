@@ -119,6 +119,10 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         return signType;
     }
 
+    public PrivateKey getMerchantPrivateKey() {
+        return merchantPrivateKey;
+    }
+
     public static class AutoRSABuilder {
 
         private String mchId;
@@ -281,9 +285,6 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.headers = config.getCustomHeaders();
         this.certificateProvider = config.getCertificateProvider();
         this.merchantPrivateKey = this.signer.loadPrivateKey(config.praticalPrivateKey());
-        if (this.certificateProvider != null) {
-            this.platformCertificate = this.certificateProvider.getAvailableCertificate();
-        }
 
     }
 
