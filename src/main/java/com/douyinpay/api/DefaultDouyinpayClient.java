@@ -1,6 +1,7 @@
 package com.douyinpay.api;
 
 import com.douyinpay.component.certificate.AutoCertificateProvider;
+import com.douyinpay.component.certificate.CertificateProvider;
 import com.douyinpay.component.crypto.AsymmetricFactory;
 import com.douyinpay.component.crypto.IAsymmetricCrypto;
 import com.douyinpay.component.crypto.ISymmetricCrypto;
@@ -15,7 +16,6 @@ import com.douyinpay.define.AutoPlatformCertificateConfig;
 import com.douyinpay.exception.ServiceException;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.NonceUtil;
-import com.douyinpay.util.StringUtil;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -44,6 +44,7 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
     private PrivateKey merchantPrivateKey;//私钥（pem格式）
 
     private X509Certificate platformCertificate; //平台证书
+    private CertificateProvider certificateProvider; // 自动更新平台证书提供器
     private String encryptKey;//对称密钥
     private IAsymmetricCrypto signer;//非对称算法
     private IVerifier verifier;
@@ -102,6 +103,24 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
         this.platformCertificate = this.signer.loadX509Certificate(globalConfig.praticalCetificate());
 
+    }
+
+    public X509Certificate getPlatformCertificate() {
+        if (platformCertificate != null) {
+            return platformCertificate;
+        }
+        if (certificateProvider != null) {
+            return certificateProvider.getAvailableCertificate();
+        }
+        return platformCertificate;
+    }
+
+    public String getSignType() {
+        return signType;
+    }
+
+    public PrivateKey getMerchantPrivateKey() {
+        return merchantPrivateKey;
     }
 
     public static class AutoRSABuilder {
@@ -264,6 +283,7 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.merchantSerialNumber = requireNonNull(config.getMerchantSerialNumber());
 
         this.headers = config.getCustomHeaders();
+        this.certificateProvider = config.getCertificateProvider();
         this.merchantPrivateKey = this.signer.loadPrivateKey(config.praticalPrivateKey());
 
     }
