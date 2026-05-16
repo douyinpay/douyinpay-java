@@ -7,8 +7,6 @@ import org.bouncycastle.crypto.params.ECPrivateKeyParameters;
 import org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import org.bouncycastle.crypto.params.ParametersWithRandom;
 import org.bouncycastle.jce.ECNamedCurveTable;
-import org.bouncycastle.jce.interfaces.BCECPrivateKey;
-import org.bouncycastle.jce.interfaces.BCECPublicKey;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECParameterSpec;
 import org.bouncycastle.math.ec.ECPoint;
@@ -72,16 +70,6 @@ public class Sm2Cryptor implements ICryptor {
     }
 
     private ECPublicKeyParameters toPublicKeyParameters(PublicKey publicKey) throws DouyinpayException {
-        if (publicKey instanceof BCECPublicKey) {
-            BCECPublicKey bcKey = (BCECPublicKey) publicKey;
-            ECDomainParameters domain = new ECDomainParameters(
-                    bcKey.getParameters().getCurve(),
-                    bcKey.getParameters().getG(),
-                    bcKey.getParameters().getN(),
-                    bcKey.getParameters().getH()
-            );
-            return new ECPublicKeyParameters(bcKey.getQ(), domain);
-        }
         if (publicKey instanceof ECPublicKey) {
             ECPublicKey ecKey = (ECPublicKey) publicKey;
             ECParameterSpec sm2Spec = ECNamedCurveTable.getParameterSpec(SM2_CURVE);
@@ -104,16 +92,6 @@ public class Sm2Cryptor implements ICryptor {
     }
 
     private ECPrivateKeyParameters toPrivateKeyParameters(PrivateKey privateKey) throws DouyinpayException {
-        if (privateKey instanceof BCECPrivateKey) {
-            BCECPrivateKey bcKey = (BCECPrivateKey) privateKey;
-            ECDomainParameters domain = new ECDomainParameters(
-                    bcKey.getParameters().getCurve(),
-                    bcKey.getParameters().getG(),
-                    bcKey.getParameters().getN(),
-                    bcKey.getParameters().getH()
-            );
-            return new ECPrivateKeyParameters(bcKey.getD(), domain);
-        }
         if (privateKey instanceof ECPrivateKey) {
             ECPrivateKey ecKey = (ECPrivateKey) privateKey;
             ECParameterSpec sm2Spec = ECNamedCurveTable.getParameterSpec(SM2_CURVE);
