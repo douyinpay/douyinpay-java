@@ -12,7 +12,10 @@ public class CryptorFactory {
         if (Constants.SIGN_TYPE_RSA.equals(type)) {
             return new RsaCryptor();
         }
+        if (Constants.SIGN_TYPE_SM2.equals(type)) {
+            return new Sm2Cryptor();
+        }
 
-        throw new DouyinpayException(String.format("无效的敏感字段加密算法:[%s]，目前仅支持：RSA。", type));
+        throw new DouyinpayException(String.format("无效的敏感字段加密算法:[%s]，目前仅支持：RSA和SM2。", type));
     }
 }
