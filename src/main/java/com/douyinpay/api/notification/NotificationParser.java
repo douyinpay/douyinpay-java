@@ -10,6 +10,7 @@ import com.douyinpay.define.AutoPlatformCertificateConfig;
 import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.Gson;
+
 import java.security.cert.X509Certificate;
 
 import static java.util.Objects.requireNonNull;
@@ -97,7 +98,7 @@ public class NotificationParser {
                             "Verify douyinpay notification parameters, signature is empty" + ".RequestParam[%s]",
                             requestParam));
         }
-        if (!this.verifier.verifyPlatformSign(requestParam.getMessage(), this.publicKeyCertificate, requestParam.getSignature(),requestParam.getSerialNumber())) {
+        if (!this.verifier.verifyPlatformSign(requestParam.getMessage(), this.publicKeyCertificate, requestParam.getSignature(), requestParam.getSerialNumber())) {
             throw new DouyinpayException(
                     String.format(
                             "Processing douyinpay notification,signature verification failed,"
@@ -115,7 +116,7 @@ public class NotificationParser {
         String nonce = notification.getResource().getNonce();
         String ciphertext = notification.getResource().getCiphertext();
         String associatedData = notification.getResource().getAssociatedData();
-        String plaintext = decryptData(nonce, ciphertext,associatedData);
+        String plaintext = decryptData(nonce, ciphertext, associatedData);
         return gson.fromJson(plaintext, decryptObjectClass);
     }
 
@@ -146,8 +147,8 @@ public class NotificationParser {
         }
     }
 
-    private String decryptData(String nonce, String ciphertext,String associatedData) {
+    private String decryptData(String nonce, String ciphertext, String associatedData) {
 
-        return this.encryptor.decrypt(ciphertext, this.encryptKey, nonce,associatedData);
+        return this.encryptor.decrypt(ciphertext, this.encryptKey, nonce, associatedData);
     }
 }

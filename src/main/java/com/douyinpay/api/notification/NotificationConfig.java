@@ -4,6 +4,7 @@ import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.util.GsonUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
@@ -57,12 +58,13 @@ public class NotificationConfig {
     }
 
     public InputStream getCetificate() {
-        if (StringUtils.isEmpty(platformCertPath)){
+        if (StringUtils.isEmpty(platformCertPath)) {
             throw new DouyinpayException("缺少平台证书配置信息");
         }
 
-        try (InputStream inputStream = Files.newInputStream(Paths.get(platformCertPath))) {
-            return inputStream;
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(platformCertPath));
+            return new ByteArrayInputStream(bytes);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

@@ -13,6 +13,8 @@ import com.douyinpay.define.Constants;
 import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.define.GlobalConfig;
 import com.douyinpay.define.AutoPlatformCertificateConfig;
+import com.douyinpay.define.AutoPlatformCertificateConfig.AutoRSAConfigBuilder;
+import com.douyinpay.define.AutoPlatformCertificateConfig.AutoSM2ConfigBuilder;
 import com.douyinpay.exception.ServiceException;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.NonceUtil;
@@ -125,71 +127,35 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
     public static class AutoRSABuilder {
 
-        private String mchId;
-        private String merchantSerialNumber;
-        private String encryptKey;
-
-        // 二选一
-        private String privateKey;
-        private String privateKeyPath;
-
+        private AutoRSAConfigBuilder cb = new AutoRSAConfigBuilder();
 
         public AutoRSABuilder mchId(String mchId) {
-            this.mchId = mchId;
+            cb.mchId(mchId);
             return this;
         }
 
         public AutoRSABuilder merchantSerialNumber(String merchantSerialNumber) {
-            this.merchantSerialNumber = merchantSerialNumber;
+            cb.merchantSerialNumber(merchantSerialNumber);
             return this;
         }
 
         public AutoRSABuilder privateKeyPath(String privateKeyPath) {
-            this.privateKeyPath = privateKeyPath;
+            cb.privateKeyPath(privateKeyPath);
             return this;
         }
 
         public AutoRSABuilder privateKey(String privateKey) {
-            this.privateKey = privateKey;
+            cb.privateKey(privateKey);
             return this;
         }
 
         public AutoRSABuilder encryptKey(String encryptKey) {
-            this.encryptKey = encryptKey;
+            cb.encryptKey(encryptKey);
             return this;
         }
 
         public DefaultDouyinpayClient build() {
-
-            if (StringUtils.isEmpty(mchId)) {
-                throw new DouyinpayException("mchId不能为空");
-            }
-            if (StringUtils.isEmpty(merchantSerialNumber)) {
-                throw new DouyinpayException("merchantSerialNumber不能为空");
-            }
-            if (StringUtils.isEmpty(encryptKey)) {
-                throw new DouyinpayException("encryptKey不能为空");
-            }
-            if (StringUtils.isEmpty(privateKey) && StringUtils.isEmpty(privateKeyPath)) {
-                throw new DouyinpayException("缺少私钥配置信息");
-            }
-
-            AutoPlatformCertificateConfig config = new AutoPlatformCertificateConfig();
-            config.setMchId(mchId);
-            config.setSignType(Constants.SIGN_TYPE_RSA);
-            config.setMerchantSerialNumber(merchantSerialNumber);
-            config.setEncryptType(Constants.ENCRYPT_TYPE_AES);
-            config.setEncryptKey(encryptKey);
-            config.setPrivateKey(privateKey);
-            config.setPrivateKeyPath(privateKeyPath);
-            config.setCertificateProvider(
-                    new AutoCertificateProvider.Builder()
-                            .merchantId(mchId)
-                            .signType(Constants.SIGN_TYPE_RSA)
-                            .encryptKey(encryptKey)
-                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_RSA, Constants.ENCRYPT_TYPE_AES, config.praticalPrivateKey(), encryptKey, merchantSerialNumber))
-                            .build());
-
+            AutoPlatformCertificateConfig config = cb.build();
             return new DefaultDouyinpayClient(config);
         }
 
@@ -198,68 +164,35 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
     public static class AutoSM2Builder {
 
-        private String mchId;
-        private String merchantSerialNumber;
-        private String encryptKey;
-
-        // 二选一
-        private String privateKey;
-        private String privateKeyPath;
-
+        private AutoSM2ConfigBuilder cb = new AutoSM2ConfigBuilder();
 
         public AutoSM2Builder mchId(String mchId) {
-            this.mchId = mchId;
+            cb.mchId(mchId);
             return this;
         }
 
         public AutoSM2Builder merchantSerialNumber(String merchantSerialNumber) {
-            this.merchantSerialNumber = merchantSerialNumber;
+            cb.merchantSerialNumber(merchantSerialNumber);
             return this;
         }
 
         public AutoSM2Builder privateKeyPath(String privateKeyPath) {
-            this.privateKeyPath = privateKeyPath;
+            cb.privateKeyPath(privateKeyPath);
             return this;
         }
 
         public AutoSM2Builder privateKey(String privateKey) {
-            this.privateKey = privateKey;
+            cb.privateKey(privateKey);
             return this;
         }
 
         public AutoSM2Builder encryptKey(String encryptKey) {
-            this.encryptKey = encryptKey;
+            cb.encryptKey(encryptKey);
             return this;
         }
 
         public DefaultDouyinpayClient build() {
-            if (StringUtils.isEmpty(mchId)) {
-                throw new DouyinpayException("mchId不能为空");
-            }
-            if (StringUtils.isEmpty(merchantSerialNumber)) {
-                throw new DouyinpayException("merchantSerialNumber不能为空");
-            }
-            if (StringUtils.isEmpty(encryptKey)) {
-                throw new DouyinpayException("encryptKey不能为空");
-            }
-            if (StringUtils.isEmpty(privateKey) && StringUtils.isEmpty(privateKeyPath)) {
-                throw new DouyinpayException("缺少私钥配置信息");
-            }
-            AutoPlatformCertificateConfig config = new AutoPlatformCertificateConfig();
-            config.setMchId(mchId);
-            config.setSignType(Constants.SIGN_TYPE_SM2);
-            config.setMerchantSerialNumber(merchantSerialNumber);
-            config.setEncryptType(Constants.ENCRYPT_TYPE_SM4);
-            config.setEncryptKey(encryptKey);
-            config.setPrivateKey(privateKey);
-            config.setPrivateKeyPath(privateKeyPath);
-            config.setCertificateProvider(
-                    new AutoCertificateProvider.Builder()
-                            .merchantId(mchId)
-                            .signType(Constants.SIGN_TYPE_SM2)
-                            .encryptKey(encryptKey)
-                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_SM2, Constants.ENCRYPT_TYPE_SM4, config.praticalPrivateKey(), encryptKey, merchantSerialNumber))
-                            .build());
+            AutoPlatformCertificateConfig config = cb.build();
             return new DefaultDouyinpayClient(config);
         }
 
