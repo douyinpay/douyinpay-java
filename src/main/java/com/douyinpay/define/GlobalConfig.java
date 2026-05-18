@@ -209,8 +209,9 @@ public class GlobalConfig {
         if (StringUtils.isNotEmpty(platformCertificate)) {
             return new ByteArrayInputStream(platformCertificate.getBytes(StandardCharsets.UTF_8));
         }
-        try (InputStream inputStream = Files.newInputStream(Paths.get(platformCertPath))) {
-            return inputStream;
+        try {
+            byte[] bytes = Files.readAllBytes(Paths.get(platformCertPath));
+            return new ByteArrayInputStream(bytes);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
