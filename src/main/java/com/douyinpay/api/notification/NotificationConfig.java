@@ -74,7 +74,6 @@ public class NotificationConfig {
         return GsonUtil.getGson().toJson(this);
     }
 
-
     public static class Builder {
 
         private String signType;
