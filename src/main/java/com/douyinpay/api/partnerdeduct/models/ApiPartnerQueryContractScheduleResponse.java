@@ -53,6 +53,11 @@ public class ApiPartnerQueryContractScheduleResponse {
     public String getScheduleState() {
         return scheduleState;
     }
+
+    public void setScheduledAmount(ScheduleAmount scheduledAmount) {
+        this.scheduledAmount = scheduledAmount;
+    }
+
     public void setDeductAmount(ScheduleAmount deductAmount) {
         this.deductAmount = deductAmount;
     }

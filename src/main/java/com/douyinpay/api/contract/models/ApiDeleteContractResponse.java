@@ -58,6 +58,14 @@ public class ApiDeleteContractResponse {
         this.outContractCode = outContractCode;
     }
 
+    public String getResultCode() {
+        return resultCode;
+    }
+
+    public void setResultCode(String resultCode) {
+        this.resultCode = resultCode;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -66,6 +74,7 @@ public class ApiDeleteContractResponse {
         sb.append("    contractId: ").append(toIndentedString(contractId)).append("\n");
         sb.append("    planId: ").append(toIndentedString(planId)).append("\n");
         sb.append("    outContractCode: ").append(toIndentedString(outContractCode)).append("\n");
+        sb.append("    resultCode: ").append(toIndentedString(resultCode)).append("\n");
         sb.append("}");
         return sb.toString();
     }
