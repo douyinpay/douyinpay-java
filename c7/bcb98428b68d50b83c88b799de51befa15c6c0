@@ -1,0 +1,21 @@
+src/main/java/com/douyinpay/api/payments/contractorder/models/ContractInfo.java
+  s_a84f42758baff4::t_929e423a007df8 21-22,79-85,98
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "c7bcb98428b68d50b83c88b799de51befa15c6c0",
+  "prompts": {},
+  "sessions": {
+    "s_a84f42758baff4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f8ec1-1607-75e3-947f-e37eaa73b4ca",
+        "model": "unknown"
+      },
+      "human_author": "Lizhonglv <lizhonglv.1102@bytedance.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
