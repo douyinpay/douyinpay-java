@@ -18,6 +18,8 @@ public class ContractInfo {
     private String contractDisplayAccount;             // 用户账户展示名称
     @SerializedName("contract_notify_url")
     private String contractNotifyUrl;                   // 签约信息通知url
+    @SerializedName("contract_ext")
+    private String contractExt;                         // 签约拓展业务参数
 
     public String getContractMerchantId() {
         return contractMerchantId;
@@ -74,6 +76,13 @@ public class ContractInfo {
     public void setContractNotifyUrl(String contractNotifyUrl) {
         this.contractNotifyUrl = contractNotifyUrl;
     }
+    public String getContractExt() {
+        return contractExt;
+    }
+
+    public void setContractExt(String contractExt) {
+        this.contractExt = contractExt;
+    }
 
     @Override
     public String toString() {
@@ -86,6 +95,7 @@ public class ContractInfo {
         sb.append("    requestSerial: ").append(StringUtil.toIndentedString(requestSerial)).append("\n");
         sb.append("    contractDisplayAccount: ").append(StringUtil.toIndentedString(contractDisplayAccount)).append("\n");
         sb.append("    contractNotifyUrl: ").append(StringUtil.toIndentedString(contractNotifyUrl)).append("\n");
+        sb.append("    contractExt: ").append(StringUtil.toIndentedString(contractExt)).append("\n");
         sb.append("}");
         return sb.toString();
     }
