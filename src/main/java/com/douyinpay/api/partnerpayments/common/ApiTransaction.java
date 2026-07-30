@@ -24,9 +24,18 @@ public class ApiTransaction {
     /* 附加数据 */
     @SerializedName("attach")
     private String attach;
+    /* 委托代扣协议号 */
+    @SerializedName("contract_id")
+    private String contractId;
     /* 付款银行 */
     @SerializedName("bank_type")
     private String bankType;
+    /* 错误码 */
+    @SerializedName("err_code")
+    private String errCode;
+    /* 错误码描述 */
+    @SerializedName("err_code_des")
+    private String errCodeDes;
     /* 商户订单号 */
     @SerializedName("out_trade_no")
     private String outTradeNo;
@@ -103,12 +112,36 @@ public class ApiTransaction {
         this.attach = attach;
     }
 
+    public String getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
+    }
+
     public String getBankType() {
         return bankType;
     }
 
     public void setBankType(String bankType) {
         this.bankType = bankType;
+    }
+
+    public String getErrCode() {
+        return errCode;
+    }
+
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
+    }
+
+    public String getErrCodeDes() {
+        return errCodeDes;
+    }
+
+    public void setErrCodeDes(String errCodeDes) {
+        this.errCodeDes = errCodeDes;
     }
 
     public String getOutTradeNo() {
@@ -180,4 +213,3 @@ public class ApiTransaction {
         return GsonUtil.getGson().toJson(this);
     }
 }
-

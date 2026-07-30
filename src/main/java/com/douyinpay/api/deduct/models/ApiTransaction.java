@@ -1,11 +1,11 @@
 package com.douyinpay.api.deduct.models;
 
+import java.util.List;
+
 import com.douyinpay.enums.TradeStatusEnum;
 import com.douyinpay.enums.TradeTypeEnum;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 /**
  * ApiTransaction
@@ -154,6 +154,11 @@ public class ApiTransaction {
     public void setTradeState(String tradeState) {
         this.tradeState = tradeState;
     }
+
+    public String getTradeState() {
+        return tradeState;
+    }
+
     public void setTradeType(String tradeType) {
         this.tradeType = tradeType;
     }
@@ -179,4 +184,3 @@ public class ApiTransaction {
         return GsonUtil.getGson().toJson(this);
     }
 }
-

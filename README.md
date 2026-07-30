@@ -4,7 +4,7 @@
 
 1. 获取HTTP请求头中的 `douyinpay-signature` 、 `douyinpay-nonce` 、 `douyinpay-timestamp` 、 `douyinpay-serial` 对应的值，构建 `RequestParam` 。
 2. 获取 HTTP 请求体的 `JSON` 纯文本。
-3. 根据解密后的通知数据数据结构，构造解密对象类 `DecryptObject` 。支付结果通知解密对象类为 [`ApiTransaction`](src/main/java/com/douyinpay/api/payments/common/ApiTransaction.java)，退款结果通知解密对象类为 [ApiRefundNotification](src/main/java/com/douyinpay/api/refund/model/ApiRefundNotification.java)。
+3. 根据解密后的通知数据数据结构，构造解密对象类 `DecryptObject` 。支付结果通知和代扣结果通知解密对象类为 [`ApiTransaction`](src/main/java/com/douyinpay/api/payments/common/ApiTransaction.java)，退款结果通知解密对象类为 [ApiRefundNotification](src/main/java/com/douyinpay/api/refund/model/ApiRefundNotification.java)。
 4. 使用抖音支付平台证书（验签）和商户API密钥（解密）初始化 `NotificationConfig` 和 `NotificationParser` 。
 5. 使用请求参数 `requestParam` 和 `DecryptObject.class` ，调用 `parser.parse` 验签并解密报文。
 
