@@ -74,7 +74,9 @@ public class GlobalConfig {
      */
     private int readTimeout = 15000;
 
-
+    /**
+     * 写超时，单位：毫秒
+     */
     private int writeTimeout = 15000;
 
     public String getSignType() {
