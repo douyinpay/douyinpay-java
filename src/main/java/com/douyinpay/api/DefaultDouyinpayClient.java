@@ -76,7 +76,9 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
      */
     private int readTimeout = 15000;
 
-
+    /**
+     * 写超时，单位：毫秒
+     */
     private int writeTimeout = 15000;
 
 
@@ -87,10 +89,11 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.encryptKey = requireNonNull(globalConfig.getEncryptKey());
         this.mchId = globalConfig.getMchId();
         this.signType = requireNonNull(globalConfig.getSignType());
+        this.encryptType = globalConfig.getEncryptType();
+
         this.connectTimeout = globalConfig.getConnectTimeout();
         this.readTimeout = globalConfig.getReadTimeout();
         this.writeTimeout = globalConfig.getWriteTimeout();
-        this.encryptType = globalConfig.getEncryptType();
 
         defaultOkHttpClient = new DefaultHttpClientBuilder().readTimeoutMs(this.readTimeout).connectTimeoutMs(this.connectTimeout).writeTimeoutMs(this.writeTimeout).build();
 
@@ -161,7 +164,6 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
     }
 
-
     public static class AutoSM2Builder {
 
         private AutoSM2ConfigBuilder cb = new AutoSM2ConfigBuilder();
@@ -207,6 +209,10 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.mchId = config.getMchId();
         this.signType = requireNonNull(config.getSignType());
         this.encryptType = requireNonNull(config.getEncryptType());
+
+        this.connectTimeout = config.getConnectTimeout();
+        this.readTimeout = config.getReadTimeout();
+        this.writeTimeout = config.getWriteTimeout();
 
         defaultOkHttpClient = new DefaultHttpClientBuilder().readTimeoutMs(this.readTimeout).connectTimeoutMs(this.connectTimeout).writeTimeoutMs(this.writeTimeout).build();
 

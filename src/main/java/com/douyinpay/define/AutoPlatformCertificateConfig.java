@@ -61,6 +61,21 @@ public final class AutoPlatformCertificateConfig {
 
     private CertificateProvider certificateProvider;
 
+    /**
+     * 连接超时，单位：毫秒
+     */
+    private int connectTimeout = 3000;
+
+    /**
+     * 读取超时，单位：毫秒
+     */
+    private int readTimeout = 15000;
+
+    /**
+     * 写超时，单位：毫秒
+     */
+    private int writeTimeout = 15000;
+
 
     public static class AutoSM2ConfigBuilder {
 
@@ -130,7 +145,6 @@ public final class AutoPlatformCertificateConfig {
             return config;
         }
     }
-
 
     public static class AutoRSAConfigBuilder {
 
@@ -287,6 +301,30 @@ public final class AutoPlatformCertificateConfig {
 
     public void setCertificateProvider(CertificateProvider certificateProvider) {
         this.certificateProvider = certificateProvider;
+    }
+
+    public int getConnectTimeout() {
+        return connectTimeout;
+    }
+
+    public void setConnectTimeout(int connectTimeout) {
+        this.connectTimeout = connectTimeout;
+    }
+
+    public int getReadTimeout() {
+        return readTimeout;
+    }
+
+    public void setReadTimeout(int readTimeout) {
+        this.readTimeout = readTimeout;
+    }
+
+    public int getWriteTimeout() {
+        return writeTimeout;
+    }
+
+    public void setWriteTimeout(int writeTimeout) {
+        this.writeTimeout = writeTimeout;
     }
 
 }
