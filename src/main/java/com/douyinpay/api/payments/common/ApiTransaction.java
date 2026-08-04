@@ -26,6 +26,11 @@ public class ApiTransaction {
     @SerializedName("attach")
     private String attach;
     /**
+     * contractId
+     */
+    @SerializedName("contract_id")
+    private String contractId;
+    /**
      * bankType
      */
     @SerializedName("bank_type")
@@ -35,6 +40,16 @@ public class ApiTransaction {
      */
     @SerializedName("mchid")
     private String mchid;
+    /**
+     * errCode
+     */
+    @SerializedName("err_code")
+    private String errCode;
+    /**
+     * errCodeDes
+     */
+    @SerializedName("err_code_des")
+    private String errCodeDes;
     /**
      * outTradeNo
      */
@@ -106,6 +121,30 @@ public class ApiTransaction {
 
     public void setAttach(String attach) {
         this.attach = attach;
+    }
+
+    public String getContractId() {
+        return contractId;
+    }
+
+    public void setContractId(String contractId) {
+        this.contractId = contractId;
+    }
+
+    public String getErrCode() {
+        return errCode;
+    }
+
+    public void setErrCode(String errCode) {
+        this.errCode = errCode;
+    }
+
+    public String getErrCodeDes() {
+        return errCodeDes;
+    }
+
+    public void setErrCodeDes(String errCodeDes) {
+        this.errCodeDes = errCodeDes;
     }
 
     public String getBankType() {
@@ -200,4 +239,3 @@ public class ApiTransaction {
         return GsonUtil.getGson().toJson(this);
     }
 }
-
