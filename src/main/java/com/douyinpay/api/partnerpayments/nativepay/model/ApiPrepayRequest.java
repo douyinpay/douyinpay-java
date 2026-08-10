@@ -279,6 +279,7 @@ public class ApiPrepayRequest {
     }
     /**
      * 设置订单详情
+     *
      * @param detail 订单详情
      */
     public void setDetail(ApiDetail detail) {

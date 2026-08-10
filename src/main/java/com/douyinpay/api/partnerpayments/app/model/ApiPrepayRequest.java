@@ -1,10 +1,8 @@
 package com.douyinpay.api.partnerpayments.app.model;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+import com.google.gson.annotations.SerializedName;
 
 public class ApiPrepayRequest {
   /**
@@ -23,22 +21,22 @@ public class ApiPrepayRequest {
    */
   @SerializedName("sp_mchid")
   private String spMchid;
- /**
-  * 字段含义：子商户应用ID。
-  * 格式规则：字符串。
-  * 业务规则：由子商户在抖音开放平台申请，全局唯一；此处应填写移动应用类型的 AppID，并确保与 sub_mchid 存在绑定关系。
-  * 示例：awofz9bncda6x000
-  */
- @SerializedName("sub_appid")
- private String subAppid;
- /**
-  * 字段含义：子商户号。
-  * 格式规则：字符串。
-  * 业务规则：由抖音支付生成并下发，用于标识子商户主体。
-  * 示例：6020230307605000
-  */
- @SerializedName("sub_mchid")
- private String subMchid;
+  /**
+   * 字段含义：子商户应用ID。
+   * 格式规则：字符串。
+   * 业务规则：由子商户在抖音开放平台申请，全局唯一；此处应填写移动应用类型的 AppID，并确保与 sub_mchid 存在绑定关系。
+   * 示例：awofz9bncda6x000
+   */
+  @SerializedName("sub_appid")
+  private String subAppid;
+  /**
+   * 字段含义：子商户号。
+   * 格式规则：字符串。
+   * 业务规则：由抖音支付生成并下发，用于标识子商户主体。
+   * 示例：6020230307605000
+   */
+  @SerializedName("sub_mchid")
+  private String subMchid;
   /**
    * 字段含义：商品描述。
    * 格式规则：字符串。
@@ -129,28 +127,35 @@ public class ApiPrepayRequest {
   private ApiSettleInfo settleInfo;
 
   public String getSpAppid() {
-      return spAppid;
+    return spAppid;
   }
+
   public void setSpAppid(String spAppid) {
-      this.spAppid = spAppid;
+    this.spAppid = spAppid;
   }
+
   public String getSpMchid() {
-      return spMchid;
+    return spMchid;
   }
+
   public void setSpMchid(String spMchid) {
-      this.spMchid = spMchid;
+    this.spMchid = spMchid;
   }
+
   public String getSubAppid() {
-      return subAppid;
+    return subAppid;
   }
+
   public void setSubAppid(String subAppid) {
-      this.subAppid = subAppid;
+    this.subAppid = subAppid;
   }
+
   public String getSubMchid() {
-      return subMchid;
+    return subMchid;
   }
+
   public void setSubMchid(String subMchid) {
-      this.subMchid = subMchid;
+    this.subMchid = subMchid;
   }
 
   public String getDescription() {
