@@ -6,7 +6,12 @@ import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApiPrepayResponse {
-  /** 预支付交易会话标识 */
+  /**
+   * 字段含义：预支付交易会话标识。
+   * 格式规则：字符串。
+   * 业务规则：由下单接口返回，用于前端拉起支付。
+   * 示例：dy1217752501201407033233368018
+   */
   @SerializedName("prepay_id")
   private String prepayId;
 

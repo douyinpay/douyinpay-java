@@ -6,19 +6,28 @@ import com.google.gson.annotations.SerializedName;
 public class ApiQueryReturnSplitFundRequest {
 
     /**
-     * 商户回退单号
+     * 字段含义：商户回退单号。
+     * 格式规则：字符串。
+     * 业务规则：用于标识商户侧的分账回退单。
+     * 示例：RETURN_1666688488
      */
     @SerializedName("out_return_no")
     private String outReturnNo;
 
     /**
-     * 直连商户号
+     * 字段含义：直连商户号。
+     * 格式规则：字符串。
+     * 业务规则：由抖音支付生成并下发。
+     * 示例：6020240223833009
      */
     @SerializedName("mchid")
     private String merchantId;
 
     /**
-     * 商户分账单号
+     * 字段含义：商户分账单号。
+     * 格式规则：仅支持数字、大小写字母、_、-、*。
+     * 业务规则：用于标识商户侧的分账单。
+     * 示例：OUT_1666688488
      */
     @SerializedName("out_order_no")
     private String outOrderNo;

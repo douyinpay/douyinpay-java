@@ -4,22 +4,70 @@ import com.douyinpay.util.StringUtil;
 import com.google.gson.annotations.SerializedName;
 
 public class ContractInfo {
+    /**
+     * 字段含义：签约商户号。
+     * 格式规则：字符串，长度 1-32 位。
+     * 业务规则：必须与 mchid 一致。
+     * 示例：6020230307605084
+     */
     @SerializedName("contract_mchid")
-    private String contractMerchantId;                 // 签约商户号
+    private String contractMerchantId;
+    /**
+     * 字段含义：签约应用ID。
+     * 格式规则：字符串，长度 1-32 位。
+     * 业务规则：由抖音支付生成，全局唯一，且必须与 appid 一致。
+     * 示例：awofz9bncda6w2w4
+     */
     @SerializedName("contract_appid")
-    private String contractAppId;                      // 签约appid
+    private String contractAppId;
+    /**
+     * 字段含义：模板ID。
+     * 格式规则：字符串，长度 1-32 位。
+     * 业务规则：联系抖音支付运营申请。
+     * 示例：67
+     */
     @SerializedName("plan_id")
-    private String planId;                             // 模板id
+    private String planId;
+    /**
+     * 字段含义：签约协议号。
+     * 格式规则：字符串，长度 1-64 位。
+     * 业务规则：由商户生成，只能是数字和大小写字母组成的描述。
+     * 示例：100001256
+     */
     @SerializedName("out_contract_code")
-    private String outContractCode;                    // 签约协议号
+    private String outContractCode;
+    /**
+     * 字段含义：请求序列号。
+     * 格式规则：int64 整数。
+     * 业务规则：商户请求签约时的唯一序列号，禁止使用 0 开头，且取值范围不能超过 int64 上限。
+     * 示例：1695
+     */
     @SerializedName("request_serial")
-    private Long requestSerial;                     // 请求序列号
+    private Long requestSerial;
+    /**
+     * 字段含义：用户账户展示名称。
+     * 格式规则：字符串，长度 1-64 位。
+     * 业务规则：用于页面展示，不支持 UTF8 非 3 字节编码字符，例如表情符号。
+     * 示例：123
+     */
     @SerializedName("contract_display_account")
-    private String contractDisplayAccount;             // 用户账户展示名称
+    private String contractDisplayAccount;
+    /**
+     * 字段含义：签约信息通知地址。
+     * 格式规则：HTTPS 外网可访问地址，且不能携带参数。
+     * 业务规则：用于接收签约信息回调通知。
+     * 示例：https://yoursite.com
+     */
     @SerializedName("contract_notify_url")
-    private String contractNotifyUrl;                   // 签约信息通知url
+    private String contractNotifyUrl;
+    /**
+     * 字段含义：签约扩展业务参数。
+     * 格式规则：JSON 字符串，长度 1-512 位。
+     * 业务规则：仅与抖音支付线下约定后使用。
+     * 示例：
+     */
     @SerializedName("contract_ext")
-    private String contractExt;                         // 签约拓展业务参数
+    private String contractExt;
 
     public String getContractMerchantId() {
         return contractMerchantId;
@@ -76,6 +124,7 @@ public class ContractInfo {
     public void setContractNotifyUrl(String contractNotifyUrl) {
         this.contractNotifyUrl = contractNotifyUrl;
     }
+
     public String getContractExt() {
         return contractExt;
     }
@@ -93,7 +142,8 @@ public class ContractInfo {
         sb.append("    planId: ").append(StringUtil.toIndentedString(planId)).append("\n");
         sb.append("    outContractCode: ").append(StringUtil.toIndentedString(outContractCode)).append("\n");
         sb.append("    requestSerial: ").append(StringUtil.toIndentedString(requestSerial)).append("\n");
-        sb.append("    contractDisplayAccount: ").append(StringUtil.toIndentedString(contractDisplayAccount)).append("\n");
+        sb.append("    contractDisplayAccount: ").append(StringUtil.toIndentedString(contractDisplayAccount))
+                .append("\n");
         sb.append("    contractNotifyUrl: ").append(StringUtil.toIndentedString(contractNotifyUrl)).append("\n");
         sb.append("    contractExt: ").append(StringUtil.toIndentedString(contractExt)).append("\n");
         sb.append("}");

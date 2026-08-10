@@ -13,17 +13,26 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
  */
 public class ApiDetail {
     /**
-     * 订单原价
+     * 字段含义：订单原价。
+     * 格式规则：整型，单位为分。
+     * 业务规则：为预留字段，商户不需要传。
+     * 示例：
      */
     @SerializedName("cost_price")
     private Integer costPrice;
     /**
-     * 商品小票ID 说明：商家小票ID。
+     * 字段含义：商品小票ID。
+     * 格式规则：字符串，长度 1-32 位。
+     * 业务规则：为预留字段，商户不需要传。
+     * 示例：
      */
     @SerializedName("invoice_id")
     private String invoiceId;
     /**
-     * 单品列表 说明：
+     * 字段含义：单品列表。
+     * 格式规则：数组。
+     * 业务规则：为预留字段，商户不需要传；如传入时至少包含 1 条商品明细。
+     * 示例：
      */
     @SerializedName("goods_detail")
     private List<ApiGoodsDetail> goodsDetail;

@@ -7,10 +7,20 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** FundsFromItem */
 public class ApiFundsFromItem {
-  /** 出资金额 说明：对应账户出资金额 */
+  /**
+   * 字段含义：金额信息。
+   * 格式规则：对象。
+   * 业务规则：包含退款金额、原订单金额和退款币种等字段。
+   * 示例：{"refund":100,"total":100,"currency":"CNY"}
+   */
   @SerializedName("amount")
   private Long amount;
-  /** 出资账户类型 说明：下面枚举值多选一。 枚举值： AVAILABLE : 可用余额 UNAVAILABLE : 不可用余额 */
+  /**
+   * 字段含义：出资账户类型。
+   * 格式规则：枚举字符串。
+   * 业务规则：开放文档示例包含 AVAILABLE、UNAVAILABLE。
+   * 示例：AVAILABLE
+   */
   @SerializedName("account")
   private Account account;
 

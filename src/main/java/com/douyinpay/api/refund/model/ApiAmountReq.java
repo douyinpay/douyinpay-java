@@ -8,15 +8,36 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** AmountReq */
 public class ApiAmountReq {
-  /** 退款金额 说明：退款金额，币种的最小单位，只能为整数，不能超过原订单支付金额。 */
+  /**
+   * 字段含义：退款金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：不能超过原订单支付金额。
+   * 示例：100
+   */
   @SerializedName("refund")
   private Integer refund;
+  /**
+   * 字段含义：退款出资账户信息。
+   * 格式规则：数组。
+   * 业务规则：用于指定各账户的退款出资金额。
+   * 示例：
+   */
   @SerializedName("from")
   private List<ApiFundsFromItem> from;
-  /** 原订单金额 说明：原支付交易的订单总金额，币种的最小单位，只能为整数。 */
+  /**
+   * 字段含义：原订单金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：表示原支付交易的订单总金额。
+   * 示例：100
+   */
   @SerializedName("total")
   private Integer total;
-  /** 退款币种 说明：符合ISO 4217标准的三位字母代码，目前只支持人民币：CNY。 */
+  /**
+   * 字段含义：币种。
+   * 格式规则：符合 ISO 4217 标准的三位字母代码。
+   * 业务规则：当前仅支持人民币。
+   * 示例：CNY
+   */
   @SerializedName("currency")
   private String currency;
 

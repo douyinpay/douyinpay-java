@@ -6,13 +6,29 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** 支付场景描述 */
 public class ApiSceneInfo {
-  /** 用户终端IP 说明：用户终端IP */
+  /**
+   * 字段含义：用户终端IP。
+   * 格式规则：字符串，长度 1-45 位，支持 IPv4 和 IPv6。
+   * 业务规则：表示用户的客户端 IP。
+   * 示例：14.23.150.211
+   */
   @SerializedName("payer_client_ip")
   private String payerClientIp;
-  /** 商户端设备号 说明：商户端设备号 （预留字段）*/
+  /**
+   * 字段含义：商户端设备号。
+   * 格式规则：字符串，长度 1-32 位。
+   * 业务规则：表示商户端设备号（门店号或收银设备ID）。
+   * 示例：13467007045764
+   */
   @SerializedName("device_id")
   private String deviceId;
-  /** 用户端设备号 说明：用户端设备号 */
+  /**
+   * 字段含义：用户设备号。
+   * 格式规则：字符串，长度 1-32 位。
+   * 业务规则：安卓优先传 android_id（openudid），若没有则传 IMEI；iOS 优先传 IDFV，若没有
+   * IDFV 则传 IDFA。
+   * 示例：
+   */
   @SerializedName("payer_device_id")
   private String payerDeviceId;
 

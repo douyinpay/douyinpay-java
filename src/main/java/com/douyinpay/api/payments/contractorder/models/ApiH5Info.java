@@ -5,19 +5,44 @@ import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 public class ApiH5Info {
 
-    /** 场景类型 说明：场景类型 */
+    /**
+     * 字段含义：场景类型。
+     * 格式规则：字符串。
+     * 业务规则：当前接口文档未明确说明 type 字段的取值和使用规则，暂保留该字段以兼容现有模型。
+     * 示例：
+     */
     @SerializedName("type")
     private String type;
-    /** 应用名称 说明：应用名称 */
+    /**
+     * 字段含义：应用名称。
+     * 格式规则：字符串。
+     * 业务规则：当前接口文档未明确说明 app_name 字段的使用规则，暂保留该字段以兼容现有模型。
+     * 示例：
+     */
     @SerializedName("app_name")
     private String appName;
-    /** 网站URL 说明：网站URL */
+    /**
+     * 字段含义：网站URL。
+     * 格式规则：URL 字符串。
+     * 业务规则：当前接口文档未明确说明 app_url 字段的使用规则，暂保留该字段以兼容现有模型。
+     * 示例：
+     */
     @SerializedName("app_url")
     private String appUrl;
-    /** iOS平台BundleID 说明：iOS平台BundleID */
+    /**
+     * 字段含义：iOS 平台 Bundle ID。
+     * 格式规则：字符串。
+     * 业务规则：当前接口文档未明确说明 bundle_id 字段的使用规则，暂保留该字段以兼容现有模型。
+     * 示例：
+     */
     @SerializedName("bundle_id")
     private String bundleId;
-    /** Android平台PackageName 说明：Android平台PackageName */
+    /**
+     * 字段含义：Android 平台 Package Name。
+     * 格式规则：字符串。
+     * 业务规则：当前接口文档未明确说明 package_name 字段的使用规则，暂保留该字段以兼容现有模型。
+     * 示例：
+     */
     @SerializedName("package_name")
     private String packageName;
 

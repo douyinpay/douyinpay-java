@@ -7,20 +7,45 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** GoodsDetail */
 public class ApiGoodsDetail {
-  /** 商户侧商品编码 说明：由半角的大小写字母、数字、中划线、下划线中的一种或几种组成。 */
+  /**
+   * 字段含义：商户侧商品编码。
+   * 格式规则：字符串，长度 1-32 位，由半角大小写字母、数字、中划线、下划线中的一种或几种组成。
+   * 业务规则：预留字段，表示商户侧商品编码。
+   * 示例：
+   */
   @SerializedName("merchant_goods_id")
   private String merchantGoodsId;
 
-  /** 抖音支付定义的统一商品编号（没有可不传）。 */
+  /**
+   * 字段含义：抖音支付商品编码。
+   * 格式规则：字符串，长度 1-32 位。
+   * 业务规则：预留字段，抖音支付定义的统一商品编码，没有可不传。
+   * 示例：
+   */
   @SerializedName("douyinpay_goods_id")
   private String douyinpayGoodsId;
-  /** 商品名称 说明：商品的实际名称。 */
+  /**
+   * 字段含义：商品名称。
+   * 格式规则：字符串，长度 1-256 位。
+   * 业务规则：预留字段，表示商品的实际名称。
+   * 示例：芒果TV-会员费
+   */
   @SerializedName("goods_name")
   private String goodsName;
-  /** 商品数量 说明：用户购买的数量。 */
+  /**
+   * 字段含义：商品数量。
+   * 格式规则：整型。
+   * 业务规则：预留字段，表示用户购买的数量。
+   * 示例：
+   */
   @SerializedName("quantity")
   private Integer quantity;
-  /** 商品单价 说明：商品单价，单位为分。 */
+  /**
+   * 字段含义：商品单价。
+   * 格式规则：整型，单位为分。
+   * 业务规则：预留字段；如商户有优惠，需传输商户优惠后的单价。
+   * 示例：
+   */
   @SerializedName("unit_price")
   private Integer unitPrice;
 

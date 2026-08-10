@@ -7,7 +7,11 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** PrepayResponse */
 public class ApiPrepayResponse {
-  /** h5Url 说明：支付跳转链接 */
+  /**
+   * 字段含义：支付跳转链接。
+   * 格式规则：URL。
+   * 业务规则：由 H5 下单接口返回，商户通过该链接调起抖音支付中间页。
+   */
   @SerializedName("h5_url")
   private String h5Url;
 

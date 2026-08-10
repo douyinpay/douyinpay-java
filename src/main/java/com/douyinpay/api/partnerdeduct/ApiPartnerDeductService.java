@@ -15,6 +15,17 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
 
+/**
+ * 服务商代扣与预约扣费服务。
+ *
+ * 官方文档：
+ * - 申请扣款：POST /v1/trade/partner/deduct/payapply
+ *   https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b7e75a00b04c8aa2fd1
+ * - 预约扣费：POST /v1/agreementauth/partner/schedules/contract-id/{contract_id}/schedule
+ *   https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b9077f5de0546f6af87
+ * - 预约扣费结果查询：GET /v1/agreementauth/partner/schedules/contract-id/{contract_id}
+ *   https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b97a2b24a063d54b442
+ */
 public class ApiPartnerDeductService {
     private final DouyinpayClient douyinpayClient;
     private final DomainName domainName;//请求域名
@@ -75,7 +86,10 @@ public class ApiPartnerDeductService {
 
 
     /**
-     * 服务商申请扣款
+     * 服务商申请扣款。
+     *
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b7e75a00b04c8aa2fd1
      *
      * @param request 请求参数
      * @return PrepayResponse
@@ -95,7 +109,10 @@ public class ApiPartnerDeductService {
     }
 
     /**
-     * 服务商预约扣费
+     * 服务商预约扣费。
+     *
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b9077f5de0546f6af87
      *
      * @param request 请求参数
      * @return PrepayResponse
@@ -119,7 +136,10 @@ public class ApiPartnerDeductService {
     }
 
     /**
-     * 服务商扣费结果查询
+     * 服务商预约扣费结果查询。
+     *
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b97a2b24a063d54b442
      *
      * @param request 请求参数
      * @return PrepayResponse

@@ -8,10 +8,28 @@ import java.util.List;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApiDetail {
+    /**
+     * 字段含义：订单原价。
+     * 格式规则：单位为分的整数。
+     * 业务规则：用于补充订单未优惠前的原始金额。
+     * 示例：608800
+     */
     @SerializedName("cost_price")
     private Integer costPrice;
+    /**
+     * 字段含义：商品小票ID。
+     * 格式规则：字符串。
+     * 业务规则：表示商家侧小票编号。
+     * 示例：dy123
+     */
     @SerializedName("invoice_id")
     private String invoiceId;
+    /**
+     * 字段含义：单品列表。
+     * 格式规则：数组。
+     * 业务规则：用于描述订单中的商品明细。
+     * 示例：
+     */
     @SerializedName("goods_detail")
     private List goodsDetail;
 

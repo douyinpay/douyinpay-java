@@ -1,22 +1,41 @@
 package com.douyinpay.api.payments.contractorder.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+import com.google.gson.annotations.SerializedName;
 
-/** 商户门店信息 （预留字段）*/
+/** 商户门店信息 （预留字段） */
 public class ApiStoreInfo {
-  /** 门店编号 说明：商户侧门店编号 */
+  /**
+   * 字段含义：门店编号。
+   * 格式规则：字符串。
+   * 业务规则：当前接口文档未明确说明 id 字段的使用规则，暂保留该字段以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("id")
   private String id;
-  /** 门店名称 说明：商户侧门店名称 */
+  /**
+   * 字段含义：门店名称。
+   * 格式规则：字符串。
+   * 业务规则：当前接口文档未明确说明 name 字段的使用规则，暂保留该字段以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("name")
   private String name;
-  /** 地区编码 说明：地区编码，详细请见抖音支付提供的文档 */
+  /**
+   * 字段含义：地区编码。
+   * 格式规则：字符串。
+   * 业务规则：当前接口文档未明确说明 area_code 字段的使用规则，暂保留该字段以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("area_code")
   private String areaCode;
-  /** 详细地址 说明：详细的商户门店地址 */
+  /**
+   * 字段含义：详细地址。
+   * 格式规则：字符串。
+   * 业务规则：当前接口文档未明确说明 address 字段的使用规则，暂保留该字段以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("address")
   private String address;
 

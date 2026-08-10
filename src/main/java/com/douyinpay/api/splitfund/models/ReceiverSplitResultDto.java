@@ -1,62 +1,92 @@
 package com.douyinpay.api.splitfund.models;
 
-import com.douyinpay.enums.SplitFundReceiverTypeEnum;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.annotations.SerializedName;
 
 public class ReceiverSplitResultDto {
 
     /**
-     * 分账金额，单位为分，只能为整数，不能超过原订单支付金额及最大分账比例金额
+     * 字段含义：金额。
+     * 格式规则：单位为分的整数。
+     * 业务规则：具体语义取决于所在结构，可能表示分账金额、回退金额或完结金额。
+     * 示例：10
      */
     @SerializedName("amount")
     private Integer amount;
 
     /**
-     * 分账的原因描述，分账账单中需要体现
+     * 字段含义：描述。
+     * 格式规则：字符串。
+     * 业务规则：用于说明分账、回退或完结分账的原因。
+     * 示例：分给合作方
+     * 补充说明：该描述会在分账账单中体现。
      */
     @SerializedName("description")
     private String description;
 
     /**
-     * 1、MERCHANT_ID：商户号  2、PERSONAL_OPENID：个人openid（待确认）
-     * @see SplitFundReceiverTypeEnum
+     * 字段含义：分账接收方类型。
+     * 格式规则：枚举字符串。
+     * 业务规则：开放文档示例包含 MERCHANT_ID、PERSONAL_OPENID。
+     * 示例：MERCHANT_ID
+     * 补充说明：MERCHANT_ID 表示商户号，PERSONAL_OPENID 表示个人 OpenID。
+     * @see com.douyinpay.enums.SplitFundReceiverTypeEnum
      */
     @SerializedName("type")
     private String type;
 
     /**
-     * 分账接收方类型为MERCHANT_ID时，分账接收方账号为商户号
+     * 字段含义：分账接收方账号。
+     * 格式规则：字符串。
+     * 业务规则：当类型为 MERCHANT_ID 时传商户号；当类型为 PERSONAL_OPENID 时传个人 OpenID。
+     * 示例：6020260126898210
      */
     @SerializedName("account")
     private String account;
 
     /**
-     * 枚举值：PENDING：待分账  2、SUCCESS：分账成功  3、CLOSED：已关闭
+     * 字段含义：结果。
+     * 格式规则：枚举字符串。
+     * 业务规则：分账结果开放文档示例包含 PENDING、SUCCESS、CLOSED；回退结果请以接口文档枚举为准。
+     * 示例：SUCCESS
+     * 补充说明：PENDING 表示待分账，SUCCESS 表示分账成功，CLOSED 表示已关闭。
      */
     @SerializedName("result")
     private String result;
 
     /**
-     * 分账失败原因，当分账结果result为CLOSED（已关闭）时，返回该字段
+     * 字段含义：失败原因。
+     * 格式规则：字符串。
+     * 业务规则：当结果为关闭或失败时返回。
+     * 示例：ACCOUNT_ABNORMAL
+     * 补充说明：当分账结果 result 为 CLOSED 时返回该字段。
      */
     @SerializedName("fail_reason")
     private String failReason;
 
     /**
-     * 分账创建时间，例如：2015-05-20T13:29:35+08:00表示，北京时间2015年5月20日 13点29分35秒
+     * 字段含义：创建时间。
+     * 格式规则：遵循 RFC 3339 标准格式。
+     * 业务规则：表示分账或回退单的创建时间。
+     * 示例：2015-05-20T13:29:35+08:00
      */
     @SerializedName("create_time")
     private String createTime;
 
     /**
-     * 分账完成时间
+     * 字段含义：完成时间。
+     * 格式规则：遵循 RFC 3339 标准格式。
+     * 业务规则：表示分账或回退完成时间。
+     * 示例：2015-05-20T13:29:35+08:00
      */
     @SerializedName("finish_time")
     private String finishTime;
 
     /**
-     * 抖音支付分账明细单号，每笔分账业务执行的明细单号，可与资金账单对账使用
+     * 字段含义：分账明细单号。
+     * 格式规则：字符串。
+     * 业务规则：可用于与资金账单进行对账。
+     * 示例：11777200260111180300003115170066
      */
     @SerializedName("detail_id")
     private String detailId;

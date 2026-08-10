@@ -10,41 +10,108 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** ApiPrepayRequest */
 public class ApiPrepayRequest {
+  /**
+   * 字段含义：应用ID。
+   * 格式规则：字符串。
+   * 业务规则：由抖音开放平台生成，需与当前商户号完成绑定。
+   * 示例：awofz9bncda6w123
+   */
   @SerializedName("appid")
   private String appid;
-  /** 直连商户号 说明：直连商户号 */
+  /**
+   * 字段含义：直连商户号。
+   * 格式规则：字符串。
+   * 业务规则：由抖音支付生成并下发，用于标识当前直连商户。
+   * 示例：6020230307605084
+   */
   @SerializedName("mchid")
   private String mchid;
-  /** 商品描述 说明：商品描述 */
+  /**
+   * 字段含义：商品描述。
+   * 格式规则：字符串。
+   * 业务规则：用于描述本次交易商品或服务信息。
+   * 示例：抖音支付测试
+   */
   @SerializedName("description")
   private String description;
-  /** 商户订单号 说明：商户订单号 */
+  /**
+   * 字段含义：商户订单号。
+   * 格式规则：仅支持数字、大小写字母、_、-、*。
+   * 业务规则：同一商户号下需保持唯一；同一订单号重复请求按同一笔订单处理。
+   * 示例：OUT_1666688488
+   */
   @SerializedName("out_trade_no")
   private String outTradeNo;
-  /** 交易结束时间 说明：订单失效时间，格式为rfc3339格式 */
+  /**
+   * 字段含义：交易结束时间。
+   * 格式规则：遵循 RFC 3339 标准格式。
+   * 业务规则：需在下单时间 15 天内；若用户支付已超时，应使用新的商户订单号重新下单。
+   * 示例：2018-06-08T10:34:56+08:00
+   */
   @SerializedName("time_expire")
   private String timeExpire;
-  /** 附加数据 说明：附加数据 */
+  /**
+   * 字段含义：附加数据。
+   * 格式规则：字符串。
+   * 业务规则：在查询接口和支付通知中原样返回，可作为商户自定义透传参数。
+   * 示例：自定义数据
+   */
   @SerializedName("attach")
   private String attach;
-  /** 通知地址 说明：有效性：1. HTTPS；2. 不允许携带查询串。 */
+  /**
+   * 字段含义：通知地址。
+   * 格式规则：HTTPS 外网可访问地址，且不允许携带查询串。
+   * 业务规则：用于接收抖音支付异步通知。
+   * 示例：https://www.mock.douyinpay.com
+   */
   @SerializedName("notify_url")
   private String notifyUrl;
-  /** 订单优惠标记 说明：商品标记，代金券或立减优惠功能的参数。 */
+  /**
+   * 字段含义：优惠标记。
+   * 格式规则：JSON 字符串。
+   * 业务规则：需与抖音支付协商使用，可区分业务场景、产品标签或指定优惠信息。
+   * 示例：{"biz_scene":"","product_tag":"","assign_discounts":""}
+   */
   @SerializedName("goods_tag")
   private String goodsTag;
+  /**
+   * 字段含义：电子发票入口开放标识。
+   * 格式规则：boolean。
+   * 业务规则：预留字段，开放文档说明商户无需传入。
+   * 示例：false
+   */
   @SerializedName("support_fapiao")
   private Boolean supportFapiao;
-  /** amount */
+  /**
+   * 字段含义：金额信息。
+   * 格式规则：对象。
+   * 业务规则：包含订单或退款金额相关字段。
+   * 示例：{"total":100,"currency":"CNY"}
+   */
   @SerializedName("amount")
   private Amount amount;
-  /** detail */
+  /**
+   * 字段含义：优惠信息。
+   * 格式规则：对象。
+   * 业务规则：包含订单原价、商品小票 ID 和单品列表等信息。
+   * 示例：
+   */
   @SerializedName("detail")
   private ApiDetail detail;
-  /** sceneInfo */
+  /**
+   * 字段含义：支付场景信息。
+   * 格式规则：对象。
+   * 业务规则：用于补充终端 IP、设备号、门店信息等场景数据。
+   * 示例：
+   */
   @SerializedName("scene_info")
   private ApiSceneInfo sceneInfo;
-  /** settleInfo */
+  /**
+   * 字段含义：结算信息。
+   * 格式规则：对象。
+   * 业务规则：可指定订单是否支持分账。
+   * 示例：{"profit_sharing":false}
+   */
   @SerializedName("settle_info")
   private ApiSettleInfo settleInfo;
 

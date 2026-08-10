@@ -9,25 +9,34 @@ import com.douyinpay.api.partnerpayments.h5.model.ApiPrepayRequest;
 import com.douyinpay.api.partnerpayments.h5.model.ApiPrepayResponse;
 import com.douyinpay.api.partnerpayments.h5.model.ApiQueryOrderByIdRequest;
 import com.douyinpay.api.partnerpayments.h5.model.ApiQueryOrderByOutTradeNoRequest;
-import com.douyinpay.api.payments.creditcontract.ApiCreditContractPaymentsService;
 import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.component.http.QueryParameter;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
 
+/**
+ * 服务商 H5 支付服务。
+ *
+ * 官方文档：
+ * - H5 下单：POST /v1/trade/partner/transactions/h5
+ * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6911f7c7f09d4f04f443b5e4
+ * - 查询订单：GET /v1/trade/partner/transactions/id/{transaction_id}
+ * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb22fe022d05166966c5
+ * - 关闭订单：POST /v1/trade/partner/transactions/out-trade-no/{out_trade_no}/close
+ * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb25d479e6051ac20fb4
+ */
 public class ApiPartnerH5PaymentService {
-   
+
     private final String OUT_TRADE_NO_PATTERN = "{out_trade_no}";
     private final String TRANSACTION_ID_PATTERN = "{transaction_id}";
     private final DouyinpayClient douyinpayClient;
-    private final DomainName domainName;//请求域名
+    private final DomainName domainName;// 请求域名
 
     private ApiPartnerH5PaymentService(DouyinpayClient douyinpayClient, DomainName domainName) {
         this.douyinpayClient = douyinpayClient;
         this.domainName = domainName;
     }
-
 
     public static class Builder {
 
@@ -69,7 +78,6 @@ public class ApiPartnerH5PaymentService {
     public String getRequestUrl() {
         String domainName = DomainName.API.getValue();
 
-
         if (this.domainName != null) {
             domainName = this.domainName.getValue();
         }
@@ -77,9 +85,11 @@ public class ApiPartnerH5PaymentService {
         return domainName;
     }
 
-
     /**
-     * H5支付下单
+     * H5 支付下单。
+     *
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6911f7c7f09d4f04f443b5e4
      *
      * @param request 请求参数
      * @return PrepayResponse
@@ -92,26 +102,27 @@ public class ApiPartnerH5PaymentService {
 
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, requestPath, null, body);
 
-        DouyinpayResponse<ApiPrepayResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiPrepayResponse.class);
+        DouyinpayResponse<ApiPrepayResponse> apiResponse = douyinpayClient.execute(douyinpayRequest,
+                ApiPrepayResponse.class);
 
         return apiResponse.getApiResponse();
     }
 
-
     /**
-     * 关闭订单
+     * 关闭订单。
      *
-     * @param request
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb25d479e6051ac20fb4
+     *
+     * @param request 请求参数
      */
     public void closeOrder(ApiCloseOrderRequest request) {
         String requestUrl = getRequestUrl();
 
         String requestPath = "/v1/trade/partner/transactions/out-trade-no/{out_trade_no}/close";
 
-
         // 添加 path param
         requestPath = requestPath.replace(OUT_TRADE_NO_PATTERN, StringUtil.urlEncode(request.getOutTradeNo()));
-
 
         String body = GsonUtil.objectToJson(request);
 
@@ -119,13 +130,15 @@ public class ApiPartnerH5PaymentService {
 
         douyinpayClient.execute(douyinpayRequest, null);
 
-
     }
 
     /**
-     * 根据支付订单号查询订单
+     * 根据支付订单号查询订单。
      *
-     * @param request
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb22fe022d05166966c5
+     *
+     * @param request 请求参数
      * @return ApiTransaction
      */
     public ApiTransaction queryOrderById(ApiQueryOrderByIdRequest request) {
@@ -153,12 +166,14 @@ public class ApiPartnerH5PaymentService {
         return apiResponse.getApiResponse();
     }
 
-
     /**
-     * 根据商户订单号查询订单
+     * 根据商户订单号查询订单。
      *
-     * @param request
-     * @return
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb22fe022d05166966c5
+     *
+     * @param request 请求参数
+     * @return ApiTransaction
      */
     public ApiTransaction queryOrderByOutTradeNo(ApiQueryOrderByOutTradeNoRequest request) {
 
@@ -177,7 +192,6 @@ public class ApiPartnerH5PaymentService {
             queryParameter.add("sub_mchid", StringUtil.urlEncode(request.getSubMchid()));
         }
         requestPath += queryParameter.getQueryStr();
-
 
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.GET, requestUrl, requestPath, null, null);
 

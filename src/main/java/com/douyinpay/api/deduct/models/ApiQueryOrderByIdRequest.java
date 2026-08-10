@@ -1,22 +1,28 @@
 package com.douyinpay.api.deduct.models;
 
+import static com.douyinpay.util.StringUtil.toIndentedString;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /**
  * ApiQueryOrderByIdRequest
  */
 public class ApiQueryOrderByIdRequest {
     /**
-     * transactionId
+     * 字段含义：支付订单号。
+     * 格式规则：字符串，长度 1-32 位。
+     * 业务规则：抖音支付系统生成的订单号。
+     * 示例：21000125010103000993845301326
      */
     @SerializedName("transaction_id")
     @Expose(serialize = false)
     private String transactionId;
     /**
-     * mchid 说明：直连商户号
+     * 字段含义：直连商户号。
+     * 格式规则：字符串，长度 1-32 位。
+     * 业务规则：由抖音支付生成并下发，用于标识直连商户主体。
+     * 示例：600000000000001
      */
     @SerializedName("mchid")
     @Expose(serialize = false)

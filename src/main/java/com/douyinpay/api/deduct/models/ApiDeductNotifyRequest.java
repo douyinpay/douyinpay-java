@@ -4,19 +4,39 @@ import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApiDeductNotifyRequest {
-    /** 委托代扣协议id */
+    /**
+     * 字段含义：委托代扣协议ID。
+     * 格式规则：字符串。
+     * 业务规则：表示签约成功后的委托代扣协议标识。
+     * 示例：
+     */
     @SerializedName("contract_id")
     private String contractId;
 
-    /** 直连商户号 */
+    /**
+     * 字段含义：直连商户号。
+     * 格式规则：字符串。
+     * 业务规则：表示发起预约扣费通知的直连商户主体。
+     * 示例：
+     */
     @SerializedName("mchid")
     private String mchid;
 
-    /** 应用id */
+    /**
+     * 字段含义：应用ID。
+     * 格式规则：字符串。
+     * 业务规则：表示发起预约扣费通知的应用标识。
+     * 示例：
+     */
     @SerializedName("appid")
     private String appid;
 
-    /** 预计扣费金额信息 */
+    /**
+     * 字段含义：预计扣费金额信息。
+     * 格式规则：对象。
+     * 业务规则：用于描述预约扣费通知中的预计扣费金额。
+     * 示例：
+     */
     @SerializedName("estimated_amount")
     private EstimatedAmount estimatedAmount;
 

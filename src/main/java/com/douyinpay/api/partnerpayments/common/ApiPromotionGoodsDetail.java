@@ -4,19 +4,44 @@ import com.google.gson.annotations.SerializedName;
 
 
 public class ApiPromotionGoodsDetail {
-    /** 商品编码 */
+    /**
+     * 字段含义：商品编码。
+     * 格式规则：字符串。
+     * 业务规则：用于标识参与优惠的商品。
+     * 示例：1001
+     */
     @SerializedName("goods_id")
     private String goodsId;
-    /** 商品数量 */
+    /**
+     * 字段含义：商品数量。
+     * 格式规则：整数。
+     * 业务规则：表示该优惠明细对应的商品数量。
+     * 示例：1
+     */
     @SerializedName("quantity")
     private Integer quantity;
-    /** 商品价格 */
+    /**
+     * 字段含义：商品价格。
+     * 格式规则：单位为分的整数。
+     * 业务规则：表示该优惠明细对应的商品单价。
+     * 示例：100
+     */
     @SerializedName("unit_price")
     private Integer unitPrice;
-    /** 商品优惠金额 */
+    /**
+     * 字段含义：商品优惠金额。
+     * 格式规则：单位为分的整数。
+     * 业务规则：表示该商品维度的优惠金额。
+     * 示例：100
+     */
     @SerializedName("discount_amount")
     private Integer discountAmount;
-    /** 商品备注 */
+    /**
+     * 字段含义：商品备注。
+     * 格式规则：字符串。
+     * 业务规则：用于补充该商品维度的备注信息。
+     * 示例：
+     */
     @SerializedName("goods_remark")
     private String goodsRemark;
 

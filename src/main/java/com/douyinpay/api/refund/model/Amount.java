@@ -9,34 +9,84 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** Amount */
 public class Amount {
-  /** 订单金额 说明：订单总金额，单位为分 */
+  /**
+   * 字段含义：原订单金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：表示原支付交易的订单总金额。
+   * 示例：100
+   */
   @SerializedName("total")
   private Long total;
-  /** 退款金额 说明：退款标价金额，单位为分，可以做部分退款 */
+  /**
+   * 字段含义：退款金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：不能超过原订单支付金额。
+   * 示例：100
+   */
   @SerializedName("refund")
   private Long refund;
-  /** 退款出资账户及金额 说明：退款出资的账户类型及金额信息 */
+  /**
+   * 字段含义：退款出资账户信息。
+   * 格式规则：数组。
+   * 业务规则：用于指定各账户的退款出资金额。
+   * 示例：
+   */
   @SerializedName("from")
   private List<ApiFundsFromItem> from;
-  /** 用户支付金额 说明：现金支付金额，单位为分，只能为整数 */
+  /**
+   * 字段含义：用户支付金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：表示现金支付金额。
+   * 示例：100
+   */
   @SerializedName("payer_total")
   private Long payerTotal;
-  /** 用户退款金额 说明：退款给用户的金额，不包含所有优惠券金额 */
+  /**
+   * 字段含义：用户退款金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：表示退款给用户的金额，不包含所有优惠券金额。
+   * 示例：100
+   */
   @SerializedName("payer_refund")
   private Long payerRefund;
-  /** 应结退款金额 说明：去掉非充值代金券退款金额后的退款金额，单位为分，退款金额=申请退款金额-非充值代金券退款金额，退款金额<=申请退款金额 */
+  /**
+   * 字段含义：应结退款金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：退款金额等于申请退款金额减去非充值代金券退款金额。
+   * 示例：100
+   */
   @SerializedName("settlement_refund")
   private Long settlementRefund;
-  /** 应结订单金额 说明：应结订单金额=订单金额-免充值代金券金额，应结订单金额<=订单金额，单位为分 */
+  /**
+   * 字段含义：应结订单金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：等于订单金额减去免充值代金券金额。
+   * 示例：100
+   */
   @SerializedName("settlement_total")
   private Long settlementTotal;
-  /** 优惠退款金额 说明：优惠退款金额<=退款金额，退款金额-代金券或立减优惠退款金额为现金，说明详见代金券或立减优惠，单位为分 */
+  /**
+   * 字段含义：优惠退款金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：表示代金券或立减优惠的退款金额。
+   * 示例：0
+   */
   @SerializedName("discount_refund")
   private Long discountRefund;
-  /** 退款币种 说明：符合ISO 4217标准的三位字母代码，目前只支持人民币：CNY。 */
+  /**
+   * 字段含义：币种。
+   * 格式规则：符合 ISO 4217 标准的三位字母代码。
+   * 业务规则：当前仅支持人民币。
+   * 示例：CNY
+   */
   @SerializedName("currency")
   private String currency;
-  /** 手续费退款金额 说明：手续费退款金额，单位为分 */
+  /**
+   * 字段含义：手续费退款金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：表示随退款一并退回的手续费金额。
+   * 示例：0
+   */
   @SerializedName("refund_fee")
   private Long refundFee;
 

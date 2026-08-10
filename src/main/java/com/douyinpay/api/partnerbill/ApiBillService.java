@@ -1,18 +1,30 @@
 package com.douyinpay.api.partnerbill;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.douyinpay.api.DouyinpayClient;
 import com.douyinpay.api.DouyinpayRequest;
 import com.douyinpay.api.DouyinpayResponse;
-import com.douyinpay.api.partnerbill.models.ApplyTradeBillRequest;
 import com.douyinpay.api.partnerbill.models.ApiBillReponse;
 import com.douyinpay.api.partnerbill.models.ApplyFundFlowBillRequest;
 import com.douyinpay.api.partnerbill.models.ApplySplitBillRequest;
+import com.douyinpay.api.partnerbill.models.ApplyTradeBillRequest;
 import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.component.http.QueryParameter;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.util.StringUtil;
-import org.apache.commons.lang3.StringUtils;
 
+/**
+ * 服务商账单服务。
+ *
+ * 官方文档：
+ * - 申请交易账单：GET /v1/bill/tradebill
+ * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/69e2ee7acad2c105c439a809
+ * - 申请资金账单：GET /v1/bill/fundflowbill
+ * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/684a53064037d5050b11863d
+ * - 申请分账账单：GET /v1/bill/splitbill
+ * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/684a53090efadf054e0489f0
+ */
 public class ApiBillService {
     /**
      * 申请下载交易账单
@@ -28,13 +40,12 @@ public class ApiBillService {
     private static final String ApplySplitBillURI = "/v1/bill/splitbill";
 
     private final DouyinpayClient douyinpayClient;
-    private final DomainName domainName;//请求域名
+    private final DomainName domainName;// 请求域名
 
     private ApiBillService(DouyinpayClient douyinpayClient, DomainName domainName) {
         this.douyinpayClient = douyinpayClient;
         this.domainName = domainName;
     }
-
 
     public static class Builder {
 
@@ -76,14 +87,12 @@ public class ApiBillService {
     public String getRequestUrl() {
         String domainName = DomainName.API.getValue();
 
-
         if (this.domainName != null) {
             domainName = this.domainName.getValue();
         }
 
         return domainName;
     }
-
 
     public ApiBillReponse applyTradeBill(ApplyTradeBillRequest request) {
         String requestUrl = getRequestUrl();
@@ -92,7 +101,7 @@ public class ApiBillService {
         queryParameter.add("sp_mchid", StringUtil.urlEncode(request.getSpMchid()));
         queryParameter.add("bill_date", StringUtil.urlEncode(request.getBillDate()));
         queryParameter.add("tar_type", request.getTarType());
-        if (StringUtils.isNotEmpty(request.getSubMchid())){
+        if (StringUtils.isNotEmpty(request.getSubMchid())) {
             queryParameter.add("sub_mchid", request.getSubMchid());
         }
         String requestPath = ApplyTradeBillURI + queryParameter.getQueryStr();
@@ -108,10 +117,10 @@ public class ApiBillService {
         queryParameter.add("sp_mchid", StringUtil.urlEncode(request.getSpMchid()));
         queryParameter.add("bill_date", StringUtil.urlEncode(request.getBillDate()));
         queryParameter.add("tar_type", request.getTarType());
-        if (StringUtils.isNotEmpty(request.getAccountType())){
+        if (StringUtils.isNotEmpty(request.getAccountType())) {
             queryParameter.add("account_type", request.getAccountType());
         }
-        if (StringUtils.isNotEmpty(request.getSubMchid())){
+        if (StringUtils.isNotEmpty(request.getSubMchid())) {
             queryParameter.add("sub_mchid", request.getSubMchid());
         }
         String requestPath = ApplyFundFlowBillURI + queryParameter.getQueryStr();
@@ -127,7 +136,7 @@ public class ApiBillService {
         queryParameter.add("sp_mchid", StringUtil.urlEncode(request.getSpMchid()));
         queryParameter.add("bill_date", StringUtil.urlEncode(request.getBillDate()));
         queryParameter.add("tar_type", request.getTarType());
-        if (StringUtils.isNotEmpty(request.getSubMchid())){
+        if (StringUtils.isNotEmpty(request.getSubMchid())) {
             queryParameter.add("sub_mchid", request.getSubMchid());
         }
         String requestPath = ApplySplitBillURI + queryParameter.getQueryStr();

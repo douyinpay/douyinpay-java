@@ -6,7 +6,10 @@ import com.google.gson.annotations.SerializedName;
 public class ApiTransactionSceneInfo {
 
     /**
-     * device_id
+     * 字段含义：商户端设备号。
+     * 格式规则：字符串。
+     * 业务规则：查询订单时返回场景信息中的设备号。
+     * 示例：13467007045123
      */
     @SerializedName("device_id")
     private String deviceId;

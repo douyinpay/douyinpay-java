@@ -13,6 +13,15 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.util.StringUtil;
 import com.douyinpay.util.GsonUtil;
 
+/**
+ * 服务商签约关系服务。
+ *
+ * 官方文档：
+ * - 查询签约关系：GET /v1/agreementauth/partner/contracts/plan-id/{plan_id}/out-contract-code/{out_contract_code}
+ *   https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b8777f5de0546f6af5d
+ * - 协议解约：POST /v1/agreementauth/partner/contracts/plan-id/{plan_id}/out-contract-code/{out_contract_code}/terminate
+ *   https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b8af6235c04f84bdea6
+ */
 public class ApiPartnerContractService {
 
     private final String OUT_CONTRACT_CODE_PATTERN = "{out_contract_code}";
@@ -75,8 +84,15 @@ public class ApiPartnerContractService {
         return domainName;
     }
 
-
-
+    /**
+     * 查询签约关系。
+     *
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b8777f5de0546f6af5d
+     *
+     * @param request 请求参数
+     * @return ApiPartnerQueryContractResponse
+     */
     public ApiPartnerQueryContractResponse partnerQueryContract(ApiPartnerQueryContractRequest request) {
 
         String requestPath = "/v1/agreementauth/partner/contracts/plan-id/{plan_id}/out-contract-code/{out_contract_code}";
@@ -103,10 +119,13 @@ public class ApiPartnerContractService {
         return apiResponse.getApiResponse();
     }
     /**
-     * 终止签约
+     * 协议解约。
      *
-     * @param request
-     * @return
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b8af6235c04f84bdea6
+     *
+     * @param request 请求参数
+     * @return ApiPartnerTerminateContractResponse
      */
     public ApiPartnerTerminateContractResponse partnerTerminateContract(ApiPartnerTerminateContractRequest request) {
 

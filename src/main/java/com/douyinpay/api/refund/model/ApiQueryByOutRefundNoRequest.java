@@ -8,11 +8,21 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** QueryByOutRefundNoRequest */
 public class ApiQueryByOutRefundNoRequest {
-  /** 商户退款单号 说明：商户系统内部的退款单号，商户系统内部唯一，只能是数字、大小写字母_-|*@ ，同一退款单号多次请求只退一笔。 */
+  /**
+   * 字段含义：商户退款单号。
+   * 格式规则：仅支持数字、大小写字母、_、-、|、*、@。
+   * 业务规则：商户系统内部唯一；同一退款单号多次请求只退一笔。
+   * 示例：REFUND_1666688488
+   */
   @SerializedName("out_refund_no")
   @Expose(serialize = false)
   private String outRefundNo;
-  /** 子商户号 说明：子商户的商户号，由抖音支付生成并下发。服务商模式下必须传递此参数 */
+  /**
+   * 字段含义：直连商户号。
+   * 格式规则：字符串。
+   * 业务规则：由抖音支付生成并下发。
+   * 示例：6020230307605084
+   */
   @SerializedName("mchid")
   @Expose(serialize = false)
   private String mchid;

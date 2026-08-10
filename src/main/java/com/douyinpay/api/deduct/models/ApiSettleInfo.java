@@ -6,7 +6,13 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** SettleInfo */
 public class ApiSettleInfo {
-  /** profitSharing 说明：是否指定分账 */
+  /**
+   * 字段含义：是否分账。
+   * 格式规则：boolean。
+   * 业务规则：传入 true 表示订单支付成功后可进行分账操作；传入 false 或不传时默认为
+   * false，订单收款成功后资金不会被冻结，而是直接转入基本账户的可用余额。
+   * 示例：false
+   */
   @SerializedName("profit_sharing")
   private Boolean profitSharing;
 
