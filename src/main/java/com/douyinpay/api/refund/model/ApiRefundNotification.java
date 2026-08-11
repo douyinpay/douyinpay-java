@@ -1,66 +1,116 @@
 package com.douyinpay.api.refund.model;
 
-import com.douyinpay.util.GsonUtil;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import com.douyinpay.util.GsonUtil;
+import com.google.gson.annotations.SerializedName;
+
 public class ApiRefundNotification {
 
-    /** 抖音支付退款号*/
+    /**
+     * 字段含义：抖音支付退款号。
+     * 格式规则：字符串。
+     * 业务规则：由抖音支付生成，用于标识退款单。
+     * 示例：503027044522231010001
+     */
     @SerializedName("refund_id")
     private String refundId;
-    /** 商户退款单号 */
+    /**
+     * 字段含义：商户退款单号。
+     * 格式规则：仅支持数字、大小写字母、_、-、|、*、@。
+     * 业务规则：商户系统内部唯一；同一退款单号多次请求只退一笔。
+     * 示例：REFUND_1666688488
+     */
     @SerializedName("out_refund_no")
     private String outRefundNo;
-    /** 抖音支付订单号*/
+    /**
+     * 字段含义：抖音支付订单号。
+     * 格式规则：字符串。
+     * 业务规则：表示原支付交易对应的抖音支付订单号。
+     * 示例：21000125010103000993845301123
+     */
     @SerializedName("transaction_id")
     private String transactionId;
-    /** 商户订单号 说明：原支付交易对应的商户订单号 */
+    /**
+     * 字段含义：商户订单号。
+     * 格式规则：仅支持数字、大小写字母、_、-、|、*、@。
+     * 业务规则：表示原支付交易对应的商户订单号。
+     * 示例：OUT_1666688488
+     */
     @SerializedName("out_trade_no")
     private String outTradeNo;
     /**
-     * 退款入账账户
+     * 字段含义：退款入账账户。
+     * 格式规则：字符串。
+     * 业务规则：表示退款实际入账的目标账户。
+     * 示例：
      */
     @SerializedName("user_received_account")
     private String userReceivedAccount;
     /**
-     * 退款成功时间
-     * 说明：退款成功时间，退款状态status为SUCCESS（退款成功）时，返回该字段。遵循rfc3339标准格式，格式为YYYY-MM-DDTHH:mm:ss+TIMEZONE，YYYY-MM-DD表示年月日，T出现在字符串中，表示time元素的开头，HH:mm:ss表示时分秒，TIMEZONE表示时区（+08:00表示东八区时间，领先UTC
-     * 8小时，即北京时间）。例如：2015-05-20T13:29:35+08:00表示，北京时间2015年5月20日13点29分35秒。
+     * 字段含义：退款成功时间。
+     * 格式规则：遵循 RFC 3339 标准格式。
+     * 业务规则：退款状态为成功时返回。
+     * 补充说明：格式为 YYYY-MM-DDTHH:mm:ss+TIMEZONE，例如北京时间 2015-05-20T13:29:35+08:00。
+     * 示例：2015-05-20T13:29:35+08:00
      */
     @SerializedName("success_time")
     private String successTime;
     /**
-     * 退款创建时间
-     * 说明：退款受理时间，遵循rfc3339标准格式，格式为YYYY-MM-DDTHH:mm:ss+TIMEZONE，YYYY-MM-DD表示年月日，T出现在字符串中，表示time元素的开头，HH:mm:ss表示时分秒，TIMEZONE表示时区（+08:00表示东八区时间，领先UTC
-     * 8小时，即北京时间）。例如：2015-05-20T13:29:35+08:00表示，北京时间2015年5月20日13点29分35秒。
+     * 字段含义：退款创建时间。
+     * 格式规则：遵循 RFC 3339 标准格式。
+     * 业务规则：表示退款受理时间。
+     * 补充说明：格式为 YYYY-MM-DDTHH:mm:ss+TIMEZONE，例如北京时间 2015-05-20T13:29:35+08:00。
+     * 示例：2015-05-20T13:29:35+08:00
      */
     @SerializedName("create_time")
     private String createTime;
-    /** 优惠退款信息 说明：优惠退款信息 */
+    /**
+     * 字段含义：优惠退款信息。
+     * 格式规则：数组。
+     * 业务规则：返回参与退款的优惠信息。
+     * 示例：
+     */
     @SerializedName("promotion_detail")
     private List<ApiRefundPromotion> promotionDetail = new ArrayList<ApiRefundPromotion>();
-    /** 金额信息 说明：金额详细信息 */
+    /**
+     * 字段含义：金额信息。
+     * 格式规则：对象。
+     * 业务规则：包含退款金额、原订单金额和退款币种等字段。
+     * 示例：{"refund":100,"total":100,"currency":"CNY"}
+     */
     @SerializedName("amount")
     private Amount amount;
     /**
-     * 退款渠道 说明：枚举值： - ORIGINAL—原路退款 - BALANCE—退回到余额 - OTHER_BALANCE—原账户异常退到其他余额账户 -
-     * OTHER_BANKCARD—原银行卡异常退到其他银行卡
+     * 字段含义：退款渠道。
+     * 格式规则：枚举字符串。
+     * 业务规则：开放文档示例包含 ORIGINAL、BALANCE、OTHER_BALANCE、OTHER_BANKCARD。
+     * 补充说明：ORIGINAL 表示原路退款，BALANCE 表示退回到余额，OTHER_BALANCE
+     * 表示原账户异常退到其他余额账户，OTHER_BANKCARD 表示原银行卡异常退到其他银行卡。
+     * 示例：ORIGINAL
+     *
      * @see com.douyinpay.enums.RefundChannelEnum
      */
     @SerializedName("channel")
     private String channel;
     /**
-     * 资金账户 说明：退款所使用资金对应的资金账户类型 枚举值： - UNSETTLED : 未结算资金 - AVAILABLE : 可用余额 - UNAVAILABLE : 不可用余额 -
-     * OPERATION : 运营户 - BASIC : 基本账户（含可用余额和不可用余额）
+     * 字段含义：退款资金来源。
+     * 格式规则：枚举字符串。
+     * 业务规则：表示退款所使用资金对应的资金账户类型。
+     * 补充说明：开放文档示例包含 UNSETTLED、AVAILABLE、UNAVAILABLE、OPERATION、BASIC。
+     * 示例：AVAILABLE
+     *
      * @see com.douyinpay.enums.FundsAccountEnum
      */
     @SerializedName("funds_account")
     private String fundsAccount;
     /**
-     * 退款状态 说明：枚举值： - SUCCESS—退款成功 - CLOSED—退款关闭 - PROCESSING—退款处理中 - ABNORMAL—退款异常
+     * 字段含义：退款状态。
+     * 格式规则：枚举字符串。
+     * 业务规则：开放文档示例包含 SUCCESS、CLOSED、PROCESSING、ABNORMAL。
+     * 示例：SUCCESS
+     *
      * @see com.douyinpay.enums.RefundStatusEnum
      */
     @SerializedName("refund_status")

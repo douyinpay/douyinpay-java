@@ -1,52 +1,75 @@
 package com.douyinpay.api.splitfund.models;
 
-import com.douyinpay.enums.SplitFundReceiverTypeEnum;
-import com.douyinpay.enums.SplitFundRelationTypeEnum;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.annotations.SerializedName;
 
 public class ApiAddSplitReceiverRequest {
 
     /**
-     * 直连商户号
+     * 字段含义：直连商户号。
+     * 格式规则：字符串。
+     * 业务规则：由抖音支付生成并下发。
+     * 示例：6020240223833009
      */
     @SerializedName("mchid")
     private String merchantId;
 
     /**
-     * 商户应用号
+     * 字段含义：商户应用号。
+     * 格式规则：字符串。
+     * 业务规则：用于标识分账业务对应的商户应用。
+     * 示例：byOOJzkcOJWYmSPBuPWLbDjSSqf
      */
     @SerializedName("appid")
     private String appId;
 
     /**
-     * 分账接收方类型
-     * @see SplitFundReceiverTypeEnum
+     * 字段含义：分账接收方类型。
+     * 格式规则：枚举字符串。
+     * 业务规则：开放文档示例包含 MERCHANT_ID、PERSONAL_OPENID。
+     * 示例：MERCHANT_ID
+     *
+     * @see com.douyinpay.enums.SplitFundReceiverTypeEnum
      */
     @SerializedName("type")
     private String type;
 
     /**
-     * 分账接收方账号
+     * 字段含义：分账接收方账号。
+     * 格式规则：字符串。
+     * 业务规则：当类型为 MERCHANT_ID 时传商户号；当类型为 PERSONAL_OPENID 时传个人 OpenID。
+     * 示例：6020260126898210
      */
     @SerializedName("account")
     private String account;
 
     /**
-     * type = MERCHANT_ID 时为商户名称，type = PERSONAL_OPENID 时为个人姓名
+     * 字段含义：分账接收方全称。
+     * 格式规则：字符串。
+     * 业务规则：商户类型接收方传商户名称；个人类型接收方可传姓名，且需满足实名匹配校验。
+     * 补充说明：该字段需使用抖音支付平台证书公钥加密，并在请求头中携带 Douyinpay-Serial 平台证书序列号。
+     * 示例：分账接收方名称
      */
     @SerializedName("name")
     private String name;
 
     /**
-     * 与分账方的关系类型
-     * @see SplitFundRelationTypeEnum
+     * 字段含义：与分账方的关系类型。
+     * 格式规则：枚举字符串。
+     * 业务规则：开放文档示例包含 SERVICE_PROVIDER、STORE、STAFF、CUSTOM 等取值。
+     * 示例：STORE
+     *
+     * @see com.douyinpay.enums.SplitFundRelationTypeEnum
      */
     @SerializedName("relation_type")
     private String relationType;
 
     /**
-     * 自定义的分账关系
+     * 字段含义：自定义分账关系。
+     * 格式规则：最多 10 个字。
+     * 业务规则：当 relation_type 为 CUSTOM 时必传，其他情况无需填写。
+     * 补充说明：用于描述特约商户与接收方的具体关系。
+     * 示例：合作渠道
      */
     @SerializedName("custom_relation")
     private String customRelation;

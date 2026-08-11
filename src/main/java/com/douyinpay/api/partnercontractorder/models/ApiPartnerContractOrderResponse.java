@@ -4,9 +4,12 @@ import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApiPartnerContractOrderResponse {
-    
+
     /**
-     * 预支付交易会话标识
+     * 字段含义：预支付交易会话标识。
+     * 格式规则：字符串。
+     * 业务规则：用于后续调起签约并支付流程；返回内容会随 trade_type 不同而变化。
+     * 示例：dy96y894ox66yv43x10uquv34s5s7sx3oso28squqsx
      */
     @SerializedName("prepay_id")
     private String prepayId;

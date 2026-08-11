@@ -7,17 +7,26 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 public class ApiBillReponse {
 
     /**
-     * 哈希类型
+     * 字段含义：哈希类型。
+     * 格式规则：字符串。
+     * 业务规则：用于描述账单下载文件校验值的算法类型。
+     * 示例：
      */
     @SerializedName("hash_type")
     private String hashType;
     /**
-     * 哈希值
+     * 字段含义：哈希值。
+     * 格式规则：字符串。
+     * 业务规则：用于校验账单下载文件完整性。
+     * 示例：
      */
     @SerializedName("hash_value")
     private String hashValue;
     /**
-     * 账单下载地址
+     * 字段含义：账单下载地址。
+     * 格式规则：URL。
+     * 业务规则：开放文档说明下载地址有时效限制。
+     * 示例：https://download.example.com/bill.gz
      */
     @SerializedName("download_url")
     private String downloadUrl;

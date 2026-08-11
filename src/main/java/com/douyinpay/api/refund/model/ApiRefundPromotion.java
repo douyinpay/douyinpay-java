@@ -9,31 +9,56 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** Promotion */
 public class ApiRefundPromotion {
-  /** 券ID 说明：券或者立减优惠id */
+  /**
+   * 字段含义：券ID。
+   * 格式规则：字符串。
+   * 业务规则：表示券或者立减优惠 ID。
+   * 示例：109519
+   */
   @SerializedName("promotion_id")
   private String promotionId;
-  /** 优惠券面额 说明：用户享受优惠的金额（优惠券面额=抖音支付出资金额+商家出资金额+其他出资方金额 ），单位为分 */
+  /**
+   * 字段含义：优惠券面额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：表示用户享受优惠的金额，等于抖音出资金额、商家出资金额和其他出资方金额之和。
+   * 示例：100
+   */
   @SerializedName("amount")
   private Long amount;
-  /** 优惠退款金额 说明：优惠退款金额<=退款金额，退款金额-代金券或立减优惠退款金额为用户支付的现金，说明详见代金券或立减优惠，单位为分 */
+  /**
+   * 字段含义：商品退款金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：表示该商品维度的退款金额。
+   * 示例：100
+   */
   @SerializedName("refund_amount")
   private Long refundAmount;
-  /** 商品列表 说明：优惠商品发生退款时返回商品信息 */
+  /**
+   * 字段含义：退款商品明细。
+   * 格式规则：数组。
+   * 业务规则：优惠商品发生退款时返回商品信息。
+   * 示例：
+   */
   @SerializedName("goods_detail")
   private List<ApiGoodsDetail> goodsDetail;
   /**
-   *  优惠范围 说明：枚举值： - GLOBAL- 全场代金券 - SINGLE- 单品优惠
+   * 字段含义：优惠范围。
+   * 格式规则：枚举字符串。
+   * 业务规则：开放文档示例包含 GLOBAL、SINGLE。
+   * 补充说明：GLOBAL 表示全场代金券，以订单整体可优惠金额为门槛；SINGLE 表示单品优惠，以具体单品总金额为门槛。
+   * 示例：GLOBAL
    * @see com.douyinpay.enums.PromotionScopeEnum
-   * */
+   */
   @SerializedName("scope")
   private String promotionScope;
   /**
-   * 优惠类型 说明：枚举值：
-   * - COUPON- 代金券，需要走结算资金的充值型代金券
-   * - DISCOUNT- 优惠券，不走结算资金的免充值型优惠券
+   * 字段含义：优惠类型。
+   * 格式规则：枚举字符串。
+   * 业务规则：开放文档示例包含 COUPON、DISCOUNT。
+   * 补充说明：COUPON 表示需要走结算资金的充值型代金券，会随订单结算给订单收款商户；DISCOUNT 表示不走结算资金的免充值型优惠券。
+   * 示例：COUPON
    * @see com.douyinpay.enums.RefundPromotionTypeEnum
-   *
-   * */
+   */
   @SerializedName("type")
   private String promotionType;
 

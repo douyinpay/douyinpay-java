@@ -40,6 +40,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 分账服务。
+ *
+ * 官方文档：
+ * - 请求分账：POST /v1/trade/profitsharing/orders
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/694937c648fd720521ddf214
+ * - 查询分账结果：GET /v1/trade/profitsharing/orders/{out_trade_no}
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/6949383d7f605b05358e7cc7
+ * - 请求分账回退：POST /v1/trade/profitsharing/return-orders
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/694938cbb9dd320544606cf7
+ * - 查询分账回退结果：GET /v1/trade/profitsharing/return-orders/{out_return_no}
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/69493917b9dd3205446070a0
+ * - 完结分账：POST /v1/trade/profitsharing/finish-orders
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/69c125ae5e28e105291b6c3d
+ * - 查询剩余待分金额：GET /v1/trade/profitsharing/order/{transaction_id}/amounts
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/69c125c573c1f605a3d496d6
+ * - 添加分账接收方：POST /v1/trade/profitsharing/receivers/add
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/6949394b7f605b05358e83b4
+ * - 删除分账接收方：POST /v1/trade/profitsharing/receivers/delete
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/694939886002be055131fa0a
+ */
 public class ApiSplitFundPaymentsService {
     /**
      * 分账请求接口URI
@@ -150,6 +171,9 @@ public class ApiSplitFundPaymentsService {
     /**
      * 分账
      *
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/694937c648fd720521ddf214
+     *
      * @param request 请求参数
      * @return ApiSplitFundResponse
      */
@@ -167,8 +191,11 @@ public class ApiSplitFundPaymentsService {
     /**
      * 分账查询
      *
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/6949383d7f605b05358e7cc7
+     *
      * @param request 请求参数
-     * @return ApiSplitFundResponse
+     * @return ApiQuerySplitFundResponse
      */
     public ApiQuerySplitFundResponse querySplitFund(ApiQuerySplitFundRequest request) {
         String requestUrl = getRequestUrl();
@@ -196,6 +223,9 @@ public class ApiSplitFundPaymentsService {
     /**
      * 分账回退
      *
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/694938cbb9dd320544606cf7
+     *
      * @param request 请求参数
      * @return ApiReturnSplitFundResponse
      */
@@ -211,6 +241,9 @@ public class ApiSplitFundPaymentsService {
 
     /**
      * 查询分账回退结果
+     *
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/69493917b9dd3205446070a0
      *
      * @param request 请求参数
      * @return ApiQueryReturnSplitFundResponse
@@ -236,6 +269,9 @@ public class ApiSplitFundPaymentsService {
     /**
      * 完结分账
      *
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/69c125ae5e28e105291b6c3d
+     *
      * @param request 请求参数
      * @return ApiFinishSplitFundResponse
      */
@@ -251,6 +287,9 @@ public class ApiSplitFundPaymentsService {
 
     /**
      * 查询剩余待分金额
+     *
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/69c125c573c1f605a3d496d6
      *
      * @param request 请求参数
      * @return ApiQueryUnSplitFundResponse
@@ -272,6 +311,9 @@ public class ApiSplitFundPaymentsService {
 
     /**
      * 添加分账接收方
+     *
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/6949394b7f605b05358e83b4
      *
      * @param request 请求参数
      * @return ApiAddSplitReceiverResponse
@@ -372,6 +414,9 @@ public class ApiSplitFundPaymentsService {
 
     /**
      * 删除分账接收方
+     *
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/694939886002be055131fa0a
      *
      * @param request 请求参数
      * @return ApiDeleteSplitReceiverResponse

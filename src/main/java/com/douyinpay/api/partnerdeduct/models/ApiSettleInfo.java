@@ -5,7 +5,12 @@ import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApiSettleInfo {
-  /** 是否分账 */
+  /**
+   * 字段含义：是否指定分账。
+   * 格式规则：boolean。
+   * 业务规则：用于声明该订单是否支持后续分账。
+   * 示例：false
+   */
   @SerializedName("profit_sharing")
   private Boolean profitSharing;
 

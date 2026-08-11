@@ -15,6 +15,19 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
 
+/**
+ * Native 支付服务。
+ *
+ * 官方文档：
+ * - Native 下单：POST /v1/trade/transactions/native
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/65bf88e4fcc2570315fd1457
+ * - 关闭订单：POST /v1/trade/transactions/out-trade-no/{out_trade_no}/close
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/65bf8b844d4516030eec0e12
+ * - 按抖音支付订单号查询订单：GET /v1/trade/transactions/id/{transaction_id}
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/65bf8a15ea861802f27235b3
+ * - 按商户订单号查询订单：GET /v1/trade/transactions/out-trade-no/{out_trade_no}
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/65bf8a15ea861802f27235b3
+ */
 public class ApiNativePaymentsService {
 
     private final DouyinpayClient douyinpayClient;
@@ -82,6 +95,9 @@ public class ApiNativePaymentsService {
     /**
      * Native支付下单
      *
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/65bf88e4fcc2570315fd1457
+     *
      * @param request 请求参数
      * @return PrepayResponse
      */
@@ -104,7 +120,10 @@ public class ApiNativePaymentsService {
     /**
      * 关闭订单
      *
-     * @param request
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/65bf8b844d4516030eec0e12
+     *
+     * @param request 请求参数
      */
     public void closeOrder(ApiCloseOrderRequest request) {
         String requestUrl = getRequestUrl();
@@ -128,7 +147,10 @@ public class ApiNativePaymentsService {
     /**
      * 根据支付订单号查询订单
      *
-     * @param request
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/65bf8a15ea861802f27235b3
+     *
+     * @param request 请求参数
      * @return ApiTransaction
      */
     public ApiTransaction queryOrderById(ApiQueryOrderByIdRequest request) {
@@ -159,8 +181,11 @@ public class ApiNativePaymentsService {
     /**
      * 根据商户订单号查询订单
      *
-     * @param request
-     * @return
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/65bf8a15ea861802f27235b3
+     *
+     * @param request 请求参数
+     * @return ApiTransaction
      */
     public ApiTransaction queryOrderByOutTradeNo(ApiQueryOrderByOutTradeNoRequest request) {
 

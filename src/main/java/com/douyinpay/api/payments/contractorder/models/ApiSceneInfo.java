@@ -1,23 +1,50 @@
 package com.douyinpay.api.payments.contractorder.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import static com.douyinpay.util.StringUtil.toIndentedString;
+
+import com.google.gson.annotations.SerializedName;
 
 /** 支付场景描述 */
 public class ApiSceneInfo {
-  /** 用户终端IP 说明：用户终端IP */
+  /**
+   * 字段含义：用户终端 IP。
+   * 格式规则：IP 地址字符串，支持 IPv4 和 IPv6。
+   * 业务规则：用于标识发起支付请求的用户终端 IP。
+   * 示例：14.23.150.211
+   */
   @SerializedName("payer_client_ip")
   private String payerClientIp;
-  /** 商户端设备号 说明：商户端设备号 （预留字段）*/
+  /**
+   * 字段含义：商户端设备号。
+   * 格式规则：字符串，长度 1-32 位。
+   * 业务规则：用于标识门店号或收银设备 ID。
+   * 示例：13467007045764
+   */
   @SerializedName("device_id")
   private String deviceId;
-  /** 用户终端ID 说明： 用户终端ID */
+  /**
+   * 字段含义：用户终端设备号。
+   * 格式规则：字符串，长度 1-45 位。
+   * 业务规则：Android 优先传 android_id（openudid），若没有则传 IMEI；iOS 优先传 IDFV，若没有 IDFV 则传
+   * IDFA。
+   * 示例：
+   */
   @SerializedName("payer_device_id")
   private String payerDeviceId;
-  /** storeInfo */
+  /**
+   * 字段含义：门店信息。
+   * 格式规则：对象。
+   * 业务规则：当前接口文档未明确说明 store_info 字段的使用规则，暂保留该字段以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("store_info")
   private ApiStoreInfo storeInfo;
+  /**
+   * 字段含义：H5 场景信息。
+   * 格式规则：对象。
+   * 业务规则：当前接口文档未明确说明 h5_info 字段的使用规则，暂保留该字段以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("h5_info")
   private ApiH5Info h5Info;
 

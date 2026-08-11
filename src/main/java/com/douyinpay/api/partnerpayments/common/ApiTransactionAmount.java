@@ -5,22 +5,34 @@ import com.google.gson.annotations.SerializedName;
 
 public class ApiTransactionAmount {
     /**
-     * 货币类型
+     * 字段含义：订单币种。
+     * 格式规则：符合 ISO 4217 标准的三位字母代码。
+     * 业务规则：境内商户号当前仅支持人民币。
+     * 示例：CNY
      */
     @SerializedName("currency")
     private String currency;
     /**
-     * 用户支付币种
+     * 字段含义：用户支付币种。
+     * 格式规则：符合 ISO 4217 标准的三位字母代码。
+     * 业务规则：境内商户号当前仅支持人民币。
+     * 示例：CNY
      */
     @SerializedName("payer_currency")
     private String payerCurrency;
     /**
-     * 用户支付金额
+     * 字段含义：用户支付金额。
+     * 格式规则：单位为分的整数。
+     * 业务规则：表示用户实际支付的现金金额。
+     * 示例：100
      */
     @SerializedName("payer_total")
     private Integer payerTotal;
     /**
-     * 总金额
+     * 字段含义：订单总金额。
+     * 格式规则：单位为分的整数。
+     * 业务规则：表示订单总金额。
+     * 示例：100
      */
     @SerializedName("total")
     private Integer total;

@@ -1,15 +1,17 @@
 package com.douyinpay.api.payments.contractorder.models;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
-
+import com.google.gson.annotations.SerializedName;
 
 /** ApiPrepayRequest */
 public class ApiPrepayRequest {
+  /**
+   * 字段含义：应用ID。
+   * 格式规则：字符串，长度 1-32 位。
+   * 业务规则：商户在抖音开放平台申请的应用 ID，全局唯一。
+   * 示例：awofz9bncda6w2w4
+   */
   @SerializedName("appid")
   private String appid;
   /** 直连商户号 说明：直连商户号 */
@@ -33,31 +35,73 @@ public class ApiPrepayRequest {
   /** 订单优惠标记 说明：商品标记，代金券或立减优惠功能的参数。 */
   @SerializedName("goods_tag")
   private String goodsTag;
-  /** support_fapiao */
+  /**
+   * 字段含义：电子发票入口开放标识。
+   * 格式规则：boolean。
+   * 业务规则：预留字段，商户无需传入。
+   * 示例：
+   */
   @SerializedName("support_fapiao")
   private Boolean supportFapiao;
-  /** amount */
+  /**
+   * 字段含义：订单金额信息。
+   * 格式规则：对象。
+   * 业务规则：包含订单总金额和货币种类，其中金额单位为分。
+   * 示例：{"total":100,"currency":"CNY"}
+   */
   @SerializedName("amount")
   private Amount amount;
-  /** detail */
+  /**
+   * 字段含义：优惠信息。
+   * 格式规则：对象。
+   * 业务规则：预留字段，商户无需传入。
+   * 示例：
+   */
   @SerializedName("detail")
   private ApiDetail detail;
-  /** sceneInfo */
+  /**
+   * 字段含义：场景信息。
+   * 格式规则：对象。
+   * 业务规则：用于传递用户终端 IP、商户端设备号和用户终端设备号等支付场景描述信息。
+   * 示例：{"device_id":"013467007045764","payer_client_ip":"14.23.150.211","payer_device_id":"a0e4b456-c9e5-3783-a422"}
+   */
   @SerializedName("scene_info")
   private ApiSceneInfo sceneInfo;
-  /** settleInfo */
+  /**
+   * 字段含义：结算信息。
+   * 格式规则：对象。
+   * 业务规则：用于指定订单支付成功后是否支持分账。
+   * 示例：{"profit_sharing":false}
+   */
   @SerializedName("settle_info")
   private ApiSettleInfo settleInfo;
 
   /**
+   * 字段含义：交易类型。
+   * 格式规则：枚举字符串。
+   * 业务规则：APP 表示 APP 支付；JSAPI 表示 JSAPI 支付；MWEB 表示 H5 支付。
+   * 示例：APP
+   *
    * @see com.douyinpay.enums.TradeTypeEnum
    */
   @SerializedName("trade_type")
   private String tradeType;
 
+  /**
+   * 字段含义：用户标识。
+   * 格式规则：字符串，长度 1-128 位。
+   * 业务规则：当 trade_type=JSAPI 时传入，表示用户在商户 appid 下的唯一标识。
+   * 示例：oUpF8uMuAJO_M2pxb1Q9zNjWeS6o
+   */
   @SerializedName("openid")
   private String openId;
 
+  /**
+   * 字段含义：签约信息。
+   * 格式规则：对象。
+   * 业务规则：包含签约商户号、签约应用 ID、模板 ID、签约协议号和签约通知地址等信息。
+   * 示例：{"contract_mchid":"6020230307605084","contract_appid":"awofz9bncda6w2w4","plan_id":"48","out_contract_code":"100001258","request_serial":1,"contract_display_account":"测试账号","contract_notify_url":"https://yoursite.com"}
+   */
   private ContractInfo contractInfo;
 
   public String getAppid() {

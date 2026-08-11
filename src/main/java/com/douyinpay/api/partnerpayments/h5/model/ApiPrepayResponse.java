@@ -7,7 +7,12 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** PrepayResponse */
 public class ApiPrepayResponse {
-  /** h5Url 说明：支付跳转链接 */
+  /**
+   * 字段含义：H5支付跳转链接。
+   * 格式规则：URL。
+   * 业务规则：用于拉起抖音支付收银台中间页；有效期为 5 分钟，失效后需重新请求下单接口获取新的 h5_url。
+   * 示例：https://cashier.ulpay.com/bytepay-cashdesk/bytepay-invoke?prepay_id=dy96y894ox66yv43x10uquv34s5s7sx3oso28squqsx
+   */
   @SerializedName("h5_url")
   private String h5Url;
 

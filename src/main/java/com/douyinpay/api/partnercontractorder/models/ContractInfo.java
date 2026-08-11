@@ -4,28 +4,68 @@ import com.douyinpay.util.StringUtil;
 import com.google.gson.annotations.SerializedName;
 
 public class ContractInfo {
-    /** 签约商户号 */
+    /**
+     * 字段含义：签约商户号。
+     * 格式规则：字符串。
+     * 业务规则：必须与 sub_mchid 保持一致。
+     * 示例：6020230307605000
+     */
     @SerializedName("contract_mchid")
     private String contractMerchantId;
-    /** 签约appid */
+    /**
+     * 字段含义：签约应用ID。
+     * 格式规则：字符串。
+     * 业务规则：必须与 sub_appid 保持一致。
+     * 示例：awofz9bncda6x700
+     */
     @SerializedName("contract_appid")
     private String contractAppId;
-    /** 模版id */
+    /**
+     * 字段含义：模板ID。
+     * 格式规则：字符串。
+     * 业务规则：联系抖音支付运营申请。
+     * 示例：48
+     */
     @SerializedName("plan_id")
     private String planId;
-    /** 签约协议号 */
+    /**
+     * 字段含义：签约协议号。
+     * 格式规则：字符串。
+     * 业务规则：由商户生成，只能是数字和大小写字母组成的描述。
+     * 示例：100001258
+     */
     @SerializedName("out_contract_code")
     private String outContractCode;
-    /** 请求序列号 */
+    /**
+     * 字段含义：请求序列号。
+     * 格式规则：int64 整数。
+     * 业务规则：商户请求签约时的唯一序列号；禁止使用 0 开头，且取值范围不能超过 int64 上限。
+     * 示例：1
+     */
     @SerializedName("request_serial")
     private Long requestSerial;
-    /** 用户账户展示名称 */
+    /**
+     * 字段含义：用户账户展示名称。
+     * 格式规则：字符串。
+     * 业务规则：用于页面展示；参数值不支持 UTF8 非 3 字节编码字符，例如表情符号。
+     * 示例：测试账号
+     */
     @SerializedName("contract_display_account")
     private String contractDisplayAccount;
-    /** 签约信息通知url */
+    /**
+     * 字段含义：签约信息通知地址。
+     * 格式规则：HTTPS 外网可访问地址，且不能携带参数。
+     * 业务规则：用于接收签约结果通知。
+     * 示例：https://www.mock.douyinpay.com/contract/notify
+     */
     @SerializedName("contract_notify_url")
     private String contractNotifyUrl;
-    /** 签约拓展业务参数 */
+    /**
+     * 字段含义：签约扩展业务参数。
+     * 格式规则：JSON 字符串。
+     * 业务规则：仅与抖音支付线下约定后使用。
+     * 示例：
+     */
     @SerializedName("contract_ext")
     private String contractExt;
     public String getContractMerchantId() {

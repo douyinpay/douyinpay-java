@@ -7,18 +7,27 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApiQueryOrderByIdRequest {
     /**
-     * 支付订单号
+     * 字段含义：抖音支付订单号。
+     * 格式规则：字符串。
+     * 业务规则：由抖音支付系统生成，用于唯一标识支付订单。
+     * 示例：21000125010103000993845300000
      */
     @SerializedName("transaction_id")
     @Expose(serialize = false)
     private String transactionId;
     /**
-     * 服务商户号
+     * 字段含义：服务商户号。
+     * 格式规则：字符串。
+     * 业务规则：由抖音支付生成并下发，用于标识服务商主体。
+     * 示例：6020230301343000
      */
     @SerializedName("sp_mchid")
     private String spMchid;
     /**
-     * 子商户号
+     * 字段含义：子商户号。
+     * 格式规则：字符串。
+     * 业务规则：由抖音支付生成并下发，用于标识子商户主体。
+     * 示例：6020230307605000
      */
     @SerializedName("sub_mchid")
     private String subMchid;
@@ -30,34 +39,20 @@ public class ApiQueryOrderByIdRequest {
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
     }
-    /**
-     * 服务商户号
-     */
     public String getSpMchid() {
         return spMchid;
     }
 
-    /**
-     * 服务商户号
-     */
     public void setSpMchid(String spMchid) {
         this.spMchid = spMchid;
     }
-    /**
-     * 子商户号
-     */
     public String getSubMchid() {
         return subMchid;
     }
 
-    /**
-     * 子商户号
-     */
     public void setSubMchid(String subMchid) {
         this.subMchid = subMchid;
     }
-
-    
 
     @Override
     public String toString() {

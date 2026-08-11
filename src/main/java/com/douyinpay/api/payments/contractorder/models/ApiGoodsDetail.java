@@ -1,26 +1,50 @@
 package com.douyinpay.api.payments.contractorder.models;
 
-import com.google.gson.annotations.SerializedName;
-
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+import com.google.gson.annotations.SerializedName;
 
 /** GoodsDetail */
 public class ApiGoodsDetail {
-  /** 商户侧商品编码 说明：由半角的大小写字母、数字、中划线、下划线中的一种或几种组成。 */
+  /**
+   * 字段含义：商户侧商品编码。
+   * 格式规则：字符串，长度 1-32 位，由半角大小写字母、数字、中划线、下划线组成。
+   * 业务规则：当前接口文档未明确说明该字段的详细业务规则，暂保留字段定义以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("merchant_goods_id")
   private String merchantGoodsId;
 
-  /** 抖音支付定义的统一商品编号（没有可不传）。 */
+  /**
+   * 字段含义：抖音支付商品编码。
+   * 格式规则：字符串，长度 1-32 位。
+   * 业务规则：抖音支付定义的统一商品编号，没有可不传。
+   * 示例：
+   */
   @SerializedName("douyinpay_goods_id")
   private String douyinpayGoodsId;
-  /** 商品名称 说明：商品的实际名称。 */
+  /**
+   * 字段含义：商品名称。
+   * 格式规则：字符串，长度 1-256 位。
+   * 业务规则：当前接口文档未明确说明该字段的详细业务规则，暂保留字段定义以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("goods_name")
   private String goodsName;
-  /** 商品数量 说明：用户购买的数量。 */
+  /**
+   * 字段含义：商品数量。
+   * 格式规则：整数。
+   * 业务规则：当前接口文档未明确说明该字段的详细业务规则，暂保留字段定义以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("quantity")
   private Integer quantity;
-  /** 商品单价 说明：商品单价，单位为分。 */
+  /**
+   * 字段含义：商品单价。
+   * 格式规则：单位为分的整数。
+   * 业务规则：当前接口文档未明确说明该字段的详细业务规则，暂保留字段定义以兼容现有模型。
+   * 示例：
+   */
   @SerializedName("unit_price")
   private Integer unitPrice;
 
@@ -51,6 +75,7 @@ public class ApiGoodsDetail {
   public Integer getUnitPrice() {
     return unitPrice;
   }
+
   public String getDouyinpayGoodsId() {
     return douyinpayGoodsId;
   }
@@ -58,6 +83,7 @@ public class ApiGoodsDetail {
   public void setDouyinpayGoodsId(String douyinpayGoodsId) {
     this.douyinpayGoodsId = douyinpayGoodsId;
   }
+
   public void setUnitPrice(Integer unitPrice) {
     this.unitPrice = unitPrice;
   }

@@ -18,17 +18,18 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.util.PemUtil;
 
-
+/**
+ * 平台证书服务。
+ */
 public class ApiCertificateService {
 
     private final DouyinpayClient douyinpayClient;
-    private final DomainName domainName;//请求域名
+    private final DomainName domainName;// 请求域名
 
     private ApiCertificateService(DouyinpayClient douyinpayClient, DomainName domainName) {
         this.douyinpayClient = douyinpayClient;
         this.domainName = domainName;
     }
-
 
     public static class Builder {
 
@@ -70,7 +71,6 @@ public class ApiCertificateService {
     public String getRequestUrl() {
         String domainName = DomainName.API.getValue();
 
-
         if (this.domainName != null) {
             domainName = this.domainName.getValue();
         }
@@ -78,12 +78,10 @@ public class ApiCertificateService {
         return domainName;
     }
 
-
     /**
      * 获取平台证书
      *
-     * @param
-     * @return
+     * @return DownCertificatesResponse
      */
     public DownCertificatesResponse getPlatformCertificates() {
 
@@ -93,16 +91,27 @@ public class ApiCertificateService {
         // 发起请求
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.GET, requestUrl, requestPath, null, null);
 
-        DouyinpayResponse<DownCertificatesResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, DownCertificatesResponse.class);
+        DouyinpayResponse<DownCertificatesResponse> apiResponse = douyinpayClient.execute(douyinpayRequest,
+                DownCertificatesResponse.class);
 
         return apiResponse.getApiResponse();
     }
 
+    /**
+     * 下载并解密平台证书。
+     *
+     * 相关文档（底层依赖平台证书下载接口）：
+     * https://pay.douyinpay.com/wiki/63984677e9a722021c2c882e/6808a33e12c1e0050033514e
+     *
+     * @param encryptKey 接口加密密钥
+     * @return 平台证书列表
+     */
     public List<X509Certificate> downloadCertificate(String encryptKey) {
 
         DownCertificatesResponse downCertificatesResponse = getPlatformCertificates();
 
-        if (downCertificatesResponse == null || downCertificatesResponse.getCertificates() == null || downCertificatesResponse.getCertificates().isEmpty()) {
+        if (downCertificatesResponse == null || downCertificatesResponse.getCertificates() == null
+                || downCertificatesResponse.getCertificates().isEmpty()) {
             throw new DouyinpayException("Download certificates response is null");
         }
 

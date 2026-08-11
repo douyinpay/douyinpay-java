@@ -6,16 +6,36 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** 商户门店信息 （预留字段）*/
 public class ApiStoreInfo {
-  /** 门店编号 说明：商户侧门店编号 */
+  /**
+   * 字段含义：门店编号。
+   * 格式规则：字符串。
+   * 业务规则：表示商户侧门店编号。
+   * 示例：0001
+   */
   @SerializedName("id")
   private String id;
-  /** 门店名称 说明：商户侧门店名称 */
+  /**
+   * 字段含义：门店名称。
+   * 格式规则：字符串。
+   * 业务规则：表示商户侧门店名称。
+   * 示例：测试店铺
+   */
   @SerializedName("name")
   private String name;
-  /** 地区编码 说明：地区编码，详细请见抖音支付提供的文档 */
+  /**
+   * 字段含义：地区编码。
+   * 格式规则：地区编码字符串。
+   * 业务规则：取值请以抖音支付开放文档提供的地区编码表为准。
+   * 示例：440305
+   */
   @SerializedName("area_code")
   private String areaCode;
-  /** 详细地址 说明：详细的商户门店地址 */
+  /**
+   * 字段含义：详细地址。
+   * 格式规则：字符串。
+   * 业务规则：表示商户门店的详细地址。
+   * 示例：北京市海淀区中关村大街
+   */
   @SerializedName("address")
   private String address;
 

@@ -6,7 +6,11 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** PrepayResponse */
 public class ApiPrepayResponse {
-  /** codeUrl 说明：预支付交易会话标识 */
+  /**
+   * 字段含义：二维码链接。
+   * 格式规则：URL。
+   * 业务规则：由 Native 下单接口返回，商户需将该链接生成二维码供用户扫码支付。
+   */
   @SerializedName("code_url")
   private String codeUrl;
 

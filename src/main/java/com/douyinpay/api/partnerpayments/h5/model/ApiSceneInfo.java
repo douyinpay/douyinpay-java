@@ -6,18 +6,43 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** 支付场景描述 */
 public class ApiSceneInfo {
-  /** 用户终端IP 说明：用户终端IP */
+  /**
+   * 字段含义：用户终端 IP。
+   * 格式规则：IP 地址字符串。
+   * 业务规则：用于标识发起支付请求的用户终端 IP。
+   * 示例：14.23.150.211
+   */
   @SerializedName("payer_client_ip")
   private String payerClientIp;
-  /** 商户端设备号 说明：商户端设备号 （预留字段）*/
+  /**
+   * 字段含义：商户端设备号。
+   * 格式规则：字符串。
+   * 业务规则：预留字段，可用于标识商户侧设备。
+   * 示例：013467007045764
+   */
   @SerializedName("device_id")
   private String deviceId;
-  /** 用户终端ID 说明： 用户终端ID */
+  /**
+   * 字段含义：用户终端 ID。
+   * 格式规则：字符串。
+   * 业务规则：用于补充 H5 支付场景下的终端标识。
+   * 示例：device-001
+   */
   @SerializedName("payer_device_id")
   private String payerDeviceId;
-  /** storeInfo */
+  /**
+   * 字段含义：门店信息。
+   * 格式规则：对象。
+   * 业务规则：用于补充门店编号、名称和地址等信息。
+   * 示例：
+   */
   @SerializedName("store_info")
   private ApiStoreInfo storeInfo;
+  /**
+   * 字段含义：H5 场景信息。
+   * 格式规则：对象。
+   * 业务规则：用于补充 H5 拉起支付场景的应用信息。
+   */
   @SerializedName("h5_info")
   private ApiH5Info h5Info;
 

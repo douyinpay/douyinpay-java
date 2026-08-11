@@ -12,6 +12,15 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
 
+/**
+ * 退款服务。
+ *
+ * 官方文档：
+ * - 申请退款：POST /v1/trade/refund/domestic/refunds
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/639fd61817c2f3021d238235
+ * - 查询单笔退款：GET /v1/trade/refund/domestic/refunds/{out_refund_no}
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/639fd62c17c2f3021d23826f
+ */
 public class ApiRefundService {
 
     private final DouyinpayClient douyinpayClient;
@@ -75,8 +84,11 @@ public class ApiRefundService {
     /**
      * 退款申请
      *
-     * @param request
-     * @return
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/639fd61817c2f3021d238235
+     *
+     * @param request 请求参数
+     * @return ApiRefund
      */
     public ApiRefund create(ApiCreateRequest request) {
         String requestPath = "/v1/trade/refund/domestic/refunds";
@@ -94,7 +106,10 @@ public class ApiRefundService {
     /**
      * 查询单笔退款（通过商户退款单号）
      *
-     * @param request
+     * 官方文档：
+     * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/639fd62c17c2f3021d23826f
+     *
+     * @param request 请求参数
      * @return ApiRefund
      */
     public ApiRefund queryByOutRefundNo(ApiQueryByOutRefundNoRequest request) {

@@ -3,10 +3,20 @@ import com.douyinpay.util.StringUtil;
 import com.google.gson.annotations.SerializedName;
 
 public class Amount {
-  /** 总金额 */
+  /**
+   * 字段含义：总金额。
+   * 格式规则：单位为分的整数。
+   * 业务规则：表示订单总金额。
+   * 示例：100
+   */
   @SerializedName("total")
   private Integer total;
-  /** 货币种类 */
+  /**
+   * 字段含义：货币类型。
+   * 格式规则：符合 ISO 4217 标准的三位字母代码。
+   * 业务规则：境内商户号当前仅支持人民币。
+   * 示例：CNY
+   */
   @SerializedName("currency")
   private String currency;
 

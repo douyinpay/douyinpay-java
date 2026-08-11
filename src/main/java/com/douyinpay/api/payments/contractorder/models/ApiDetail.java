@@ -1,29 +1,37 @@
 
 package com.douyinpay.api.payments.contractorder.models;
 
-import com.google.gson.annotations.SerializedName;
+import static com.douyinpay.util.StringUtil.toIndentedString;
 
 import java.util.List;
 
-import static com.douyinpay.util.StringUtil.toIndentedString;
-
+import com.google.gson.annotations.SerializedName;
 
 /**
- * 优惠功能
+ * 优惠信息。
  */
 public class ApiDetail {
     /**
-     * 订单原价
+     * 字段含义：订单原价。
+     * 格式规则：单位为分的整数。
+     * 业务规则：当前接口文档未明确说明该字段的详细业务规则，暂保留字段定义以兼容现有模型。
+     * 示例：
      */
     @SerializedName("cost_price")
     private Integer costPrice;
     /**
-     * 商品小票ID 说明：商家小票ID。
+     * 字段含义：商品小票ID。
+     * 格式规则：字符串，长度 1-32 位。
+     * 业务规则：当前接口文档未明确说明该字段的详细业务规则，暂保留字段定义以兼容现有模型。
+     * 示例：
      */
     @SerializedName("invoice_id")
     private String invoiceId;
     /**
-     * 单品列表 说明：
+     * 字段含义：单品列表。
+     * 格式规则：数组。
+     * 业务规则：预留字段，商户无需传入。
+     * 示例：
      */
     @SerializedName("goods_detail")
     private List<ApiGoodsDetail> goodsDetail;

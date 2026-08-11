@@ -13,15 +13,26 @@ import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.component.http.QueryParameter;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
-import com.douyinpay.util.StringUtil; 
+import com.douyinpay.util.StringUtil;
 
-public class ApiPartnerJsapiPaymentService{
+/**
+ * 服务商 JSAPI 支付服务。
+ *
+ * 官方文档：
+ * - JSAPI 下单：POST /v1/trade/partner/transactions/jsapi
+ * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/682c7ac472716004fec827a0
+ * - 查询订单：GET /v1/trade/partner/transactions/id/{transaction_id}
+ * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb22fe022d05166966c5
+ * - 关闭订单：POST /v1/trade/partner/transactions/out-trade-no/{out_trade_no}/close
+ * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb25d479e6051ac20fb4
+ */
+public class ApiPartnerJsapiPaymentService {
 
     private final String OUT_TRADE_NO_PATTERN = "{out_trade_no}";
     private final String TRANSACTION_ID_PATTERN = "{transaction_id}";
 
     private final DouyinpayClient douyinpayClient;
-    private final DomainName domainName;//请求域名
+    private final DomainName domainName;// 请求域名
 
     private ApiPartnerJsapiPaymentService(DouyinpayClient douyinpayClient, DomainName domainName) {
         this.douyinpayClient = douyinpayClient;
@@ -67,16 +78,18 @@ public class ApiPartnerJsapiPaymentService{
     public String getRequestUrl() {
         String domainName = DomainName.API.getValue();
 
-
         if (this.domainName != null) {
             domainName = this.domainName.getValue();
         }
 
         return domainName;
     }
-    
+
     /**
-     * jsapi支付下单
+     * JSAPI 支付下单。
+     *
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/682c7ac472716004fec827a0
      *
      * @param request 请求参数
      * @return PrepayResponse
@@ -85,31 +98,31 @@ public class ApiPartnerJsapiPaymentService{
         String requestPath = "/v1/trade/partner/transactions/jsapi";
         String requestUrl = getRequestUrl();
 
-
         String body = GsonUtil.objectToJson(request);
 
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, requestPath, null, body);
 
-        DouyinpayResponse<ApiPrepayResponse> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiPrepayResponse.class);
+        DouyinpayResponse<ApiPrepayResponse> apiResponse = douyinpayClient.execute(douyinpayRequest,
+                ApiPrepayResponse.class);
 
         return apiResponse.getApiResponse();
     }
 
-
     /**
-     * 关闭订单
+     * 关闭订单。
      *
-     * @param request
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb25d479e6051ac20fb4
+     *
+     * @param request 请求参数
      */
     public void closeOrder(ApiCloseOrderRequest request) {
         String requestUrl = getRequestUrl();
 
         String requestPath = "/v1/trade/partner/transactions/out-trade-no/{out_trade_no}/close";
 
-
         // 添加 path param
         requestPath = requestPath.replace(OUT_TRADE_NO_PATTERN, StringUtil.urlEncode(request.getOutTradeNo()));
-
 
         String body = GsonUtil.objectToJson(request);
 
@@ -117,20 +130,21 @@ public class ApiPartnerJsapiPaymentService{
 
         douyinpayClient.execute(douyinpayRequest, null);
 
-
     }
 
     /**
-     * 根据支付订单号查询订单
+     * 根据支付订单号查询订单。
      *
-     * @param request
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb22fe022d05166966c5
+     *
+     * @param request 请求参数
      * @return ApiTransaction
      */
     public ApiTransaction queryOrderById(ApiQueryOrderByIdRequest request) {
 
         String requestPath = "/v1/trade/partner/transactions/id/{transaction_id}";
         String requestUrl = getRequestUrl();
-
 
         // 添加 path param
         requestPath = requestPath.replace(TRANSACTION_ID_PATTERN, StringUtil.urlEncode(request.getTransactionId()));
@@ -145,7 +159,6 @@ public class ApiPartnerJsapiPaymentService{
         }
         requestPath += queryParameter.getQueryStr();
 
-
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.GET, requestUrl, requestPath, null, null);
 
         DouyinpayResponse<ApiTransaction> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiTransaction.class);
@@ -153,12 +166,14 @@ public class ApiPartnerJsapiPaymentService{
         return apiResponse.getApiResponse();
     }
 
-
     /**
-     * 根据商户订单号查询订单
+     * 根据商户订单号查询订单。
      *
-     * @param request
-     * @return
+     * 官方文档：
+     * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/6852bb22fe022d05166966c5
+     *
+     * @param request 请求参数
+     * @return ApiTransaction
      */
     public ApiTransaction queryOrderByOutTradeNo(ApiQueryOrderByOutTradeNoRequest request) {
 
@@ -178,13 +193,11 @@ public class ApiPartnerJsapiPaymentService{
         }
         requestPath += queryParameter.getQueryStr();
 
-
         DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.GET, requestUrl, requestPath, null, null);
-  
+
         DouyinpayResponse<ApiTransaction> apiResponse = douyinpayClient.execute(douyinpayRequest, ApiTransaction.class);
 
         return apiResponse.getApiResponse();
     }
 
 }
-
