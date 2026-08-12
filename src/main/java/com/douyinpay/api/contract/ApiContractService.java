@@ -79,7 +79,7 @@ public class ApiContractService {
      * 查询签约协议
      *
      * @param request 请求参数
-     * @return QueryContractResponse
+     * @return ApiQueryContractResponse
      */
     public ApiQueryContractResponse queryContract(ApiQueryContractRequest request) {
         String requestPath = "/v1/member/querycontract";
@@ -98,7 +98,7 @@ public class ApiContractService {
      * 删除签约协议
      *
      * @param request 请求参数
-     * @return DeleteContractResponse
+     * @return ApiDeleteContractResponse
      */
     public ApiDeleteContractResponse deleteContract(ApiDeleteContractRequest request) {
         String requestUrl = getRequestUrl();
@@ -118,7 +118,7 @@ public class ApiContractService {
      * app预签约下单
      *
      * @param request 请求参数
-     * @return PreContractResponse
+     * @return ApiPreEntrustWebResponse
      */
     public ApiPreEntrustWebResponse preEntrustWeb(ApiPreEntrustWebRequest request) {
         String requestUrl = getRequestUrl();
@@ -138,7 +138,7 @@ public class ApiContractService {
      * h5预签约下单
      *
      * @param request 请求参数
-     * @return PreContractResponse
+     * @return ApiH5EntrustWebResponse
      */
     public ApiH5EntrustWebResponse h5EntrustWeb(ApiH5EntrustWebRequest request) {
         String requestPath = "/v1/agreementauth/h5entrustweb";

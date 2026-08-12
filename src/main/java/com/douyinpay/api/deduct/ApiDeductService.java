@@ -183,6 +183,12 @@ public class ApiDeductService {
         return apiResponse.getApiResponse();
     }
 
+    /**
+     * 预约扣费通知
+     *
+     * @param request 请求参数
+     * @return ApiDeductNotifyResponse
+     */
     public ApiDeductNotifyResponse deductNotify(ApiDeductNotifyRequest request) {
         String requestPath = "/v1/agreementauth/deductNotify";
         String requestUrl = getRequestUrl();

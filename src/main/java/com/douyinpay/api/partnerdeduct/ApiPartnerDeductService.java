@@ -115,7 +115,7 @@ public class ApiPartnerDeductService {
      * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b9077f5de0546f6af87
      *
      * @param request 请求参数
-     * @return PrepayResponse
+     * @return ApiPartnerContractScheduleResponse
      */
     public ApiPartnerContractScheduleResponse partnerContractSchedule(ApiPartnerContractScheduleRequest request) {
         String requestPath = "/v1/agreementauth/partner/schedules/contract-id/{contract_id}/schedule";
@@ -142,7 +142,7 @@ public class ApiPartnerDeductService {
      * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b97a2b24a063d54b442
      *
      * @param request 请求参数
-     * @return PrepayResponse
+     * @return ApiPartnerQueryContractScheduleResponse
      */
     public ApiPartnerQueryContractScheduleResponse partnerQueryContractSchedule(ApiPartnerQueryContractScheduleRequest request) {
         String requestPath = "/v1/agreementauth/partner/schedules/contract-id/{contract_id}";
