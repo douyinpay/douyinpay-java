@@ -15,6 +15,15 @@ import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 
+/**
+ * 直连商户签约关系服务。
+ *
+ * 接口路径：
+ * - 查询签约协议：POST /v1/member/querycontract
+ * - 删除签约协议：POST /v1/member/deletecontract
+ * - APP 预签约下单：POST /v1/agreementauth/preentrustweb
+ * - H5 预签约下单：POST /v1/agreementauth/h5entrustweb
+ */
 public class ApiContractService {
 
     private final DouyinpayClient douyinpayClient;

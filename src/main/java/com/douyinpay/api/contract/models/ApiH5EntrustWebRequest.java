@@ -2,8 +2,9 @@ package com.douyinpay.api.contract.models;
 import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+/** H5 预签约下单请求参数。 */
 public class ApiH5EntrustWebRequest {
-        /** 应用ID*/
+        /** 应用 ID。 */
         @SerializedName("appid")
         private String appid;
 

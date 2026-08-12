@@ -92,7 +92,7 @@ public class ApiPartnerDeductService {
      * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b7e75a00b04c8aa2fd1
      *
      * @param request 请求参数
-     * @return PrepayResponse
+     * @return ApiPartnerDeductResponse
      */
     public ApiPartnerDeductResponse partnerDeduct(ApiPartnerDeductRequest request) {
         String requestPath = "/v1/trade/partner/deduct/payapply";

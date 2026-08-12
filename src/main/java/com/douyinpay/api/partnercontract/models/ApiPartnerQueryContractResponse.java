@@ -4,79 +4,79 @@ import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApiPartnerQueryContractResponse {
-    /*
+    /**
      * 服务商应用ID
      */
     @SerializedName("sp_appid")
     private String spAppid;
-    /*
+    /**
      * 服务商商户号
      */
     @SerializedName("sp_mchid")
     private String spMchid;
-    /*
+    /**
      * 子商户号
      */
     @SerializedName("sub_mchid")
     private String subMchid;
-    /*
+    /**
      * 子商户应用ID
      */
     @SerializedName("sub_appid")
     private String subAppid;
-    /*
+    /**
      * 委托代扣协议号 
      */
     @SerializedName("contract_id")
     private String contractId;
-    /*
+    /**
      * 委托代扣模板ID
      */
     @SerializedName("plan_id")
     private Integer planId;
-    /*
+    /**
      * 商户签约协议号 
      */
     @SerializedName("out_contract_code")
     private String outContractCode;
 
-    /*
+    /**
      * 用户账户展示名称 
      */
     @SerializedName("contract_display_account")
     private String contractDisplayAccount;
 
-    /*
+    /**
      * 委托代扣协议状态
      */
     @SerializedName("contract_state")
     private String contractState; 
 
-    /*
+    /**
      * 协议签署时间 
      */
     @SerializedName("contract_signed_time")
     private String contractSignedTime;
 
-    /*
+    /**
      * 协议到期时间 
      */
     @SerializedName("contract_expired_time")
     private String contractExpiredTime;
 
-    /*
+    /**
      * 协议解约信息
      */
     @SerializedName("contract_terminate_info")
     private ContractTerminateInfo contractTerminateInfo;
 
-    /*
+    /**
      * 子商户AppID对应的用户OpenID
      */
     @SerializedName("sub_openid")
     private String subOpenid;
 
-    /*
+    /**
      * 用户OpenID
      */
     @SerializedName("sp_openid")

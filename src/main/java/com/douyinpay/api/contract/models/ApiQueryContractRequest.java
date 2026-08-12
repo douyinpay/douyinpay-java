@@ -4,11 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+/** 查询直连商户签约协议请求参数。 */
 public class ApiQueryContractRequest {
     /** 商户号 说明：由抖音支付生成并下发。必须传递此参数 */
     @SerializedName("mchid")
     private String mchid;
 
+    /** 应用 ID，说明：由抖音支付生成并下发。 */
     @SerializedName("appid")
     private String appid;
 

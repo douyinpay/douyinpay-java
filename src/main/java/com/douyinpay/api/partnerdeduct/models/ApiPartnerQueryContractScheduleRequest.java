@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApiPartnerQueryContractScheduleRequest {
-    /*委托代扣协议 id */
+    /**委托代扣协议 id */
     @SerializedName("contract_id")
     private String contractId;
 
-    /*服务商商户号 */
+    /**服务商商户号 */
     @SerializedName("sp_mchid")
     private String spMchid;
 
-    /*子商户号 */
+    /**子商户号 */
     @SerializedName("sub_mchid")
     private String subMchid;
 

@@ -4,15 +4,15 @@ import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApiPartnerContractScheduleResponse {
-    /*可扣费开始日期 */
+    /**可扣费开始日期 */
     @SerializedName("deduct_start_date")
     private String deductStartDate;
 
-    /*可扣费结束日期 */
+    /**可扣费结束日期 */
     @SerializedName("deduct_end_date")
     private String deductEndDate;
 
-    /*已预约的扣费金额信息 */
+    /**已预约的扣费金额信息 */
     @SerializedName("scheduled_amount")
     private ScheduleAmount scheduledAmount;
 

@@ -2,8 +2,9 @@ package com.douyinpay.api.contract.models;
 import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+/** H5 预签约下单响应参数。 */
 public class ApiH5EntrustWebResponse {
-    /*跳转URL*/
+    /** 跳转 URL。 */
     @SerializedName("redirect_url")
     private String redirectUrl;
 

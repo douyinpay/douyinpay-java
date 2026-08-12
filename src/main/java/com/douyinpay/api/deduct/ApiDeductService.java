@@ -17,6 +17,16 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
 
+/**
+ * 直连商户代扣服务。
+ *
+ * 接口路径：
+ * - 申请扣款：POST /v1/deduct/payapply
+ * - 关闭订单：POST /v1/trade/transactions/out-trade-no/{out_trade_no}/close
+ * - 按抖音支付订单号查询订单：GET /v1/trade/transactions/id/{transaction_id}
+ * - 按商户订单号查询订单：GET /v1/trade/transactions/out-trade-no/{out_trade_no}
+ * - 预约扣费通知：POST /v1/agreementauth/deductNotify
+ */
 public class ApiDeductService {
 
     private final String OUT_TRADE_NO_PATTERN = "{out_trade_no}";

@@ -9,7 +9,7 @@ public class ApiPartnerTerminateContractRequest {
     @SerializedName("plan_id")
     private Integer planId;
 
-    /* 商户签约协议号*/
+    /** 商户签约协议号*/
     @SerializedName("out_contract_code")
     private String outContractCode;
     

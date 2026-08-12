@@ -2,8 +2,9 @@ package com.douyinpay.api.contract.models;
 import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+/** APP 预签约下单响应参数。 */
 public class ApiPreEntrustWebResponse {
-    /** 预签约id */
+    /** 预签约 ID。 */
     @SerializedName("pre_entrustweb_id")
     private String preEntrustwebId ;
 
