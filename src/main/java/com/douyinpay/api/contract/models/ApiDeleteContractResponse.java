@@ -22,7 +22,12 @@ public class ApiDeleteContractResponse {
     @SerializedName("out_contract_code")
     private String outContractCode;
 
-    /** SUCCESS/FAIL，标识业务处理结果，解约结果以查询或回调为准。 */
+    /**
+     * 字段含义：解约业务处理结果。
+     * 格式规则：枚举字符串。
+     * 业务规则：SUCCESS 表示处理成功，FAIL 表示处理失败；最终解约结果以查询或回调为准。
+     * 示例：SUCCESS
+     */
     @SerializedName("result_code")
     private String resultCode;
 

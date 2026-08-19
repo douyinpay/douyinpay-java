@@ -5,13 +5,22 @@ import com.google.gson.annotations.SerializedName;
 
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
-/** PrepayResponse */
+/** 扣款申请响应参数。 */
 public class ApiDeductResponse {
-  /** prepayId 说明：预支付交易会话标识 */
+  /**
+   * 字段含义：预支付交易会话标识。
+   * 格式规则：字符串。
+   * 业务规则：用于后续支付处理。
+   */
   @SerializedName("prepay_id")
   private String prepayId;
 
-    /** resultCode 说明：业务处理结果 */
+    /**
+     * 字段含义：业务处理结果。
+     * 格式规则：枚举字符串。
+     * 业务规则：SUCCESS 表示处理成功，FAIL 表示处理失败。
+     * 示例：SUCCESS
+     */
     @SerializedName("result_code")
     private String resultCode;
 

@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+/** 服务商解除签约关系请求参数。 */
 public class ApiPartnerTerminateContractRequest {
     /** 委托代扣模板ID */
     @SerializedName("plan_id")

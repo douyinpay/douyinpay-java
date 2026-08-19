@@ -3,6 +3,7 @@ package com.douyinpay.api.partnerdeduct.models;
 import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+/** 服务商预约扣费响应参数。 */
 public class ApiPartnerContractScheduleResponse {
     /**可扣费开始日期 */
     @SerializedName("deduct_start_date")

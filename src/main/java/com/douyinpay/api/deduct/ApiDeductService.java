@@ -57,10 +57,10 @@ public class ApiDeductService {
         }
 
         /**
-         * 设置自定义httpclient
+         * 设置自定义 HTTP 客户端。
          *
-         * @param douyinpayClient
-         * @return Builder
+         * @param douyinpayClient 自定义 HTTP 客户端
+         * @return 当前构建器
          */
         public Builder douyinpayClient(DouyinpayClient douyinpayClient) {
             this.douyinpayClient = douyinpayClient;
@@ -68,9 +68,9 @@ public class ApiDeductService {
         }
 
         /**
-         * 构造服务
+         * 构造直连商户代扣服务。
          *
-         * @return AppService
+         * @return ApiDeductService
          */
         public ApiDeductService build() {
             return new ApiDeductService(douyinpayClient, domainName);
@@ -91,7 +91,7 @@ public class ApiDeductService {
      * 申请扣款
      *
      * @param request 请求参数
-     * @return PrepayResponse
+     * @return ApiDeductResponse
      */
     public ApiDeductResponse deduct(ApiDeductRequest request) {
         String requestPath = "/v1/deduct/payapply";

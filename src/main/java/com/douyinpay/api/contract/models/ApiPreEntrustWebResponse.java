@@ -4,7 +4,11 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** APP 预签约下单响应参数。 */
 public class ApiPreEntrustWebResponse {
-    /** 预签约 ID。 */
+    /**
+     * 字段含义：预签约标识。
+     * 格式规则：字符串。
+     * 业务规则：用于标识本次 APP 预签约请求。
+     */
     @SerializedName("pre_entrustweb_id")
     private String preEntrustwebId ;
 

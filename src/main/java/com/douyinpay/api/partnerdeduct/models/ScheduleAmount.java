@@ -2,6 +2,7 @@ package com.douyinpay.api.partnerdeduct.models;
 import com.google.gson.annotations.SerializedName;
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+/** 预约扣费金额信息。 */
 public class ScheduleAmount {
     /**
      * 金额

@@ -53,10 +53,10 @@ public class ApiPartnerContractService {
         }
 
         /**
-         * 设置自定义httpclient
+         * 设置自定义 HTTP 客户端。
          *
-         * @param douyinpayClient
-         * @return Builder
+         * @param douyinpayClient 自定义 HTTP 客户端
+         * @return 当前构建器
          */
         public Builder douyinpayClient(DouyinpayClient douyinpayClient) {
             this.douyinpayClient = douyinpayClient;
@@ -64,9 +64,9 @@ public class ApiPartnerContractService {
         }
 
         /**
-         * 构造服务
+         * 构造服务商签约关系服务。
          *
-         * @return AppService
+         * @return ApiPartnerContractService
          */
         public ApiPartnerContractService build() {
             return new ApiPartnerContractService(douyinpayClient, domainName);

@@ -4,7 +4,11 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** H5 预签约下单响应参数。 */
 public class ApiH5EntrustWebResponse {
-    /** 跳转 URL。 */
+    /**
+     * 字段含义：预签约页面跳转地址。
+     * 格式规则：URL 字符串。
+     * 业务规则：用于跳转至预签约页面。
+     */
     @SerializedName("redirect_url")
     private String redirectUrl;
 

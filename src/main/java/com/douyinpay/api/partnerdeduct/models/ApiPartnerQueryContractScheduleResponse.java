@@ -5,6 +5,7 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 
 
+/** 服务商查询预约扣费结果响应参数。 */
 public class ApiPartnerQueryContractScheduleResponse {
     /**可扣费开始日期 */
     @SerializedName("deduct_start_date")

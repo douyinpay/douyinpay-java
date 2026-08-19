@@ -3,6 +3,7 @@ import com.google.gson.annotations.SerializedName;
 
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+/** 服务商查询签约关系响应参数。 */
 public class ApiPartnerQueryContractResponse {
     /**
      * 服务商应用ID

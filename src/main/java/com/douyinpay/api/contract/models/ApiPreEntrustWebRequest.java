@@ -4,35 +4,67 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** APP 预签约下单请求参数。 */
 public class ApiPreEntrustWebRequest {
-        /** 应用 ID。 */
+        /**
+         * 字段含义：直连商户应用 ID。
+         * 格式规则：字符串，由抖音支付生成并下发。
+         * 业务规则：与商户号匹配使用。
+         */
         @SerializedName("appid")
         private String appid;
 
-        /** 直联商户号 */
+        /**
+         * 字段含义：直连商户号。
+         * 格式规则：字符串，由抖音支付生成并下发。
+         * 业务规则：与应用 ID 匹配使用。
+         */
         @SerializedName("mchid")
         private String mchid;
     
-        /** 签约协议号 */
+        /**
+         * 字段含义：商户签约协议号。
+         * 格式规则：字符串。
+         * 业务规则：商户侧需保证在同一商户范围内唯一。
+         */
         @SerializedName("out_contract_code")
         private String outContractCode;
 
-        /** 模板id */
+        /**
+         * 字段含义：签约协议模板 ID。
+         * 格式规则：字符串或数字字符串。
+         * 业务规则：商户在抖音支付申请的签约模板标识。
+         */
         @SerializedName("plan_id")
         private String planId;
 
-        /** 请求序列号 */
+        /**
+         * 字段含义：商户请求签约时的序列号。
+         * 格式规则：正整数，取值不超过 Long 最大值。
+         * 业务规则：商户侧需保证唯一，主要用于排序，不作为查询条件。
+         */
         @SerializedName("request_serial")
         private Long requestSerial;
 
-        /** 用户账户展示名称 */
+        /**
+         * 字段含义：签约用户的账户展示名称。
+         * 格式规则：字符串。
+         * 业务规则：用于签约页面展示。
+         */
         @SerializedName("contract_display_account")
         private String contractDisplayAccount;
 
-        /** 回调通知url */
+        /**
+         * 字段含义：签约结果通知地址。
+         * 格式规则：以 http 或 https 开头的 URL，且不得携带参数。
+         * 业务规则：必须可被公网访问，用于接收签约成功通知。
+         */
         @SerializedName("notify_url")
         private String notifyUrl;
 
-        /** 签约拓展参数 */
+        /**
+         * 字段含义：签约扩展参数。
+         * 格式规则：JSON 字符串。
+         * 业务规则：仅在与抖音支付线下约定后使用。
+         */
         @SerializedName("contract_ext")
         private String contractExt;
 

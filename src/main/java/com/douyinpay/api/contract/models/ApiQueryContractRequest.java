@@ -6,11 +6,19 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 /** 查询直连商户签约协议请求参数。 */
 public class ApiQueryContractRequest {
-    /** 商户号 说明：由抖音支付生成并下发。必须传递此参数 */
+    /**
+     * 字段含义：直连商户号。
+     * 格式规则：字符串，由抖音支付生成并下发。
+     * 业务规则：必填，与应用 ID 匹配使用。
+     */
     @SerializedName("mchid")
     private String mchid;
 
-    /** 应用 ID，说明：由抖音支付生成并下发。 */
+    /**
+     * 字段含义：直连商户应用 ID。
+     * 格式规则：字符串，由抖音支付生成并下发。
+     * 业务规则：必填，与商户号匹配使用。
+     */
     @SerializedName("appid")
     private String appid;
 
