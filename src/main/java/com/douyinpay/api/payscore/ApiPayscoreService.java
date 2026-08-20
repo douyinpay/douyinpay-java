@@ -392,15 +392,14 @@ public class ApiPayscoreService {
      * 直连服务商解除用户授权关系。
      *
      * @param request 直连服务商解除授权请求参数
-     * @return 解除用户授权响应
      */
-    public ApiCreditSrvUnSignForSPResponse closeCreditServiceForSP(ApiCreditSrvUnSignForSPRequest request) {
+    public void closeCreditServiceForSP(ApiCreditSrvUnSignForSPRequest request) {
         String requestPath = "/v1/payscore/partner/permissions/authorization-code/{authorization_code}/terminate";
         requestPath = requestPath.replace(
                 OUT_AUTHORIZATION_CODE_PATTERN,
                 StringUtil.urlEncode(request.getAuthorizationCode()));
 
-        return executePartnerPost(requestPath, request, ApiCreditSrvUnSignForSPResponse.class);
+        executePartnerPost(requestPath, request, null);
     }
 
     /**
@@ -467,16 +466,15 @@ public class ApiPayscoreService {
      * 直连服务商同步服务订单信息。
      *
      * @param request 直连服务商同步服务订单信息请求参数
-     * @return 同步服务订单信息响应
      */
-    public ApiSynchronizeServiceOrderInfoForSPResponse synchronizeServiceOrderInfoForSP(
+    public void synchronizeServiceOrderInfoForSP(
             ApiSynchronizeServiceOrderInfoForSPRequest request) {
         String requestPath = "/v1/payscore/partner/serviceorder/{out_order_no}/sync";
         requestPath = requestPath.replace(
                 OUT_ORDER_NO_PATTERN,
                 StringUtil.urlEncode(request.getOutOrderNo()));
 
-        return executePartnerPost(requestPath, request, ApiSynchronizeServiceOrderInfoForSPResponse.class);
+        executePartnerPost(requestPath, request, null);
     }
 
     /**

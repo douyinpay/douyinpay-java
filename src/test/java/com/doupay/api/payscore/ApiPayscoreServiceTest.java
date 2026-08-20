@@ -36,6 +36,22 @@ public class ApiPayscoreServiceTest {
      */
     private final static String SERVICE_ID = "";
     /**
+     * 服务商商户号
+     */
+    private final static String SP_MCHID = "";
+    /**
+     * 服务商appid
+     */
+    private final static String SP_APPID = "";
+    /**
+     * 子商户商户号
+     */
+    private final static String SUB_MCHID = "";
+    /**
+     * 子商户appid
+     */
+    private final static String SUB_APPID = "";
+    /**
      * 对称加密的密钥
      */
     private final static String ENCRYPT_KEY = "";
@@ -457,7 +473,25 @@ public class ApiPayscoreServiceTest {
     public void testCreditSrvSignApplyForSP() {
         ApiPayscoreService apiPayscoreService = new ApiPayscoreService.Builder()
                 .douyinpayClient(douyinpayClient).domainName(DomainName.PAYSCORE_API).build();
-        ApiCreditSrvSignApplyForSPRequest request = signApplyRequest();
+        ApiCreditSrvSignApplyForSPRequest request = new ApiCreditSrvSignApplyForSPRequest();
+        request.setSpMchid(SP_MCHID);
+        request.setSpAppid(SP_APPID);
+        request.setSubMchid(SUB_MCHID);
+        request.setSubAppid(SUB_APPID);
+        request.setServiceId(SERVICE_ID);
+        request.setAuthorizationCode("AUTH_1666688488_1");
+        request.setNotifyUrl("https://www.test.com");
+        request.setAttach("attach");
+        request.setGoodsTag("{}");
+        request.setExtInfo("{}");
+        request.setSceneInfo(new SceneInfo());
+        request.getSceneInfo().setClientIp("127.0.0.1");
+        request.getSceneInfo().setDeviceId("123456");
+        request.getSceneInfo().setStoreInfo(new StoreInfo());
+        request.getSceneInfo().getStoreInfo().setId("1");
+        request.getSceneInfo().getStoreInfo().setName("测试门店");
+        request.getSceneInfo().getStoreInfo().setAreaCode("100000");
+        request.getSceneInfo().getStoreInfo().setAddress("1");
         System.out.println(request);
         try {
             ApiCreditSrvSignApplyForSPResponse response = apiPayscoreService.creditSrvSignApplyForSP(request);
@@ -474,7 +508,10 @@ public class ApiPayscoreServiceTest {
     public void testCreditSrvSignQueryForSP() {
         ApiPayscoreService apiPayscoreService = new ApiPayscoreService.Builder()
                 .douyinpayClient(douyinpayClient).domainName(DomainName.PAYSCORE_API).build();
-        ApiCreditSrvSignQueryForSPRequest request = signQueryRequest();
+        ApiCreditSrvSignQueryForSPRequest request = new ApiCreditSrvSignQueryForSPRequest();
+        request.setSpMchid(SP_MCHID);
+        request.setSubMchid(SUB_MCHID);
+        request.setServiceId(SERVICE_ID);
         request.setAuthorizationCode("AUTH_1666688488");
         System.out.println(request);
         try {
@@ -492,12 +529,17 @@ public class ApiPayscoreServiceTest {
     public void testCloseCreditServiceForSP() {
         ApiPayscoreService apiPayscoreService = new ApiPayscoreService.Builder()
                 .douyinpayClient(douyinpayClient).domainName(DomainName.PAYSCORE_API).build();
-        ApiCreditSrvUnSignForSPRequest request = unSignRequest();
+        ApiCreditSrvUnSignForSPRequest request = new ApiCreditSrvUnSignForSPRequest();
+        request.setSpMchid(SP_MCHID);
+        request.setSpAppid(SP_APPID);
+        request.setSubMchid(SUB_MCHID);
+        request.setSubAppid(SUB_APPID);
+        request.setServiceId(SERVICE_ID);
         request.setAuthorizationCode("AUTH_1666688488");
+        request.setReason("解约");
         System.out.println(request);
         try {
-            ApiCreditSrvUnSignForSPResponse response = apiPayscoreService.closeCreditServiceForSP(request);
-            System.out.println(response);
+            apiPayscoreService.closeCreditServiceForSP(request);
             Assert.assertNotNull(0);
         } catch (ServiceException e) {
             System.out.printf("code:%s,message:%s,httpbody:%s\n", e.getErrorCode(), e.getErrorMessage(), e.getResponseBody());
@@ -510,12 +552,67 @@ public class ApiPayscoreServiceTest {
     public void testCreateServiceOrderForSP() {
         ApiPayscoreService apiPayscoreService = new ApiPayscoreService.Builder()
                 .douyinpayClient(douyinpayClient).domainName(DomainName.PAYSCORE_API).build();
-        ApiCreateServiceOrderForSPRequest request = createOrderRequest();
+        ApiCreateServiceOrderForSPRequest request = new ApiCreateServiceOrderForSPRequest();
+        request.setSpMchid(SP_MCHID);
+        request.setSpAppid(SP_APPID);
+        request.setSubMchid(SUB_MCHID);
+        request.setSubAppid(SP_APPID);
+        request.setServiceId(SERVICE_ID);
         request.setOutOrderNo("OUT_1666688488");
         request.setAuthorizationCode("AUTH_1666688488");
         request.setServiceIntroduction("某某酒店");
         request.setNotifyUrl("https://service-provider.example.com/callback");
+        request.setAttach("attach");
 
+        RiskFund riskFund = new RiskFund();
+        riskFund.setAmount(1);
+        riskFund.setName("ESTIMATE_ORDER_COST");
+        riskFund.setDescription("预估订单费用");
+        request.setRiskFund(riskFund);
+
+        PostItem pi = new PostItem();
+        pi.setAmount(1);
+        pi.setCount(1);
+        pi.setDescription("测试");
+        pi.setName("测试");
+        List<PostItem> postList = new ArrayList<>();
+        postList.add(pi);
+        request.setPostPayments(postList);
+
+        PostItem pi2 = new PostItem();
+        pi2.setAmount(1);
+        pi2.setCount(1);
+        pi2.setDescription("测试");
+        pi2.setName("测试");
+        List<PostItem> postList2 = new ArrayList<>();
+        postList.add(pi2);
+        request.setPostDiscounts(postList2);
+
+        TimeRange tr = new TimeRange();
+        tr.setStartTime("20220806091010");
+        tr.setStartTimeRemark("开始时间");
+        tr.setEndTime("20220806091010");
+        tr.setEndTimeRemark("结束时间");
+        request.setTimeRange(tr);
+
+        Location location = new Location();
+        location.setStartLocation("北京市海淀区北三环西路43号");
+        location.setEndLocation("北京市海淀区北三环西路43号");
+        request.setLocation(location);
+
+        SceneInfo sceneInfo = new SceneInfo();
+        sceneInfo.setClientIp("127.0.0.1");
+        sceneInfo.setDeviceId("013467007045764");
+        sceneInfo.setStoreInfo(new StoreInfo());
+        request.getSceneInfo().getStoreInfo().setId("1");
+        request.getSceneInfo().getStoreInfo().setName("测试门店");
+        request.getSceneInfo().getStoreInfo().setAreaCode("100000");
+        request.getSceneInfo().getStoreInfo().setAddress("1");
+        request.setSceneInfo(sceneInfo);
+
+        request.setNeedUserConfirm(false);
+        request.setGoodsTag("{}");
+        request.setExtInfo("{}");
         System.out.println(request);
         try {
             ApiCreateServiceOrderForSPResponse response = apiPayscoreService.createServiceOrderForSP(request);
@@ -532,9 +629,57 @@ public class ApiPayscoreServiceTest {
     public void testCompleteServiceOrderForSP() {
         ApiPayscoreService apiPayscoreService = new ApiPayscoreService.Builder()
                 .douyinpayClient(douyinpayClient).domainName(DomainName.PAYSCORE_API).build();
-        ApiCompleteServiceOrderForSPRequest request = completeOrderRequest();
+        ApiCompleteServiceOrderForSPRequest request = new ApiCompleteServiceOrderForSPRequest();
+        request.setSpMchid(SP_MCHID);
+        request.setSpAppid(SP_APPID);
+        request.setSubMchid(SUB_MCHID);
+        request.setSubAppid(SP_APPID);
+        request.setServiceId(SERVICE_ID);
         request.setOutOrderNo("OUT_1666688488");
-        request.setTotalAmount(10000L);
+        request.setTotalAmount(1);
+        request.setAttach("attach");
+
+        PostItem pi = new PostItem();
+        pi.setAmount(1);
+        pi.setCount(1);
+        pi.setDescription("测试");
+        pi.setName("测试");
+        List<PostItem> postList = new ArrayList<>();
+        postList.add(pi);
+        request.setPostPayments(postList);
+
+        PostItem pi2 = new PostItem();
+        pi2.setAmount(1);
+        pi2.setCount(1);
+        pi2.setDescription("测试");
+        pi2.setName("测试");
+        List<PostItem> postList2 = new ArrayList<>();
+        postList.add(pi2);
+        request.setPostDiscounts(postList2);
+
+        TimeRange tr = new TimeRange();
+        tr.setStartTime("20220806091010");
+        tr.setStartTimeRemark("开始时间");
+        tr.setEndTime("20220806091010");
+        tr.setEndTimeRemark("结束时间");
+        request.setTimeRange(tr);
+
+        Location location = new Location();
+        location.setStartLocation("北京市海淀区北三环西路43号");
+        location.setEndLocation("北京市海淀区北三环西路43号");
+        request.setLocation(location);
+
+        SceneInfo sceneInfo = new SceneInfo();
+        sceneInfo.setClientIp("127.0.0.1");
+        sceneInfo.setDeviceId("013467007045764");
+        sceneInfo.setStoreInfo(new StoreInfo());
+        request.getSceneInfo().getStoreInfo().setId("1");
+        request.getSceneInfo().getStoreInfo().setName("测试门店");
+        request.getSceneInfo().getStoreInfo().setAreaCode("100000");
+        request.getSceneInfo().getStoreInfo().setAddress("1");
+        request.setSceneInfo(sceneInfo);
+
+        request.setGoodsTag("{}");
 
         System.out.println(request);
         try {
@@ -552,7 +697,12 @@ public class ApiPayscoreServiceTest {
     public void testQueryServiceOrderForSP() {
         ApiPayscoreService apiPayscoreService = new ApiPayscoreService.Builder()
                 .douyinpayClient(douyinpayClient).domainName(DomainName.PAYSCORE_API).build();
-        ApiQueryServiceOrderForSPRequest request = queryOrderRequest();
+        ApiQueryServiceOrderForSPRequest request = new ApiQueryServiceOrderForSPRequest();
+        request.setSpMchid(SP_MCHID);
+        request.setSpAppid(SP_APPID);
+        request.setSubMchid(SUB_MCHID);
+        request.setSubAppid(SP_APPID);
+        request.setServiceId(SERVICE_ID);
         request.setOutOrderNo("OUT_1666688488");
         System.out.println(request);
         try {
@@ -570,7 +720,12 @@ public class ApiPayscoreServiceTest {
     public void testCancelServiceOrderForSP() {
         ApiPayscoreService apiPayscoreService = new ApiPayscoreService.Builder()
                 .douyinpayClient(douyinpayClient).domainName(DomainName.PAYSCORE_API).build();
-        ApiCancelServiceOrderForSPRequest request = cancelOrderRequest();
+        ApiCancelServiceOrderForSPRequest request = new ApiCancelServiceOrderForSPRequest();
+        request.setSpMchid(SP_MCHID);
+        request.setSpAppid(SP_APPID);
+        request.setSubMchid(SUB_MCHID);
+        request.setSubAppid(SUB_APPID);
+        request.setServiceId(SERVICE_ID);
         request.setOutOrderNo("OUT_1666688488");
         request.setReason("用户取消");
 
@@ -590,19 +745,22 @@ public class ApiPayscoreServiceTest {
     public void testSynchronizeServiceOrderInfoForSP() {
         ApiPayscoreService apiPayscoreService = new ApiPayscoreService.Builder()
                 .douyinpayClient(douyinpayClient).domainName(DomainName.PAYSCORE_API).build();
-        ApiSynchronizeServiceOrderInfoForSPRequest request = synchronizeOrderRequest();
-        request.setOutOrderNo("OUT_1666688488");
+        ApiSynchronizeServiceOrderInfoForSPRequest request = new ApiSynchronizeServiceOrderInfoForSPRequest();
+        request.setSpMchid(SP_MCHID);
+        request.setSpAppid(SP_APPID);
+        request.setSubMchid(SUB_MCHID);
+        request.setSubAppid(SUB_APPID);
+        request.setServiceId(SERVICE_ID);
         request.setType("ORDER_PAID");
+        request.setOutOrderNo("OUT_1666688488");
 
         SyncDetail detail = new SyncDetail();
         detail.setPaidTime("20220806091010");
         request.setDetail(detail);
         System.out.println(request);
         try {
-            ApiSynchronizeServiceOrderInfoForSPResponse response =
-                    apiPayscoreService.synchronizeServiceOrderInfoForSP(request);
-            System.out.println(response);
-            Assert.assertNotNull(response);
+            apiPayscoreService.synchronizeServiceOrderInfoForSP(request);
+            Assert.assertNotNull(0);
         } catch (ServiceException e) {
             System.out.printf("code:%s,message:%s,httpbody:%s\n", e.getErrorCode(), e.getErrorMessage(), e.getResponseBody());
         } catch (DouyinpayException e) {
@@ -614,10 +772,33 @@ public class ApiPayscoreServiceTest {
     public void testModifyAmountForSP() {
         ApiPayscoreService apiPayscoreService = new ApiPayscoreService.Builder()
                 .douyinpayClient(douyinpayClient).domainName(DomainName.PAYSCORE_API).build();
-        ApiModifyAmountForSPRequest request = modifyAmountRequest();
+        ApiModifyAmountForSPRequest request = new ApiModifyAmountForSPRequest();
+        request.setSpMchid(SP_MCHID);
+        request.setSpAppid(SP_APPID);
+        request.setSubMchid(SUB_MCHID);
+        request.setSubAppid(SUB_APPID);
+        request.setServiceId(SERVICE_ID);
         request.setOutOrderNo("OUT_1666688488");
-        request.setTotalAmount(9000L);
+        request.setTotalAmount(2);
         request.setReason("修改原因");
+
+        PostItem pi = new PostItem();
+        pi.setAmount(1);
+        pi.setCount(1);
+        pi.setDescription("测试");
+        pi.setName("测试");
+        List<PostItem> postList = new ArrayList<>();
+        postList.add(pi);
+        request.setPostPayments(postList);
+
+        PostItem pi2 = new PostItem();
+        pi2.setAmount(1);
+        pi2.setCount(1);
+        pi2.setDescription("测试");
+        pi2.setName("测试");
+        List<PostItem> postList2 = new ArrayList<>();
+        postList.add(pi2);
+        request.setPostDiscounts(postList2);
 
         System.out.println(request);
         try {
@@ -630,118 +811,4 @@ public class ApiPayscoreServiceTest {
             System.out.println(e.getMessage());
         }
     }
-
-    private ApiCreditSrvSignApplyForSPRequest signApplyRequest() {
-        ApiCreditSrvSignApplyForSPRequest request = new ApiCreditSrvSignApplyForSPRequest();
-        request.setSpMchid("1900000109");
-        request.setSpAppid("awofz9bncda6w2w4");
-        request.setSubMchid("1900000110");
-        request.setSubAppid("awofz9bncda6w2w5");
-        request.setServiceId("101");
-        request.setAuthorizationCode("AUTH_1666688488");
-        return request;
-    }
-
-    private ApiCreditSrvSignQueryForSPRequest signQueryRequest() {
-        ApiCreditSrvSignQueryForSPRequest request = new ApiCreditSrvSignQueryForSPRequest();
-        request.setSpMchid("1900000109");
-        request.setSubMchid("1900000110");
-        request.setServiceId("101");
-        return request;
-    }
-
-    private ApiCreditSrvUnSignForSPRequest unSignRequest() {
-        ApiCreditSrvUnSignForSPRequest request = new ApiCreditSrvUnSignForSPRequest();
-        request.setSpMchid("1900000109");
-        request.setSpAppid("awofz9bncda6w2w4");
-        request.setSubMchid("1900000110");
-        request.setSubAppid("awofz9bncda6w2w5");
-        request.setServiceId("101");
-        return request;
-    }
-
-    private ApiCreateServiceOrderForSPRequest createOrderRequest() {
-        ApiCreateServiceOrderForSPRequest request = new ApiCreateServiceOrderForSPRequest();
-        setPartnerMerchantFields(request);
-        request.setServiceId("101");
-        return request;
-    }
-
-    private ApiCompleteServiceOrderForSPRequest completeOrderRequest() {
-        ApiCompleteServiceOrderForSPRequest request = new ApiCompleteServiceOrderForSPRequest();
-        setPartnerMerchantFields(request);
-        request.setServiceId("101");
-        return request;
-    }
-
-    private ApiQueryServiceOrderForSPRequest queryOrderRequest() {
-        ApiQueryServiceOrderForSPRequest request = new ApiQueryServiceOrderForSPRequest();
-        setPartnerMerchantFields(request);
-        request.setServiceId("101");
-        return request;
-    }
-
-    private ApiCancelServiceOrderForSPRequest cancelOrderRequest() {
-        ApiCancelServiceOrderForSPRequest request = new ApiCancelServiceOrderForSPRequest();
-        setPartnerMerchantFields(request);
-        request.setServiceId("101");
-        return request;
-    }
-
-    private ApiSynchronizeServiceOrderInfoForSPRequest synchronizeOrderRequest() {
-        ApiSynchronizeServiceOrderInfoForSPRequest request = new ApiSynchronizeServiceOrderInfoForSPRequest();
-        setPartnerMerchantFields(request);
-        request.setServiceId("101");
-        return request;
-    }
-
-    private ApiModifyAmountForSPRequest modifyAmountRequest() {
-        ApiModifyAmountForSPRequest request = new ApiModifyAmountForSPRequest();
-        setPartnerMerchantFields(request);
-        request.setServiceId("101");
-        return request;
-    }
-
-    private void setPartnerMerchantFields(ApiCreateServiceOrderForSPRequest request) {
-        request.setSpMchid("1900000109");
-        request.setSpAppid("awofz9bncda6w2w4");
-        request.setSubMchid("1900000110");
-        request.setSubAppid("awofz9bncda6w2w5");
-    }
-
-    private void setPartnerMerchantFields(ApiCompleteServiceOrderForSPRequest request) {
-        request.setSpMchid("1900000109");
-        request.setSpAppid("awofz9bncda6w2w4");
-        request.setSubMchid("1900000110");
-        request.setSubAppid("awofz9bncda6w2w5");
-    }
-
-    private void setPartnerMerchantFields(ApiQueryServiceOrderForSPRequest request) {
-        request.setSpMchid("1900000109");
-        request.setSpAppid("awofz9bncda6w2w4");
-        request.setSubMchid("1900000110");
-        request.setSubAppid("awofz9bncda6w2w5");
-    }
-
-    private void setPartnerMerchantFields(ApiCancelServiceOrderForSPRequest request) {
-        request.setSpMchid("1900000109");
-        request.setSpAppid("awofz9bncda6w2w4");
-        request.setSubMchid("1900000110");
-        request.setSubAppid("awofz9bncda6w2w5");
-    }
-
-    private void setPartnerMerchantFields(ApiSynchronizeServiceOrderInfoForSPRequest request) {
-        request.setSpMchid("1900000109");
-        request.setSpAppid("awofz9bncda6w2w4");
-        request.setSubMchid("1900000110");
-        request.setSubAppid("awofz9bncda6w2w5");
-    }
-
-    private void setPartnerMerchantFields(ApiModifyAmountForSPRequest request) {
-        request.setSpMchid("1900000109");
-        request.setSpAppid("awofz9bncda6w2w4");
-        request.setSubMchid("1900000110");
-        request.setSubAppid("awofz9bncda6w2w5");
-    }
-
 }

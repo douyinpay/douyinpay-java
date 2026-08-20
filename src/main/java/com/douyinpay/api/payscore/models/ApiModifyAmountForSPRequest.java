@@ -34,7 +34,7 @@ public class ApiModifyAmountForSPRequest {
     private List<PostItem> postDiscounts;
     /** 修改后的服务总金额。 */
     @SerializedName("total_amount")
-    private Long totalAmount;
+    private Integer totalAmount;
     /** 修改原因。 */
     @SerializedName("reason")
     private String reason;
@@ -103,11 +103,11 @@ public class ApiModifyAmountForSPRequest {
         this.postDiscounts = postDiscounts;
     }
 
-    public Long getTotalAmount() {
+    public Integer getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Long totalAmount) {
+    public void setTotalAmount(Integer totalAmount) {
         this.totalAmount = totalAmount;
     }
 

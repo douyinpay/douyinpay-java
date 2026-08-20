@@ -28,7 +28,7 @@ public class ApiCompleteServiceOrderForSPRequest {
     private String serviceId;
     /** 服务总金额。 */
     @SerializedName("total_amount")
-    private Long totalAmount;
+    private Integer totalAmount;
     /** 商户透传数据。 */
     @SerializedName("attach")
     private String attach;
@@ -50,9 +50,6 @@ public class ApiCompleteServiceOrderForSPRequest {
     /** 营销透传参数。 */
     @SerializedName("goods_tag")
     private String goodsTag;
-    /** 扩展字段。 */
-    @SerializedName("ext_info")
-    private String extInfo;
     /** 支付渠道信息。 */
     @SerializedName("channel_info")
     private ChannelInfo channelInfo;
@@ -105,11 +102,11 @@ public class ApiCompleteServiceOrderForSPRequest {
         this.serviceId = serviceId;
     }
 
-    public Long getTotalAmount() {
+    public Integer getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Long totalAmount) {
+    public void setTotalAmount(Integer totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -167,14 +164,6 @@ public class ApiCompleteServiceOrderForSPRequest {
 
     public void setGoodsTag(String goodsTag) {
         this.goodsTag = goodsTag;
-    }
-
-    public String getExtInfo() {
-        return extInfo;
-    }
-
-    public void setExtInfo(String extInfo) {
-        this.extInfo = extInfo;
     }
 
     public ChannelInfo getChannelInfo() {
