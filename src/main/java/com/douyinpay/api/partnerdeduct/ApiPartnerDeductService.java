@@ -53,10 +53,10 @@ public class ApiPartnerDeductService {
         }
 
         /**
-         * 设置自定义httpclient
+         * 设置自定义 HTTP 客户端。
          *
-         * @param douyinpayClient
-         * @return Builder
+         * @param douyinpayClient 自定义 HTTP 客户端
+         * @return 当前构建器
          */
         public Builder douyinpayClient(DouyinpayClient douyinpayClient) {
             this.douyinpayClient = douyinpayClient;
@@ -64,9 +64,9 @@ public class ApiPartnerDeductService {
         }
 
         /**
-         * 构造服务
+         * 构造服务商预约扣费服务。
          *
-         * @return AppService
+         * @return ApiPartnerDeductService
          */
         public ApiPartnerDeductService build() {
             return new ApiPartnerDeductService(douyinpayClient, domainName);
@@ -92,7 +92,7 @@ public class ApiPartnerDeductService {
      * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b7e75a00b04c8aa2fd1
      *
      * @param request 请求参数
-     * @return PrepayResponse
+     * @return ApiPartnerDeductResponse
      */
     public ApiPartnerDeductResponse partnerDeduct(ApiPartnerDeductRequest request) {
         String requestPath = "/v1/trade/partner/deduct/payapply";
@@ -115,7 +115,7 @@ public class ApiPartnerDeductService {
      * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b9077f5de0546f6af87
      *
      * @param request 请求参数
-     * @return PrepayResponse
+     * @return ApiPartnerContractScheduleResponse
      */
     public ApiPartnerContractScheduleResponse partnerContractSchedule(ApiPartnerContractScheduleRequest request) {
         String requestPath = "/v1/agreementauth/partner/schedules/contract-id/{contract_id}/schedule";
@@ -142,7 +142,7 @@ public class ApiPartnerDeductService {
      * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b97a2b24a063d54b442
      *
      * @param request 请求参数
-     * @return PrepayResponse
+     * @return ApiPartnerQueryContractScheduleResponse
      */
     public ApiPartnerQueryContractScheduleResponse partnerQueryContractSchedule(ApiPartnerQueryContractScheduleRequest request) {
         String requestPath = "/v1/agreementauth/partner/schedules/contract-id/{contract_id}";
