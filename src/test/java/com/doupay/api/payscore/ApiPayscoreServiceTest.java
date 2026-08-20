@@ -512,7 +512,7 @@ public class ApiPayscoreServiceTest {
         request.setSpMchid(SP_MCHID);
         request.setSubMchid(SUB_MCHID);
         request.setServiceId(SERVICE_ID);
-        request.setAuthorizationCode("AUTH_1666688488");
+        request.setAuthorizationCode("xxx");
         System.out.println(request);
         try {
             ApiCreditSrvSignQueryForSPResponse response = apiPayscoreService.creditSrvSignQueryForSP(request);
@@ -535,7 +535,7 @@ public class ApiPayscoreServiceTest {
         request.setSubMchid(SUB_MCHID);
         request.setSubAppid(SUB_APPID);
         request.setServiceId(SERVICE_ID);
-        request.setAuthorizationCode("AUTH_1666688488");
+        request.setAuthorizationCode("xxx");
         request.setReason("解约");
         System.out.println(request);
         try {
@@ -556,22 +556,22 @@ public class ApiPayscoreServiceTest {
         request.setSpMchid(SP_MCHID);
         request.setSpAppid(SP_APPID);
         request.setSubMchid(SUB_MCHID);
-        request.setSubAppid(SP_APPID);
+        request.setSubAppid(SUB_APPID);
         request.setServiceId(SERVICE_ID);
-        request.setOutOrderNo("OUT_1666688488");
-        request.setAuthorizationCode("AUTH_1666688488");
+        request.setOutOrderNo("OUT_1666688488_10");
+        request.setAuthorizationCode("xxx");
         request.setServiceIntroduction("某某酒店");
         request.setNotifyUrl("https://service-provider.example.com/callback");
         request.setAttach("attach");
 
         RiskFund riskFund = new RiskFund();
-        riskFund.setAmount(1);
+        riskFund.setAmount(3);
         riskFund.setName("ESTIMATE_ORDER_COST");
         riskFund.setDescription("预估订单费用");
         request.setRiskFund(riskFund);
 
         PostItem pi = new PostItem();
-        pi.setAmount(1);
+        pi.setAmount(3);
         pi.setCount(1);
         pi.setDescription("测试");
         pi.setName("测试");
@@ -585,7 +585,7 @@ public class ApiPayscoreServiceTest {
         pi2.setDescription("测试");
         pi2.setName("测试");
         List<PostItem> postList2 = new ArrayList<>();
-        postList.add(pi2);
+        postList2.add(pi2);
         request.setPostDiscounts(postList2);
 
         TimeRange tr = new TimeRange();
@@ -601,6 +601,7 @@ public class ApiPayscoreServiceTest {
         request.setLocation(location);
 
         SceneInfo sceneInfo = new SceneInfo();
+        request.setSceneInfo(sceneInfo);
         sceneInfo.setClientIp("127.0.0.1");
         sceneInfo.setDeviceId("013467007045764");
         sceneInfo.setStoreInfo(new StoreInfo());
@@ -608,7 +609,6 @@ public class ApiPayscoreServiceTest {
         request.getSceneInfo().getStoreInfo().setName("测试门店");
         request.getSceneInfo().getStoreInfo().setAreaCode("100000");
         request.getSceneInfo().getStoreInfo().setAddress("1");
-        request.setSceneInfo(sceneInfo);
 
         request.setNeedUserConfirm(false);
         request.setGoodsTag("{}");
@@ -633,14 +633,14 @@ public class ApiPayscoreServiceTest {
         request.setSpMchid(SP_MCHID);
         request.setSpAppid(SP_APPID);
         request.setSubMchid(SUB_MCHID);
-        request.setSubAppid(SP_APPID);
+        request.setSubAppid(SUB_APPID);
         request.setServiceId(SERVICE_ID);
-        request.setOutOrderNo("OUT_1666688488");
-        request.setTotalAmount(1);
+        request.setOutOrderNo("OUT_1666688488_10");
+        request.setTotalAmount(2);
         request.setAttach("attach");
 
         PostItem pi = new PostItem();
-        pi.setAmount(1);
+        pi.setAmount(3);
         pi.setCount(1);
         pi.setDescription("测试");
         pi.setName("测试");
@@ -654,7 +654,7 @@ public class ApiPayscoreServiceTest {
         pi2.setDescription("测试");
         pi2.setName("测试");
         List<PostItem> postList2 = new ArrayList<>();
-        postList.add(pi2);
+        postList2.add(pi2);
         request.setPostDiscounts(postList2);
 
         TimeRange tr = new TimeRange();
@@ -670,6 +670,7 @@ public class ApiPayscoreServiceTest {
         request.setLocation(location);
 
         SceneInfo sceneInfo = new SceneInfo();
+        request.setSceneInfo(sceneInfo);
         sceneInfo.setClientIp("127.0.0.1");
         sceneInfo.setDeviceId("013467007045764");
         sceneInfo.setStoreInfo(new StoreInfo());
@@ -677,7 +678,6 @@ public class ApiPayscoreServiceTest {
         request.getSceneInfo().getStoreInfo().setName("测试门店");
         request.getSceneInfo().getStoreInfo().setAreaCode("100000");
         request.getSceneInfo().getStoreInfo().setAddress("1");
-        request.setSceneInfo(sceneInfo);
 
         request.setGoodsTag("{}");
 
@@ -701,9 +701,9 @@ public class ApiPayscoreServiceTest {
         request.setSpMchid(SP_MCHID);
         request.setSpAppid(SP_APPID);
         request.setSubMchid(SUB_MCHID);
-        request.setSubAppid(SP_APPID);
+        request.setSubAppid("");
         request.setServiceId(SERVICE_ID);
-        request.setOutOrderNo("OUT_1666688488");
+        request.setOutOrderNo("OUT_1666688488_3");
         System.out.println(request);
         try {
             ApiQueryServiceOrderForSPResponse response = apiPayscoreService.queryServiceOrderForSP(request);
@@ -726,7 +726,7 @@ public class ApiPayscoreServiceTest {
         request.setSubMchid(SUB_MCHID);
         request.setSubAppid(SUB_APPID);
         request.setServiceId(SERVICE_ID);
-        request.setOutOrderNo("OUT_1666688488");
+        request.setOutOrderNo("OUT_1666688488_6");
         request.setReason("用户取消");
 
         System.out.println(request);
@@ -752,7 +752,7 @@ public class ApiPayscoreServiceTest {
         request.setSubAppid(SUB_APPID);
         request.setServiceId(SERVICE_ID);
         request.setType("ORDER_PAID");
-        request.setOutOrderNo("OUT_1666688488");
+        request.setOutOrderNo("OUT_1666688488_10");
 
         SyncDetail detail = new SyncDetail();
         detail.setPaidTime("20220806091010");
@@ -778,12 +778,12 @@ public class ApiPayscoreServiceTest {
         request.setSubMchid(SUB_MCHID);
         request.setSubAppid(SUB_APPID);
         request.setServiceId(SERVICE_ID);
-        request.setOutOrderNo("OUT_1666688488");
-        request.setTotalAmount(2);
+        request.setOutOrderNo("OUT_1666688488_10");
+        request.setTotalAmount(1);
         request.setReason("修改原因");
 
         PostItem pi = new PostItem();
-        pi.setAmount(1);
+        pi.setAmount(2);
         pi.setCount(1);
         pi.setDescription("测试");
         pi.setName("测试");
@@ -797,7 +797,7 @@ public class ApiPayscoreServiceTest {
         pi2.setDescription("测试");
         pi2.setName("测试");
         List<PostItem> postList2 = new ArrayList<>();
-        postList.add(pi2);
+        postList2.add(pi2);
         request.setPostDiscounts(postList2);
 
         System.out.println(request);

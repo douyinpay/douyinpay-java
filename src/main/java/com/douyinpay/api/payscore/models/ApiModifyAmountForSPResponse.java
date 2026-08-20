@@ -27,7 +27,7 @@ public class ApiModifyAmountForSPResponse {
     /** 订单状态说明。 */
     @SerializedName("state_description") private String stateDescription;
     /** 总金额。 */
-    @SerializedName("total_amount") private String totalAmount;
+    @SerializedName("total_amount") private Integer totalAmount;
     /** 后付费项目。 */
     @SerializedName("post_payments") private List<PostItem> postPayments;
     /** 商户优惠。 */
@@ -65,8 +65,8 @@ public class ApiModifyAmountForSPResponse {
     public void setState(String state) { this.state = state; }
     public String getStateDescription() { return stateDescription; }
     public void setStateDescription(String stateDescription) { this.stateDescription = stateDescription; }
-    public String getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(String totalAmount) { this.totalAmount = totalAmount; }
+    public Integer getTotalAmount() { return totalAmount; }
+    public void setTotalAmount(Integer totalAmount) { this.totalAmount = totalAmount; }
     public List<PostItem> getPostPayments() { return postPayments; }
     public void setPostPayments(List<PostItem> postPayments) { this.postPayments = postPayments; }
     public List<PostItem> getPostDiscounts() { return postDiscounts; }

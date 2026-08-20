@@ -24,9 +24,6 @@ public class ApiCreditSrvSignQueryForSPResponse {
     /** 签约状态。 */
     @SerializedName("authorization_state")
     private String authorizationState;
-    /** 回调地址。 */
-    @SerializedName("notify_url")
-    private String notifyUrl;
     /** 最近一次授权成功时间。 */
     @SerializedName("authorization_success_time")
     private String authorizationSuccessTime;
@@ -55,8 +52,6 @@ public class ApiCreditSrvSignQueryForSPResponse {
     public void setAuthorizationCode(String authorizationCode) { this.authorizationCode = authorizationCode; }
     public String getAuthorizationState() { return authorizationState; }
     public void setAuthorizationState(String authorizationState) { this.authorizationState = authorizationState; }
-    public String getNotifyUrl() { return notifyUrl; }
-    public void setNotifyUrl(String notifyUrl) { this.notifyUrl = notifyUrl; }
     public String getAuthorizationSuccessTime() { return authorizationSuccessTime; }
     public void setAuthorizationSuccessTime(String authorizationSuccessTime) { this.authorizationSuccessTime = authorizationSuccessTime; }
     public String getAuthorizationCancelTime() { return authorizationCancelTime; }
