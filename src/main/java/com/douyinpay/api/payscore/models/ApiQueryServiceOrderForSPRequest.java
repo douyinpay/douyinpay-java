@@ -21,9 +21,6 @@ public class ApiQueryServiceOrderForSPRequest {
     /** 商户侧订单号。 */
     @SerializedName("out_order_no")
     private String outOrderNo;
-    /** 信用服务单号。 */
-    @SerializedName("order_id")
-    private String orderId;
     /** 服务 ID。 */
     @SerializedName("service_id")
     private String serviceId;
@@ -66,14 +63,6 @@ public class ApiQueryServiceOrderForSPRequest {
 
     public void setOutOrderNo(String outOrderNo) {
         this.outOrderNo = outOrderNo;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
     }
 
     public String getServiceId() {

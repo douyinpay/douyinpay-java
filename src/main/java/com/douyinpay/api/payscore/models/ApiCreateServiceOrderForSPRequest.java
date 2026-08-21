@@ -26,31 +26,31 @@ public class ApiCreateServiceOrderForSPRequest {
     /** 服务 ID。 */
     @SerializedName("service_id")
     private String serviceId;
-    /** 服务介绍。 */
+    /** 服务信息。 */
     @SerializedName("service_introduction")
     private String serviceIntroduction;
     /** 商户协议号。 */
     @SerializedName("authorization_code")
     private String authorizationCode;
-    /** 商户透传数据。 */
+    /** 商户数据包。 */
     @SerializedName("attach")
     private String attach;
-    /** 服务订单回调地址。 */
+    /** 通知地址。 */
     @SerializedName("notify_url")
     private String notifyUrl;
     /** 后付费项目。 */
     @SerializedName("post_payments")
     private List<PostItem> postPayments;
-    /** 后付费优惠。 */
+    /** 商户优惠。 */
     @SerializedName("post_discounts")
     private List<PostItem> postDiscounts;
-    /** 服务时间范围。 */
+    /** 实际服务时间段。 */
     @SerializedName("time_range")
     private TimeRange timeRange;
-    /** 服务地点。 */
+    /** 服务位置。 */
     @SerializedName("location")
     private Location location;
-    /** 业务场景信息。 */
+    /** 场景信息。 */
     @SerializedName("scene_info")
     private SceneInfo sceneInfo;
     /** 服务风险金。 */
@@ -59,10 +59,10 @@ public class ApiCreateServiceOrderForSPRequest {
     /** 是否需要用户确认。 */
     @SerializedName("need_user_confirm")
     private Boolean needUserConfirm;
-    /** 营销透传参数。 */
+    /** 优惠标记。 */
     @SerializedName("goods_tag")
     private String goodsTag;
-    /** 扩展字段。 */
+    /** 扩展参数。 */
     @SerializedName("ext_info")
     private String extInfo;
 

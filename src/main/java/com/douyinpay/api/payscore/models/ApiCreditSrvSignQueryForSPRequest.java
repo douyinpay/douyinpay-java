@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * 直连服务商查询用户授权请求。
  */
 public class ApiCreditSrvSignQueryForSPRequest {
-    /** 服务实体 ID。 */
+    /** 服务 ID。 */
     @SerializedName("service_id")
     private String serviceId;
     /** 商户协议号。 */

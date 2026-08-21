@@ -6,16 +6,16 @@ import com.google.gson.annotations.SerializedName;
  * 预设支付渠道。
  */
 public class PresetChannel {
-    /** 指定必用渠道编码。 */
+    /** 指定渠道。 */
     @SerializedName("channel_code")
     private String channelCode;
-    /** 指定必用渠道 ID。 */
+    /** 指定渠道 ID。 */
     @SerializedName("channel_id")
     private String channelId;
     /** 指定渠道金额。 */
     @SerializedName("channel_amount")
     private Long channelAmount;
-    /** 渠道扩展参数。 */
+    /** 扩展参数。 */
     @SerializedName("channel_ext_info")
     private String channelExtInfo;
 

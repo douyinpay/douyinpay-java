@@ -8,7 +8,7 @@ import java.util.List;
  * 支付渠道信息。
  */
 public class ChannelInfo {
-    /** 预设支付渠道列表。 */
+    /** 指定渠道列表。 */
     @SerializedName("preset_channel")
     private List<PresetChannel> presetChannel;
 

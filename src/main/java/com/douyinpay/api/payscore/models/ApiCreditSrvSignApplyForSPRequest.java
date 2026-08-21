@@ -18,22 +18,22 @@ public class ApiCreditSrvSignApplyForSPRequest {
     /** 子商户应用 ID。 */
     @SerializedName("sub_appid")
     private String subAppid;
-    /** 服务实体 ID。 */
+    /** 服务 ID。 */
     @SerializedName("service_id")
     private String serviceId;
     /** 商户协议号。 */
     @SerializedName("authorization_code")
     private String authorizationCode;
-    /** 授权结果回调地址。 */
+    /** 通知地址。 */
     @SerializedName("notify_url")
     private String notifyUrl;
-    /** 商户透传数据。 */
+    /** 商户数据包。 */
     @SerializedName("attach")
     private String attach;
-    /** 业务场景信息。 */
+    /** 场景信息。 */
     @SerializedName("scene_info")
     private SceneInfo sceneInfo;
-    /** 营销透传参数。 */
+    /** 优惠标记。 */
     @SerializedName("goods_tag")
     private String goodsTag;
     /** 扩展参数。 */

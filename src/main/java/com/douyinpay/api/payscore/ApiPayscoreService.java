@@ -10,52 +10,26 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
 
-/**
- * 先享后付服务接口。
- *
- * <p>提供服务订单创建、查询、完结、取消、金额修改、信息同步、催收扣款，以及用户服务授权管理能力。</p>
- *
- * <p>credit_product 相关接口用例：以下接口的请求 URL 可在
- * {@code credit_product/idl/credit_product.thrift} 的 {@code path} 中找到，纳入本服务的先享后付服务商接口范围。</p>
- *
- * <ul>
- *     <li>申请服务授权：{@code POST /v1/payscore/partner/permissions}</li>
- *     <li>查询用户授权记录：{@code GET /v1/payscore/partner/permissions/authorization-code/{authorization_code}}</li>
- *     <li>解除用户授权记录：{@code POST /v1/payscore/partner/permissions/authorization-code/{authorization_code}/terminate}</li>
- *     <li>创建服务订单：{@code POST /v1/payscore/partner/serviceorder/create}</li>
- *     <li>完结服务订单：{@code POST /v1/payscore/partner/serviceorder/complete}</li>
- *     <li>查询服务订单：{@code GET /v1/payscore/partner/serviceorder/query}</li>
- *     <li>取消服务订单：{@code POST /v1/payscore/partner/serviceorder/cancel}</li>
- *     <li>同步服务订单信息：{@code POST /v1/payscore/partner/serviceorder/{out_order_no}/sync}</li>
- *     <li>修改订单金额：{@code POST /v1/payscore/partner/serviceorder/modify}</li>
- * </ul>
- *
- * <p>前置咨询、支付并签约、退款和账单等接口未出现在上述 IDL path 中，不属于本组接口用例。</p>
- */
 public class ApiPayscoreService {
 
     /**
-     * 服务订单号路径占位符。
-     * 业务规则：调用订单相关接口时替换为经过 URL 编码的商户订单号。
+     * 商户服务单号路径占位符。
      */
     private final String OUT_ORDER_NO_PATTERN = "{out_order_no}";
 
     /**
      * 商户协议号路径占位符。
-     * 业务规则：调用用户授权相关接口时替换为经过 URL 编码的商户协议号。
      */
     private final String OUT_AUTHORIZATION_CODE_PATTERN = "{authorization_code}";
 
 
     /**
      * HTTP 请求客户端。
-     * 业务规则：由构造方法注入，用于发送已组装的支付接口请求。
      */
     private final DouyinpayClient douyinpayClient;
 
     /**
      * 请求域名。
-     * 业务规则：为空时使用先享后付接口默认域名；不为空时使用调用方指定的域名。
      */
     private final DomainName domainName;
 
@@ -63,7 +37,7 @@ public class ApiPayscoreService {
      * 创建先享后付服务接口实例。
      *
      * @param douyinpayClient HTTP 请求客户端
-     * @param domainName 请求域名；为空时使用默认域名
+     * @param domainName 请求域名
      */
     public ApiPayscoreService(DouyinpayClient douyinpayClient, DomainName domainName) {
         this.douyinpayClient = douyinpayClient;
@@ -79,11 +53,9 @@ public class ApiPayscoreService {
         private DomainName domainName;
 
         /**
-         * 设置先享后付请求域名。
+         * 设置抖音先享后付域名 默认为api.doupay.com
          *
-         * <p>格式规则：域名由 {@link DomainName} 提供，不包含接口路径。</p>
-         * 业务规则：未设置时使用 {@link DomainName#PAYSCORE_API} 对应的默认域名。
-         * @param domainName 请求域名
+         * @param domainName 抖音支付域名
          * @return Builder
          */
         public ApiPayscoreService.Builder domainName(DomainName domainName) {
@@ -114,8 +86,6 @@ public class ApiPayscoreService {
 
     /**
      * 获取先享后付接口请求域名。
-     *
-     * <p>业务规则：调用方未指定域名时返回 {@link DomainName#PAYSCORE_API} 对应的默认域名。</p>
      *
      * @return 请求域名
      */
@@ -441,7 +411,6 @@ public class ApiPayscoreService {
         addQueryParameter(queryParameter, "sub_mchid", request.getSubMchid());
         addQueryParameter(queryParameter, "sub_appid", request.getSubAppid());
         addQueryParameter(queryParameter, "out_order_no", request.getOutOrderNo());
-        addQueryParameter(queryParameter, "order_id", request.getOrderId());
         addQueryParameter(queryParameter, "service_id", request.getServiceId());
 
         return executePartnerGet(
