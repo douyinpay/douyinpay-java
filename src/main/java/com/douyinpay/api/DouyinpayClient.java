@@ -2,7 +2,7 @@ package com.douyinpay.api;
 
 public interface DouyinpayClient {
 
-    public final String ClientVersion = "JAVA-v1.0.10";
+    public final String ClientVersion = "JAVA-v1.0.11";
 
     /**
      * 发送HTTP请求
