@@ -7,8 +7,9 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 public class ApplyFundFlowBillRequest {
     /**
      * 字段含义：直连商户号。
-     * 格式规则：字符串。
-     * 业务规则：由抖音支付生成并下发。
+     * 必填规则：OpenAPI 文档标注为选填。
+     * 格式规则：string，[1,32]。
+     * 业务规则：直连商户的商户号，由抖音支付生成并下发。
      * 示例：6020230307605084
      */
     @SerializedName("mchid")
@@ -16,17 +17,19 @@ public class ApplyFundFlowBillRequest {
 
     /**
      * 字段含义：账单日期。
-     * 格式规则：yyyy-MM-dd。
-     * 业务规则：仅支持申请近三个月内且为昨日及以前的账单。
-     * 示例：2026-08-24
+     * 必填规则：OpenAPI 文档标注为选填。
+     * 格式规则：yyyy-MM-dd，[1,10]。
+     * 业务规则：仅支持三个月内的账单下载申请。
+     * 示例：2023-02-25
      */
     @SerializedName("bill_date")
     private String billDate;
 
     /**
      * 字段含义：账户类型。
-     * 格式规则：枚举字符串。
-     * 业务规则：常见取值包括 BaseAccount（基本户）和 OperationAccount（运营户），其他取值以开放平台最新文档为准。
+     * 必填规则：OpenAPI 文档标注为必填。
+     * 格式规则：string，[1,32]。
+     * 业务规则：可选值包括 BaseAccount（基本账户）和 OperationAccount（运营账户），默认值为 BaseAccount。
      * 示例：BaseAccount
      */
     @SerializedName("account_type")
@@ -34,8 +37,9 @@ public class ApplyFundFlowBillRequest {
 
     /**
      * 字段含义：压缩类型。
-     * 格式规则：枚举字符串。
-     * 业务规则：常用值为 GZIP，返回 gzip 压缩包账单。
+     * 必填规则：OpenAPI 文档标注为选填。
+     * 格式规则：string，[1,32]。
+     * 业务规则：GZIP 表示返回 .gzip 格式的压缩包账单。
      * 示例：GZIP
      */
     @SerializedName("tar_type")

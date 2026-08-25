@@ -17,6 +17,9 @@ import com.douyinpay.util.StringUtil;
 /**
  * 直连商户账单服务。
  *
+ * <p>支持申请交易/结算账单、资金账单和分账账单下载地址。申请成功后会返回 download_url、hash_type
+ * 和 hash_value，其中 download_url 有效期为 5 分钟，建议下载完成后比对 hash_value 校验账单完整性。</p>
+ *
  * 官方文档：
  * - 申请交易/结算账单：GET /v1/bill/billapply
  *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/667e6bc444a74902ead102ad
@@ -94,9 +97,9 @@ public class ApiBillService {
     /**
      * 申请交易账单或结算账单下载地址。
      *
-     * <p>请求参数中必须提供直连商户号和账单日期。账单日期格式为 yyyy-MM-dd，
-     * 仅支持申请近三个月内且为昨日及以前的账单。账单类型常见取值为 TRADE（交易账单）和
-     * SETTLEMENT（结算账单），如开放品牌交易账单能力，以开放平台最新文档为准。</p>
+     * <p>交易账单按天生成，包含交易相关的金额、时间、营销等信息，供商户核对订单交易完成、退款、撤销等情况。
+     * 抖音侧未成功下单的交易不会出现在对账单中，支付成功后撤销的交易会出现在对账单中且沿用原支付单订单号。
+     * 账单涉及金额字段的单位为元，账单文件通常建议在 T+1 日 10 点后获取。</p>
      *
      * @param request 请求参数，包含商户号、账单日期、账单类型和压缩类型
      * @return 账单下载响应，包含下载地址和文件摘要信息
@@ -129,9 +132,9 @@ public class ApiBillService {
     /**
      * 申请资金账单下载地址。
      *
-     * <p>请求参数中必须提供直连商户号和账单日期。账单日期格式为 yyyy-MM-dd，
-     * 仅支持申请近三个月内且为昨日及以前的账单。account_type 常见取值为 BaseAccount
-     * 和 OperationAccount，tar_type 常用值为 GZIP。</p>
+     * <p>资金账单按天生成，用于反映抖音支付账户的资金变动情况，包含业务单号、收支金额和记账时间等信息。
+     * 账单涉及金额字段的单位为元；account_type 可选值包括 BaseAccount（基本账户）和
+     * OperationAccount（运营账户），OpenAPI 文档中默认值为 BaseAccount。</p>
      *
      * @param request 请求参数，包含商户号、账单日期、账户类型和压缩类型
      * @return 账单下载响应，包含下载地址和文件摘要信息
@@ -155,8 +158,8 @@ public class ApiBillService {
     /**
      * 申请分账账单下载地址。
      *
-     * <p>请求参数中必须提供直连商户号和账单日期。账单日期格式为 yyyy-MM-dd，
-     * 仅支持申请近三个月内且为昨日及以前的账单。tar_type 常用值为 GZIP。</p>
+     * <p>分账账单按天生成，包含分账相关的金额、时间和状态等信息，供商户核对到账和分账结果。
+     * 账单涉及金额字段的单位为元，tar_type 常用值为 GZIP。</p>
      *
      * @param request 请求参数，包含商户号、账单日期和压缩类型
      * @return 账单下载响应，包含下载地址和文件摘要信息
