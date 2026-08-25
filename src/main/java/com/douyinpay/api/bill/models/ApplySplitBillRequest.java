@@ -7,7 +7,7 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 public class ApplySplitBillRequest {
     /**
      * 字段含义：直连商户号。
-     * 必填规则：OpenAPI 文档标注为选填。
+     * 必填规则：必填。
      * 格式规则：string，[1,32]。
      * 业务规则：直连商户的商户号，由抖音支付生成并下发。
      * 示例：6020230307605084
@@ -17,7 +17,7 @@ public class ApplySplitBillRequest {
 
     /**
      * 字段含义：账单日期。
-     * 必填规则：OpenAPI 文档标注为选填。
+     * 必填规则：必填。
      * 格式规则：yyyy-MM-dd，[1,10]。
      * 业务规则：仅支持三个月内的账单下载申请。
      * 示例：2023-02-25
@@ -28,7 +28,7 @@ public class ApplySplitBillRequest {
 
     /**
      * 字段含义：压缩类型。
-     * 必填规则：OpenAPI 文档标注为选填。
+     * 必填规则：必填。
      * 格式规则：string，[1,32]。
      * 业务规则：GZIP 表示返回 .gzip 格式的压缩包账单。
      * 示例：GZIP
