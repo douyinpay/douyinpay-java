@@ -17,11 +17,11 @@ import com.douyinpay.util.StringUtil;
 /**
  * 直连商户账单服务。
  *
- * <p>支持申请交易/结算账单、资金账单和分账账单下载地址。申请成功后会返回 download_url、hash_type
+ * <p>支持申请交易账单、资金账单和分账账单下载地址。申请成功后会返回 download_url、hash_type
  * 和 hash_value，其中 download_url 有效期为 5 分钟，建议下载完成后比对 hash_value 校验账单完整性。</p>
  *
  * 官方文档：
- * - 申请交易/结算账单：GET /v1/bill/billapply
+ * - 申请交易账单：GET /v1/bill/billapply
  *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/667e6bc444a74902ead102ad
  * - 申请资金账单：GET /v1/bill/fundflowbill
  *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/667e69daa998e00305dcec48
@@ -95,7 +95,7 @@ public class ApiBillService {
     }
 
     /**
-     * 申请交易账单或结算账单下载地址。
+     * 申请交易账单下载地址。
      *
      * <p>交易账单按天生成，包含交易相关的金额、时间、营销等信息，供商户核对订单交易完成、退款、撤销等情况。
      * 抖音侧未成功下单的交易不会出现在对账单中，支付成功后撤销的交易会出现在对账单中且沿用原支付单订单号。
