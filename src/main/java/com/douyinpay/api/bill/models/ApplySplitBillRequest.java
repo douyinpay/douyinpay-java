@@ -14,12 +14,11 @@ public class ApplySplitBillRequest {
     @SerializedName("mchid")
     private String mchid;
 
-
     /**
      * 字段含义：账单日期。
      * 格式规则：yyyy-MM-dd。
-     * 业务规则：仅支持申请三个月内的账单。
-     * 示例：2023-02-25
+     * 业务规则：仅支持申请近三个月内且为昨日及以前的账单。
+     * 示例：2026-08-24
      */
     @SerializedName("bill_date")
     private String billDate;
@@ -28,7 +27,7 @@ public class ApplySplitBillRequest {
     /**
      * 字段含义：压缩类型。
      * 格式规则：枚举字符串。
-     * 业务规则：开放文档示例值为 GZIP，返回 gzip 压缩包账单。
+     * 业务规则：常用值为 GZIP，返回 gzip 压缩包账单。
      * 示例：GZIP
      */
     @SerializedName("tar_type")

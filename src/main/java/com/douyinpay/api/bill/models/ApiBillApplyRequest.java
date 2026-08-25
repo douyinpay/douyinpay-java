@@ -14,19 +14,18 @@ public class ApiBillApplyRequest {
     @SerializedName("mchid")
     private String mchid;
 
-
     /**
      * 字段含义：账单日期。
      * 格式规则：yyyy-MM-dd。
-     * 业务规则：仅支持申请三个月内的账单。
-     * 示例：2023-02-25
+     * 业务规则：仅支持申请近三个月内且为昨日及以前的账单。
+     * 示例：2026-08-24
      */
     @SerializedName("bill_date")
     private String billDate;
     /**
      * 字段含义：账单类型。
      * 格式规则：枚举字符串。
-     * 业务规则：交易账单接口当前开放文档示例值为 TRADE。
+     * 业务规则：常见取值为 TRADE（交易账单）和 SETTLEMENT（结算账单）；如开放品牌交易账单能力，以开放平台最新文档为准。
      * 示例：TRADE
      */
     @SerializedName("bill_type")
@@ -35,7 +34,7 @@ public class ApiBillApplyRequest {
     /**
      * 字段含义：压缩类型。
      * 格式规则：枚举字符串。
-     * 业务规则：开放文档示例值为 GZIP，返回 gzip 压缩包账单。
+     * 业务规则：常用值为 GZIP，返回 gzip 压缩包账单。
      * 示例：GZIP
      */
     @SerializedName("tar_type")

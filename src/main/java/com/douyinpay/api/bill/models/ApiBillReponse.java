@@ -9,23 +9,23 @@ public class ApiBillReponse {
     /**
      * 字段含义：哈希类型。
      * 格式规则：字符串。
-     * 业务规则：用于描述账单下载文件校验值的算法类型。
-     * 示例：
+     * 业务规则：用于描述账单文件校验值的摘要算法类型，当前常见返回值为 SHA1。
+     * 示例：SHA1
      */
     @SerializedName("hash_type")
     private String hashType;
     /**
      * 字段含义：哈希值。
      * 格式规则：字符串。
-     * 业务规则：用于校验账单下载文件完整性。
-     * 示例：
+     * 业务规则：用于校验下载后的账单文件完整性。
+     * 示例：3b7e4b5c0f9c7d4a8fbc1234567890abcdef1234
      */
     @SerializedName("hash_value")
     private String hashValue;
     /**
      * 字段含义：账单下载地址。
      * 格式规则：URL。
-     * 业务规则：开放文档说明下载地址有时效限制。
+     * 业务规则：下载地址存在时效限制，建议获取后尽快下载并完成文件校验。
      * 示例：https://download.example.com/bill.gz
      */
     @SerializedName("download_url")

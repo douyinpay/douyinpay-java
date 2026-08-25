@@ -15,24 +15,24 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.util.StringUtil;
 
 /**
- * 账单服务。
+ * 直连商户账单服务。
  *
  * 官方文档：
- * - 申请交易账单：GET /v1/bill/billapply
- * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/667e6bc444a74902ead102ad
+ * - 申请交易/结算账单：GET /v1/bill/billapply
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/667e6bc444a74902ead102ad
  * - 申请资金账单：GET /v1/bill/fundflowbill
- * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/667e69daa998e00305dcec48
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/667e69daa998e00305dcec48
  * - 申请分账账单：GET /v1/bill/splitbill
- * https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/68355a92994b190515a2af86
+ *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/68355a92994b190515a2af86
  */
 public class ApiBillService {
 
     /**
-     * 申请下载资金账单
+     * 申请下载资金账单。
      */
     private static final String ApplyFundFlowBillURI = "/v1/bill/fundflowbill";
     /**
-     * 申请下载分账账单
+     * 申请下载分账账单。
      */
     private static final String ApplySplitBillURI = "/v1/bill/splitbill";
 
@@ -50,9 +50,9 @@ public class ApiBillService {
         private DomainName domainName;
 
         /**
-         * 设置抖音支付域名 默认为api.douyinpay.com
+         * 设置抖音支付域名，默认为 api.douyinpay.com。
          *
-         * @param domainName 抖音支付域名
+         * @param domainName 抖音支付请求域名
          * @return Builder
          */
         public ApiBillService.Builder domainName(DomainName domainName) {
@@ -61,9 +61,9 @@ public class ApiBillService {
         }
 
         /**
-         * 设置自定义httpclient
+         * 设置自定义 DouyinpayClient。
          *
-         * @param douyinpayClient
+         * @param douyinpayClient 抖音支付客户端
          * @return Builder
          */
         public ApiBillService.Builder douyinpayClient(DouyinpayClient douyinpayClient) {
@@ -72,9 +72,9 @@ public class ApiBillService {
         }
 
         /**
-         * 构造服务
+         * 构造账单服务。
          *
-         * @return AppService
+         * @return ApiBillService
          */
         public ApiBillService build() {
             return new ApiBillService(douyinpayClient, domainName);
@@ -92,10 +92,14 @@ public class ApiBillService {
     }
 
     /**
-     * 申请交易账单。
+     * 申请交易账单或结算账单下载地址。
      *
-     * @param request 请求参数
-     * @return ApiBillReponse
+     * <p>请求参数中必须提供直连商户号和账单日期。账单日期格式为 yyyy-MM-dd，
+     * 仅支持申请近三个月内且为昨日及以前的账单。账单类型常见取值为 TRADE（交易账单）和
+     * SETTLEMENT（结算账单），如开放品牌交易账单能力，以开放平台最新文档为准。</p>
+     *
+     * @param request 请求参数，包含商户号、账单日期、账单类型和压缩类型
+     * @return 账单下载响应，包含下载地址和文件摘要信息
      */
     public ApiBillReponse billApply(ApiBillApplyRequest request) {
 
@@ -123,10 +127,14 @@ public class ApiBillService {
     }
 
     /**
-     * 申请资金账单。
+     * 申请资金账单下载地址。
      *
-     * @param request 请求参数
-     * @return ApiBillReponse
+     * <p>请求参数中必须提供直连商户号和账单日期。账单日期格式为 yyyy-MM-dd，
+     * 仅支持申请近三个月内且为昨日及以前的账单。account_type 常见取值为 BaseAccount
+     * 和 OperationAccount，tar_type 常用值为 GZIP。</p>
+     *
+     * @param request 请求参数，包含商户号、账单日期、账户类型和压缩类型
+     * @return 账单下载响应，包含下载地址和文件摘要信息
      */
     public ApiBillReponse applyFundFlowBill(ApplyFundFlowBillRequest request) {
         String requestUrl = getRequestUrl();
@@ -145,10 +153,13 @@ public class ApiBillService {
     }
 
     /**
-     * 申请分账账单。
+     * 申请分账账单下载地址。
      *
-     * @param request 请求参数
-     * @return ApiBillReponse
+     * <p>请求参数中必须提供直连商户号和账单日期。账单日期格式为 yyyy-MM-dd，
+     * 仅支持申请近三个月内且为昨日及以前的账单。tar_type 常用值为 GZIP。</p>
+     *
+     * @param request 请求参数，包含商户号、账单日期和压缩类型
+     * @return 账单下载响应，包含下载地址和文件摘要信息
      */
     public ApiBillReponse applySplitBill(ApplySplitBillRequest request) {
         String requestUrl = getRequestUrl();
