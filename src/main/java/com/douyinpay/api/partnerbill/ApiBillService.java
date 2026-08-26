@@ -17,13 +17,8 @@ import com.douyinpay.util.StringUtil;
 /**
  * 服务商账单服务。
  *
- * 官方文档：
- * - 申请交易账单：GET /v1/bill/tradebill
- *   https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/69e2ee7acad2c105c439a809
- * - 申请资金账单：GET /v1/bill/fundflowbill
- *   https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/684a53064037d5050b11863d
- * - 申请分账账单：GET /v1/bill/splitbill
- *   https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/684a53090efadf054e0489f0
+ * <p>适用于普通服务商和平台商户。申请成功后会返回 download_url、hash_type 和 hash_value，
+ * 其中 download_url 有效期为 5 分钟，建议下载完成后比对 hash_value 校验账单完整性。</p>
  */
 public class ApiBillService {
     /**
@@ -97,11 +92,10 @@ public class ApiBillService {
     /**
      * 申请服务商交易账单下载地址。
      *
-     * <p>请求参数中必须提供服务商商户号和账单日期。账单日期格式为 yyyy-MM-dd，
-     * 仅支持申请近三个月内且为昨日及以前的账单。sub_mchid 为选填，传入后用于过滤指定子商户账单；
-     * tar_type 常用值为 GZIP。</p>
+     * <p>交易账单按天生成，包含交易相关的金额、时间、营销等信息，供商户核对订单交易完成、退款、撤销等情况。
+     * 二级商户不单独提供对账单下载；如需下载某个子商户下的交易或退款数据，可传入 sub_mchid，平台商户不支持该字段。</p>
      *
-     * @param request 请求参数，包含服务商商户号、子商户号、账单日期和压缩类型
+     * @param request 请求参数，包含商户号、子商户号、账单日期和压缩类型
      * @return 账单下载响应，包含下载地址和文件摘要信息
      */
     public ApiBillReponse applyTradeBill(ApplyTradeBillRequest request) {
@@ -123,11 +117,10 @@ public class ApiBillService {
     /**
      * 申请服务商资金账单下载地址。
      *
-     * <p>请求参数中必须提供服务商商户号和账单日期。账单日期格式为 yyyy-MM-dd，
-     * 仅支持申请近三个月内且为昨日及以前的账单。sub_mchid 为选填；account_type 常见取值包括
-     * BaseAccount（基本户）和 OperationAccount（运营户），tar_type 常用值为 GZIP。</p>
+     * <p>资金账单按天生成，反映商户账户的资金变动情况，包含业务单号、收支金额和记账时间等信息。
+     * account_type 选填，可选值包括 BaseAccount（基本账户）、OperationAccount（运营账户）和 FeeAccount（手续费账户），默认值为 BaseAccount。</p>
      *
-     * @param request 请求参数，包含服务商商户号、子商户号、账单日期、账户类型和压缩类型
+     * @param request 请求参数，包含商户号、子商户号、账单日期、账户类型和压缩类型
      * @return 账单下载响应，包含下载地址和文件摘要信息
      */
     public ApiBillReponse applyFundFlowBill(ApplyFundFlowBillRequest request) {
@@ -152,10 +145,10 @@ public class ApiBillService {
     /**
      * 申请服务商分账账单下载地址。
      *
-     * <p>请求参数中必须提供服务商商户号和账单日期。账单日期格式为 yyyy-MM-dd，
-     * 仅支持申请近三个月内且为昨日及以前的账单。sub_mchid 为选填，tar_type 常用值为 GZIP。</p>
+     * <p>分账账单按天生成，包含分账相关的金额、时间等信息，供商户核对到账等情况。
+     * 抖音侧未成功的分账单不会出现在对账单中；如需下载某个子商户下的分账账单，可传入 sub_mchid。</p>
      *
-     * @param request 请求参数，包含服务商商户号、子商户号、账单日期和压缩类型
+     * @param request 请求参数，包含商户号、子商户号、账单日期和压缩类型
      * @return 账单下载响应，包含下载地址和文件摘要信息
      */
     public ApiBillReponse applySplitBill(ApplySplitBillRequest request) {

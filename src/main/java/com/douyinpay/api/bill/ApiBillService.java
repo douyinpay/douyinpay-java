@@ -19,14 +19,6 @@ import com.douyinpay.util.StringUtil;
  *
  * <p>支持申请交易账单、资金账单和分账账单下载地址。申请成功后会返回 download_url、hash_type
  * 和 hash_value，其中 download_url 有效期为 5 分钟，建议下载完成后比对 hash_value 校验账单完整性。</p>
- *
- * 官方文档：
- * - 申请交易账单：GET /v1/bill/billapply
- *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/667e6bc444a74902ead102ad
- * - 申请资金账单：GET /v1/bill/fundflowbill
- *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/667e69daa998e00305dcec48
- * - 申请分账账单：GET /v1/bill/splitbill
- *   https://pay.douyinpay.com/wiki/639fd48f17c2f3021d237f61/68355a92994b190515a2af86
  */
 public class ApiBillService {
 
