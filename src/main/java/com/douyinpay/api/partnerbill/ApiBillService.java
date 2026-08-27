@@ -14,12 +14,6 @@ import com.douyinpay.component.http.QueryParameter;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.util.StringUtil;
 
-/**
- * 服务商账单服务。
- *
- * <p>适用于普通服务商和平台商户。申请成功后会返回 download_url、hash_type 和 hash_value，
- * 其中 download_url 有效期为 5 分钟，建议下载完成后比对 hash_value 校验账单完整性。</p>
- */
 public class ApiBillService {
     /**
      * 申请下载交易账单。
