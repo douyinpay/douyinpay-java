@@ -636,7 +636,7 @@ public class ApiPayscoreServiceTest {
         request.setSubAppid(SUB_APPID);
         request.setServiceId(SERVICE_ID);
         request.setOutOrderNo("OUT_1666688488_10");
-        request.setTotalAmount(2);
+        request.setTotalAmount(2L);
         request.setAttach("attach");
 
         PostItem pi = new PostItem();

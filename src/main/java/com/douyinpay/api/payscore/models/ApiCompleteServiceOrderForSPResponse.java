@@ -62,7 +62,7 @@ public class ApiCompleteServiceOrderForSPResponse {
     // 格式规则：int64。
     // 业务规则："1. 金额：数字，必须≥0（单位：分） 2. 总金额 =（完结付费项目1…+完结付费项目n）-（完结商户优惠项目1…+完结商户优惠项目n） "。
     // 示例：10000。
-    @SerializedName("total_amount") private String totalAmount;
+    @SerializedName("total_amount") private Long totalAmount;
     // 字段含义：优惠标记。
     // 格式规则：string，json格式。
     // 业务规则：和抖音支付协商后可用。
@@ -117,8 +117,8 @@ public class ApiCompleteServiceOrderForSPResponse {
     public void setState(String state) { this.state = state; }
     public String getStateDescription() { return stateDescription; }
     public void setStateDescription(String stateDescription) { this.stateDescription = stateDescription; }
-    public String getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(String totalAmount) { this.totalAmount = totalAmount; }
+    public Long getTotalAmount() { return totalAmount; }
+    public void setTotalAmount(Long totalAmount) { this.totalAmount = totalAmount; }
     public String getGoodsTag() { return goodsTag; }
     public void setGoodsTag(String goodsTag) { this.goodsTag = goodsTag; }
     public String getAttach() { return attach; }

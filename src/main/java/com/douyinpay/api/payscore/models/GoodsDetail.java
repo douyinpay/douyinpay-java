@@ -15,13 +15,13 @@ public class GoodsDetail {
     @SerializedName("quantity")
     private Integer quantity;
     // 字段含义：商品价格。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 业务规则：单位分。
     // 示例：100。
     @SerializedName("unit_price")
     private Integer unitPrice;
     // 字段含义：商品优惠金额。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 业务规则：单位分。
     // 示例：100。
     @SerializedName("discount_amount")

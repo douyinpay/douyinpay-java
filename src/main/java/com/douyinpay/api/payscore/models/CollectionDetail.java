@@ -13,7 +13,7 @@ public class CollectionDetail {
     @SerializedName("transaction_id")
     private String transactionId;
     // 字段含义：单笔收款金额。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 示例：100。
     @SerializedName("amount")
     private Integer amount;

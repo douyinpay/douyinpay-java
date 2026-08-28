@@ -49,7 +49,7 @@ public class ApiCompleteServiceOrderForSPRequest {
     // 业务规则："1. 金额：数字，必须≥0（单位：分） 2. 总金额 =（完结付费项目1…+完结付费项目n）-（完结商户优惠项目1…+完结商户优惠项目n） "。
     // 示例：10000。
     @SerializedName("total_amount")
-    private Integer totalAmount;
+    private Long totalAmount;
     // 字段含义：商户数据包。
     // 格式规则：string[1,1024]。
     // 示例：{"out_product_category":"BATTERY_CHANGE"}。
@@ -140,11 +140,11 @@ public class ApiCompleteServiceOrderForSPRequest {
         this.serviceId = serviceId;
     }
 
-    public Integer getTotalAmount() {
+    public Long getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Integer totalAmount) {
+    public void setTotalAmount(Long totalAmount) {
         this.totalAmount = totalAmount;
     }
 

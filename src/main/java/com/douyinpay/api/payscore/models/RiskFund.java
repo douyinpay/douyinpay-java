@@ -11,7 +11,7 @@ public class RiskFund {
     @SerializedName("name")
     private String name;
     // 字段含义：风险金额。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 业务规则：1、数字，必须>0（单位分）2、风险金额≤每个服务ID的风险金额上限 3、当商户优惠字段为空时，付费项目总金额≤服务ID的风险金额上限。
     // 示例：100。
     @SerializedName("amount")

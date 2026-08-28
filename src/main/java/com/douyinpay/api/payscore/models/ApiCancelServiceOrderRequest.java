@@ -30,7 +30,7 @@ public class ApiCancelServiceOrderRequest {
     // 示例：OUT_1666688488。
     @SerializedName("out_order_no")
     private String outOrderNo;
-    // 字段含义：解约原因。
+    // 字段含义：取消原因。
     // 格式规则：string[1, 50]。
     // 示例：用户取消。
     @SerializedName("reason")

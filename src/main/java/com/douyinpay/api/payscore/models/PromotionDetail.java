@@ -29,7 +29,7 @@ public class PromotionDetail {
     @SerializedName("type")
     private String type;
     // 字段含义：优惠券面额。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 业务规则：单位分。
     // 示例：100。
     @SerializedName("amount")
@@ -46,13 +46,13 @@ public class PromotionDetail {
     @SerializedName("douyinpay_contribute")
     private Integer douyinpayContribute;
     // 字段含义：商户出资。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 业务规则：单位分。
     // 示例：100。
     @SerializedName("merchant_contribute")
     private Integer merchantContribute;
     // 字段含义：其他出资。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 业务规则：单位分。
     // 示例：100。
     @SerializedName("other_contribute")

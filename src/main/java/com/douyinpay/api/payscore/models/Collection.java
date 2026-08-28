@@ -9,23 +9,23 @@ public class Collection {
     // 字段含义：收款状态。
     // 格式规则：string。
     // 业务规则：枚举值：USER_PAYING：待支付；USER_PAID：已支付。
-    // 示例：DOING。
+    // 示例：USER_PAYING。
     @SerializedName("state")
     private String state;
     // 字段含义：总收款金额。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 业务规则：必须≥0（单位：分）。
     // 示例：10000。
     @SerializedName("total_amount")
     private Integer totalAmount;
     // 字段含义：待收金额。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 业务规则：单位为分。
     // 示例：100。
     @SerializedName("paying_amount")
     private Integer payingAmount;
     // 字段含义：已收金额。
-    // 格式规则：int64。
+    // 格式规则：int。
     // 业务规则：单位为分。
     // 示例：100。
     @SerializedName("paid_amount")

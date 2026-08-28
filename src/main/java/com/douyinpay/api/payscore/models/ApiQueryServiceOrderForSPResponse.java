@@ -58,6 +58,12 @@ public class ApiQueryServiceOrderForSPResponse {
     // 业务规则：对服务订单“进行中”状态的附加说明：MCH_COMPLETE: 商户完结；USER_PAYING: 用户支付中；USER_CONFIRM: 用户已确认。
     // 示例：USER_PAYING。
     @SerializedName("state_description") private String stateDescription;
+    // 字段含义：订单总金额。
+    // 格式规则：int64。
+    // 业务规则："1. 金额：数字，必须≥0（单位：分） 2. 总金额 =（完结付费项目1…+完结付费项目n）-（完结商户优惠项目1…+完结商户优惠项目n） "。
+    // 示例：10000。
+    @SerializedName("total_amount")
+    private String totalAmount;
     // 字段含义：服务风险金。
     // 格式规则：object。
     // 示例：{"name":"ESTIMATE_ORDER_COST","amount":10000,"description":"预估订单费用"}。
@@ -154,4 +160,10 @@ public class ApiQueryServiceOrderForSPResponse {
     public void setAuthorizationCode(String authorizationCode) { this.authorizationCode = authorizationCode; }
     public String getSubOpenId() { return subOpenId; }
     public void setSubOpenId(String subOpenId) { this.subOpenId = subOpenId; }
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 }
