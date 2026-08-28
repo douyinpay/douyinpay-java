@@ -10,6 +10,10 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
 
+/**
+ * 抖音支付先享后付接口服务。
+ *
+ */
 public class ApiPayscoreService {
 
     /**

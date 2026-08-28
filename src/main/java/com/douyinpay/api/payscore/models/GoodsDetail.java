@@ -4,29 +4,31 @@ import com.google.gson.annotations.SerializedName;
 
 // 单品详情
 public class GoodsDetail {
-    /**
-     * 商品编码
-     */
+    // 字段含义：商品编码。
+    // 格式规则：string。
+    // 示例：1001。
     @SerializedName("goods_id")
     private String goodsId;
-    /**
-     * 商品数量
-     */
+    // 字段含义：商品数量。
+    // 格式规则：int32。
+    // 示例：100。
     @SerializedName("quantity")
     private Integer quantity;
-    /**
-     * 商品价格
-     */
+    // 字段含义：商品价格。
+    // 格式规则：int64。
+    // 业务规则：单位分。
+    // 示例：100。
     @SerializedName("unit_price")
     private Integer unitPrice;
-    /**
-     * 商品优惠金额
-     */
+    // 字段含义：商品优惠金额。
+    // 格式规则：int64。
+    // 业务规则：单位分。
+    // 示例：100。
     @SerializedName("discount_amount")
     private Integer discountAmount;
-    /**
-     * 商品备注
-     */
+    // 字段含义：商品备注。
+    // 格式规则：string。
+    // 示例：商品备注。
     @SerializedName("goods_remark")
     private String goodsRemark;
 

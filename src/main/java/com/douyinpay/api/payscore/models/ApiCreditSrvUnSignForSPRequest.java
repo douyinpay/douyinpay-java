@@ -6,25 +6,45 @@ import com.google.gson.annotations.SerializedName;
  * 直连服务商解除用户授权请求。
  */
 public class ApiCreditSrvUnSignForSPRequest {
-    /** 服务 ID。 */
+    // 字段含义：服务ID。
+    // 格式规则：string[1,32]。
+    // 业务规则：业务接入时分配，用于配置商户和场景维度信息。
+    // 示例：101。
     @SerializedName("service_id")
     private String serviceId;
-    /** 商户协议号。 */
+    // 字段含义：商户协议号。
+    // 格式规则：string[1,64]。
+    // 业务规则：商户侧生成的协议号，在同一个商户号下唯一。
+    // 示例：1736173225954193889。
     @SerializedName("authorization_code")
     private String authorizationCode;
-    /** 服务商商户号。 */
+    // 字段含义：服务商商户号。
+    // 格式规则：string[1,32]。
+    // 业务规则：服务商的商户号，由抖音支付生成并下发。
+    // 示例：6020230307605084。
     @SerializedName("sp_mchid")
     private String spMchid;
-    /** 服务商应用 ID。 */
+    // 字段含义：服务商应用ID。
+    // 格式规则：string[1,32]。
+    // 业务规则：由抖音支付生成的应用ID，全局唯一。
+    // 示例：awofz9bncda6w2w4。
     @SerializedName("sp_appid")
     private String spAppid;
-    /** 子商户商户号。 */
+    // 字段含义：子商户商户号。
+    // 格式规则：string[1,32]。
+    // 业务规则：子商户的商户号，由抖音支付生成并下发。
+    // 示例：6020230307605085。
     @SerializedName("sub_mchid")
     private String subMchid;
-    /** 子商户应用 ID。 */
+    // 字段含义：子商户应用ID。
+    // 格式规则：string[1,32]。
+    // 业务规则：由抖音支付生成的应用ID，全局唯一。
+    // 示例：awofz9bncda6w2w4。
     @SerializedName("sub_appid")
     private String subAppid;
-    /** 解约原因。 */
+    // 字段含义：解约原因。
+    // 格式规则：string[1, 50]。
+    // 示例：用户取消。
     @SerializedName("reason")
     private String reason;
 

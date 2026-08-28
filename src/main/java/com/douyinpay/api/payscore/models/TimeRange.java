@@ -4,16 +4,28 @@ import com.google.gson.annotations.SerializedName;
 
 // 服务时间段
 public class TimeRange {
-    // 服务开始时间
+    // 字段含义：服务开始时间。
+    // 格式规则：string[14]，格式为：yyyyMMddHHmmss。
+    // 业务规则：用户下单时确认的服务开始时间（比如用户今天下单，明天开始接受服务，这里指的是明天的服务开始时间）。
+    // 示例：20220208060910。
     @SerializedName("start_time")
     private String startTime;
-    // 服务开始时间备注
+    // 字段含义：服务开始时间备注。
+    // 格式规则：string[1,20]。
+    // 业务规则：服务开始时间有填时，可填写服务开始时间备注。
+    // 示例：开始租借日期。
     @SerializedName("start_time_remark")
     private String startTimeRemark;
-    // 服务结束时间
+    // 字段含义：服务结束时间。
+    // 格式规则：string[14]，格式为：yyyyMMddHHmmss。
+    // 业务规则：用户享受服务的完成时间。
+    // 示例：20220208060910。
     @SerializedName("end_time")
     private String endTime;
-    // 服务结束时间备注
+    // 字段含义：服务结束时间备注。
+    // 格式规则：string[1,20]。
+    // 业务规则：服务结束时间有填时，可填写服务结束时间备注。
+    // 示例：结束租借日期。
     @SerializedName("end_time_remark")
     private String endTimeRemark;
 

@@ -2,26 +2,28 @@ package com.douyinpay.api.payscore.models;
 
 import com.google.gson.annotations.SerializedName;
 
-/** 门店信息 （预留字段）*/
+/**
+ * 门店信息。
+ */
 public class StoreInfo {
-    /**
-     * 门店id
-     */
+    // 字段含义：门店编号。
+    // 格式规则：string[1,32]。
+    // 示例：1089。
     @SerializedName("id")
     private String id;
-    /**
-     * 门店名称
-     */
+    // 字段含义：门店名称。
+    // 格式规则：string[1,256]。
+    // 示例：辉煌购物中心店。
     @SerializedName("name")
     private String name;
-    /**
-     * 门店编码
-     */
+    // 字段含义：地区编码。
+    // 格式规则：string[1,32]。
+    // 示例：100089。
     @SerializedName("area_code")
     private String areaCode;
-    /**
-     * 门店地址
-     */
+    // 字段含义：详细地址。
+    // 格式规则：string[1,512]。
+    // 示例：北京市海淀区辉煌购物中心5层505。
     @SerializedName("address")
     private String address;
 
