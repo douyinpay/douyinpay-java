@@ -76,7 +76,7 @@ public class ApiCreateServiceOrderRequest {
     private Boolean needUserConfirm;
     // 字段含义：用户标识。
     // 格式规则：string[1,128]。
-    // 业务规则：户在直连商户appid下的唯一标识。
+    // 业务规则：用户在直连商户appid下的唯一标识。
     // 示例：oUpF8uMuAJO_M2pxb1Q9zNjWeS6o。
     @SerializedName("openid")
     private String openId;

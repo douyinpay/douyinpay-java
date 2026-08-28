@@ -32,7 +32,7 @@ public class Collection {
     private Integer paidAmount;
     // 字段含义：收款明细列表。
     // 格式规则：array。
-    // 示例：[{"transaction_id":"TP2022101314262940644982204453","amount":100,"paid_type":"JSAPI","paid_time":"20220208060910"}]。
+    // 示例：[{"transaction_id":"TP2022101314262940644982204453","amount":100,"paid_type":"DOUYINPAY","paid_time":"20220208060910"}]。
     @SerializedName("details")
     private List<CollectionDetail> details;
 

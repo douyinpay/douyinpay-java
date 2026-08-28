@@ -60,7 +60,7 @@ public class ApiCompleteServiceOrderForSPResponse {
     @SerializedName("state_description") private String stateDescription;
     // 字段含义：订单总金额。
     // 格式规则：int64。
-    // 业务规则："1. 金额：数字，必须≥0（单位：分） 2. 总金额 =（完结付费项目1…+完结付费项目n）-（完结商户优惠项目1…+完结商户优惠项目n） "。
+    // 业务规则：1. 金额：数字，必须≥0（单位：分） 2. 总金额 =（完结付费项目1…+完结付费项目n）-（完结商户优惠项目1…+完结商户优惠项目n）。
     // 示例：10000。
     @SerializedName("total_amount") private Long totalAmount;
     // 字段含义：优惠标记。

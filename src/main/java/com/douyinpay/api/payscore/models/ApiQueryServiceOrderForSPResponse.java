@@ -60,17 +60,17 @@ public class ApiQueryServiceOrderForSPResponse {
     @SerializedName("state_description") private String stateDescription;
     // 字段含义：订单总金额。
     // 格式规则：int64。
-    // 业务规则："1. 金额：数字，必须≥0（单位：分） 2. 总金额 =（完结付费项目1…+完结付费项目n）-（完结商户优惠项目1…+完结商户优惠项目n） "。
+    // 业务规则：1. 金额：数字，必须≥0（单位：分） 2. 总金额 =（完结付费项目1…+完结付费项目n）-（完结商户优惠项目1…+完结商户优惠项目n）。
     // 示例：10000。
     @SerializedName("total_amount")
-    private String totalAmount;
+    private Long totalAmount;
     // 字段含义：服务风险金。
     // 格式规则：object。
     // 示例：{"name":"ESTIMATE_ORDER_COST","amount":10000,"description":"预估订单费用"}。
     @SerializedName("risk_fund") private RiskFund riskFund;
     // 字段含义：服务商商户下用户标识。
     // 格式规则：string。
-    // 业务规则：用户在服务商户对应appid下的唯一标识。传入appid，未传入sub_appid时返回。
+    // 业务规则：用户在服务商户对应appid下的唯一标识。传入sp_appid，未传入sub_appid时返回。
     // 示例：示例：oUpF8uMuAJO_M2pxb1Q9zNjWeS6o。。
     @SerializedName("sp_openid") private String spOpenId;
     // 字段含义：商户数据包。
@@ -160,10 +160,10 @@ public class ApiQueryServiceOrderForSPResponse {
     public void setAuthorizationCode(String authorizationCode) { this.authorizationCode = authorizationCode; }
     public String getSubOpenId() { return subOpenId; }
     public void setSubOpenId(String subOpenId) { this.subOpenId = subOpenId; }
-    public String getTotalAmount() {
+    public Long getTotalAmount() {
         return totalAmount;
     }
-    public void setTotalAmount(String totalAmount) {
+    public void setTotalAmount(Long totalAmount) {
         this.totalAmount = totalAmount;
     }
 }

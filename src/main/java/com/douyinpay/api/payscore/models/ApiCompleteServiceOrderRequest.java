@@ -34,7 +34,7 @@ public class ApiCompleteServiceOrderRequest {
     private String outOrderNo;
     // 字段含义：订单总金额。
     // 格式规则：int。
-    // 业务规则："1. 金额：数字，必须≥0（单位：分） 2. 总金额 =（完结付费项目1…+完结付费项目n）-（完结商户优惠项目1…+完结商户优惠项目n） "。
+    // 业务规则：1. 金额：数字，必须≥0（单位：分）2. 总金额=后付费项目金额之和-后付费商户优惠项目金额之和，且小于等于服务风险金额。取消订单时，该字段必须为0 。
     // 示例：10000。
     @SerializedName("total_amount")
     private Integer totalAmount;

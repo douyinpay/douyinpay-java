@@ -42,7 +42,7 @@ public class ApiCancelServiceOrderForSPRequest {
     // 示例：101。
     @SerializedName("service_id")
     private String serviceId;
-    // 字段含义：解约原因。
+    // 字段含义：取消原因。
     // 格式规则：string[1, 50]。
     // 示例：用户取消。
     @SerializedName("reason")

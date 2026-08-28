@@ -3,7 +3,7 @@ package com.douyinpay.api.payscore.models;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * 门店信息。
+ * 门店信息（预留字段）。
  */
 public class StoreInfo {
     // 字段含义：门店编号。

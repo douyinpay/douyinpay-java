@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 public class ApiCancelServiceOrderRequest {
     // 字段含义：应用ID。
-    // 格式规则：string。
+    // 格式规则：string[1,32]。
     // 业务规则：商户在抖音开放平台申请的应用ID，全局唯一；此处请填写移动应用类型的AppID，并确保该AppID与mchid有绑定关系。
     // 示例：awofz9bncda6w2w4。
     @SerializedName("appid")
