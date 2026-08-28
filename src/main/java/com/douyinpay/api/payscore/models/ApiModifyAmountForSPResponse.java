@@ -57,7 +57,7 @@ public class ApiModifyAmountForSPResponse {
     // 格式规则：int64。
     // 业务规则：1. 金额：数字，必须≥0（单位：分） 2. 总金额 =（完结付费项目1…+完结付费项目n）-（完结商户优惠项目1…+完结商户优惠项目n）。
     // 示例：10000。
-    @SerializedName("total_amount") private Integer totalAmount;
+    @SerializedName("total_amount") private Long totalAmount;
     // 字段含义：后付费项目。
     // 格式规则：array。
     // 示例：[{"name":"出行费用","amount":4000,"description":"美味餐厅","count":1}]。
@@ -113,8 +113,8 @@ public class ApiModifyAmountForSPResponse {
     public void setState(String state) { this.state = state; }
     public String getStateDescription() { return stateDescription; }
     public void setStateDescription(String stateDescription) { this.stateDescription = stateDescription; }
-    public Integer getTotalAmount() { return totalAmount; }
-    public void setTotalAmount(Integer totalAmount) { this.totalAmount = totalAmount; }
+    public Long getTotalAmount() { return totalAmount; }
+    public void setTotalAmount(Long totalAmount) { this.totalAmount = totalAmount; }
     public List<PostItem> getPostPayments() { return postPayments; }
     public void setPostPayments(List<PostItem> postPayments) { this.postPayments = postPayments; }
     public List<PostItem> getPostDiscounts() { return postDiscounts; }
