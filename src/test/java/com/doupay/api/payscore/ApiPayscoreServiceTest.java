@@ -779,7 +779,7 @@ public class ApiPayscoreServiceTest {
         request.setSubAppid(SUB_APPID);
         request.setServiceId(SERVICE_ID);
         request.setOutOrderNo("OUT_1666688488_10");
-        request.setTotalAmount(1);
+        request.setTotalAmount(1L);
         request.setReason("修改原因");
 
         PostItem pi = new PostItem();
