@@ -3,15 +3,9 @@ package com.douyinpay.api.payscore.models;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * 查询用户先享后付授权记录请求。
+ * 直连服务商查询用户授权请求。
  */
-public class ApiCreditSrvSignQueryRequest {
-    // 字段含义：直连商户号。
-    // 格式规则：string[1,32]。
-    // 业务规则：直连商户的商户号，由抖音支付生成并下发。
-    // 示例：6020230307605084。
-    @SerializedName("mchid")
-    private String mchid;
+public class ApiCreditSrvSignQueryForSPRequest {
     // 字段含义：服务ID。
     // 格式规则：string[1,32]。
     // 业务规则：业务接入时分配，用于配置商户和场景维度信息。
@@ -24,14 +18,18 @@ public class ApiCreditSrvSignQueryRequest {
     // 示例：1736173225954193889。
     @SerializedName("authorization_code")
     private String authorizationCode;
-
-    public String getMchid() {
-        return mchid;
-    }
-
-    public void setMchid(String mchid) {
-        this.mchid = mchid;
-    }
+    // 字段含义：服务商商户号。
+    // 格式规则：string[1,32]。
+    // 业务规则：服务商的商户号，由抖音支付生成并下发。
+    // 示例：6020230307605084。
+    @SerializedName("sp_mchid")
+    private String spMchid;
+    // 字段含义：子商户商户号。
+    // 格式规则：string[1,32]。
+    // 业务规则：子商户的商户号，由抖音支付生成并下发。
+    // 示例：6020230307605085。
+    @SerializedName("sub_mchid")
+    private String subMchid;
 
     public String getServiceId() {
         return serviceId;
@@ -49,12 +47,19 @@ public class ApiCreditSrvSignQueryRequest {
         this.authorizationCode = authorizationCode;
     }
 
-    @Override
-    public String toString() {
-        return "ApiCreditSrvSignQueryRequest{" +
-                "mchid='" + mchid + '\'' +
-                ", serviceId='" + serviceId + '\'' +
-                ", authorizationCode='" + authorizationCode + '\'' +
-                '}';
+    public String getSpMchid() {
+        return spMchid;
+    }
+
+    public void setSpMchid(String spMchid) {
+        this.spMchid = spMchid;
+    }
+
+    public String getSubMchid() {
+        return subMchid;
+    }
+
+    public void setSubMchid(String subMchid) {
+        this.subMchid = subMchid;
     }
 }

@@ -4,10 +4,14 @@ import com.google.gson.annotations.SerializedName;
 
 // 位置信息
 public class Location {
-    // 服务开始地点
+    // 字段含义：服务开始地点。
+    // 格式规则：string[1,50]。
+    // 示例：美味餐厅。
     @SerializedName("start_location")
     private String startLocation;
-    // 服务结束地点
+    // 字段含义：服务结束地点。
+    // 格式规则：string[1,50]。
+    // 示例：美味餐厅。
     @SerializedName("end_location")
     private String endLocation;
 
