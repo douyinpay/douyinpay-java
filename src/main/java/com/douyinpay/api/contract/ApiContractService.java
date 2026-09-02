@@ -15,6 +15,15 @@ import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 
+/**
+ * 直连商户签约关系服务。
+ *
+ * 接口路径：
+ * - 查询签约协议：POST /v1/member/querycontract
+ * - 删除签约协议：POST /v1/member/deletecontract
+ * - APP 预签约下单：POST /v1/agreementauth/preentrustweb
+ * - H5 预签约下单：POST /v1/agreementauth/h5entrustweb
+ */
 public class ApiContractService {
 
     private final DouyinpayClient douyinpayClient;
@@ -43,10 +52,10 @@ public class ApiContractService {
         }
 
         /**
-         * 设置自定义httpclient
+         * 设置自定义 HTTP 客户端。
          *
-         * @param douyinpayClient
-         * @return Builder
+         * @param douyinpayClient 自定义 HTTP 客户端
+         * @return 当前构建器
          */
         public Builder douyinpayClient(DouyinpayClient douyinpayClient) {
             this.douyinpayClient = douyinpayClient;
@@ -54,9 +63,9 @@ public class ApiContractService {
         }
 
         /**
-         * 构造服务
+         * 构造直连商户签约关系服务。
          *
-         * @return AppService
+         * @return ApiContractService
          */
         public ApiContractService build() {
             return new ApiContractService(douyinpayClient, domainName);
@@ -79,7 +88,7 @@ public class ApiContractService {
      * 查询签约协议
      *
      * @param request 请求参数
-     * @return QueryContractResponse
+     * @return ApiQueryContractResponse
      */
     public ApiQueryContractResponse queryContract(ApiQueryContractRequest request) {
         String requestPath = "/v1/member/querycontract";
@@ -98,7 +107,7 @@ public class ApiContractService {
      * 删除签约协议
      *
      * @param request 请求参数
-     * @return DeleteContractResponse
+     * @return ApiDeleteContractResponse
      */
     public ApiDeleteContractResponse deleteContract(ApiDeleteContractRequest request) {
         String requestUrl = getRequestUrl();
@@ -118,7 +127,7 @@ public class ApiContractService {
      * app预签约下单
      *
      * @param request 请求参数
-     * @return PreContractResponse
+     * @return ApiPreEntrustWebResponse
      */
     public ApiPreEntrustWebResponse preEntrustWeb(ApiPreEntrustWebRequest request) {
         String requestUrl = getRequestUrl();
@@ -138,7 +147,7 @@ public class ApiContractService {
      * h5预签约下单
      *
      * @param request 请求参数
-     * @return PreContractResponse
+     * @return ApiH5EntrustWebResponse
      */
     public ApiH5EntrustWebResponse h5EntrustWeb(ApiH5EntrustWebRequest request) {
         String requestPath = "/v1/agreementauth/h5entrustweb";

@@ -79,7 +79,7 @@ public class ApiPartnerContractOrderService {
      * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/685b4b7975a00b04c8aa2fb4
      *
      * @param request 请求参数
-     * @return PrepayResponse
+     * @return ApiPartnerContractOrderResponse
      */
     public ApiPartnerContractOrderResponse partnerContractOrder(ApiPartnerContractOrderRequest request) {
         String requestPath = "/v1/trade/partner/transactions/contractorder";

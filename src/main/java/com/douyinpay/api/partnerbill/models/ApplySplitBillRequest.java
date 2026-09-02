@@ -6,10 +6,9 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 public class ApplySplitBillRequest {
     /**
-     * 字段含义：商户号。
-     * 必填规则：必填。
-     * 格式规则：string，[1,32]。
-     * 业务规则：由抖音支付生成并下发，支持服务商和平台商户传入。
+     * 字段含义：服务商商户号。
+     * 格式规则：字符串，长度 1-32。
+     * 业务规则：由抖音支付生成并下发，支持服务商、平台商户。
      * 示例：6020230301343998
      */
     @SerializedName("sp_mchid")
@@ -17,9 +16,8 @@ public class ApplySplitBillRequest {
 
     /**
      * 字段含义：子商户号。
-     * 必填规则：选填。
-     * 格式规则：string，[1,32]。
-     * 业务规则：不填则默认返回服务商下的所有分账账单；如需下载某个子商户下的分账账单，则传入指定子商户号。
+     * 格式规则：字符串，长度 1-32。
+     * 业务规则：不传时默认返回服务商下的所有分账账单；如需下载指定子商户的分账账单，则传对应子商户号。
      * 示例：6020230307605084
      */
     @SerializedName("sub_mchid")
@@ -27,8 +25,7 @@ public class ApplySplitBillRequest {
 
     /**
      * 字段含义：账单日期。
-     * 必填规则：必填。
-     * 格式规则：yyyy-MM-dd，[1,10]。
+     * 格式规则：字符串，长度 1-10，格式为 yyyy-MM-dd。
      * 业务规则：仅支持三个月内的账单下载申请。
      * 示例：2024-10-10
      */
@@ -37,9 +34,8 @@ public class ApplySplitBillRequest {
 
     /**
      * 字段含义：压缩类型。
-     * 必填规则：必填。
-     * 格式规则：string，[1,32]。
-     * 业务规则：GZIP 表示返回 .gzip 格式的压缩包账单。
+     * 格式规则：字符串，长度 1-32。
+     * 业务规则：GZIP 表示返回格式为 `.gzip` 的压缩包账单。
      * 示例：GZIP
      */
     @SerializedName("tar_type")

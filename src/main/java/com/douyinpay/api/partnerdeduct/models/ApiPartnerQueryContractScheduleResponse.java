@@ -5,28 +5,29 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 
 
 
+/** 服务商查询预约扣费结果响应参数。 */
 public class ApiPartnerQueryContractScheduleResponse {
-    /*可扣费开始日期 */
+    /**可扣费开始日期 */
     @SerializedName("deduct_start_date")
     private String deductStartDate;
 
-    /*可扣费结束日期 */
+    /**可扣费结束日期 */
     @SerializedName("deduct_end_date")
     private String deductEndDate;
 
-    /*预约扣费金额信息 */
+    /**预约扣费金额信息 */
     @SerializedName("scheduled_amount")
     private ScheduleAmount scheduledAmount;
 
-    /*预约扣费状态 */
+    /**预约扣费状态 */
     @SerializedName("schedule_state")
     private String scheduleState;
 
-    /*实际扣费金额 */
+    /**实际扣费金额 */
     @SerializedName("deduct_amount")
     private ScheduleAmount deductAmount;
 
-    /*实际扣费日期 */
+    /**实际扣费日期 */
     @SerializedName("deduct_date")
     private String deductDate;
 

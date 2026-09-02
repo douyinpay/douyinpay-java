@@ -17,6 +17,16 @@ import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
 import com.douyinpay.util.StringUtil;
 
+/**
+ * 直连商户代扣服务。
+ *
+ * 接口路径：
+ * - 申请扣款：POST /v1/deduct/payapply
+ * - 关闭订单：POST /v1/trade/transactions/out-trade-no/{out_trade_no}/close
+ * - 按抖音支付订单号查询订单：GET /v1/trade/transactions/id/{transaction_id}
+ * - 按商户订单号查询订单：GET /v1/trade/transactions/out-trade-no/{out_trade_no}
+ * - 预约扣费通知：POST /v1/agreementauth/deductNotify
+ */
 public class ApiDeductService {
 
     private final String OUT_TRADE_NO_PATTERN = "{out_trade_no}";
@@ -47,10 +57,10 @@ public class ApiDeductService {
         }
 
         /**
-         * 设置自定义httpclient
+         * 设置自定义 HTTP 客户端。
          *
-         * @param douyinpayClient
-         * @return Builder
+         * @param douyinpayClient 自定义 HTTP 客户端
+         * @return 当前构建器
          */
         public Builder douyinpayClient(DouyinpayClient douyinpayClient) {
             this.douyinpayClient = douyinpayClient;
@@ -58,9 +68,9 @@ public class ApiDeductService {
         }
 
         /**
-         * 构造服务
+         * 构造直连商户代扣服务。
          *
-         * @return AppService
+         * @return ApiDeductService
          */
         public ApiDeductService build() {
             return new ApiDeductService(douyinpayClient, domainName);
@@ -81,7 +91,7 @@ public class ApiDeductService {
      * 申请扣款
      *
      * @param request 请求参数
-     * @return PrepayResponse
+     * @return ApiDeductResponse
      */
     public ApiDeductResponse deduct(ApiDeductRequest request) {
         String requestPath = "/v1/deduct/payapply";
@@ -183,6 +193,12 @@ public class ApiDeductService {
         return apiResponse.getApiResponse();
     }
 
+    /**
+     * 预约扣费通知
+     *
+     * @param request 请求参数
+     * @return ApiDeductNotifyResponse
+     */
     public ApiDeductNotifyResponse deductNotify(ApiDeductNotifyRequest request) {
         String requestPath = "/v1/agreementauth/deductNotify";
         String requestUrl = getRequestUrl();

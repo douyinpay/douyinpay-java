@@ -3,23 +3,24 @@ import com.google.gson.annotations.SerializedName;
 
 import static com.douyinpay.util.StringUtil.toIndentedString;
 
+/** 服务商查询签约关系请求参数。 */
 public class ApiPartnerQueryContractRequest {
-    /*
+    /**
      * 委托代扣模板ID
      */
     @SerializedName("plan_id")
     private Integer planId;
-    /*
+    /**
      * 商户签约协议号
      */
     @SerializedName("out_contract_code")
     private String outContractCode;
-    /*
+    /**
      * 服务商商户号
      */
     @SerializedName("sp_mchid")
     private String spMchid;
-    /*
+    /**
      * 子商户号
      */
     @SerializedName("sub_mchid")
