@@ -14,28 +14,17 @@ import com.douyinpay.component.http.QueryParameter;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.util.StringUtil;
 
-/**
- * 服务商账单服务。
- *
- * 官方文档：
- * - 申请交易账单：GET /v1/bill/tradebill
- * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/69e2ee7acad2c105c439a809
- * - 申请资金账单：GET /v1/bill/fundflowbill
- * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/684a53064037d5050b11863d
- * - 申请分账账单：GET /v1/bill/splitbill
- * https://partner.douyinpay.com/wiki/682c7a8e82b07604fd4deccb/684a53090efadf054e0489f0
- */
 public class ApiBillService {
     /**
-     * 申请下载交易账单
+     * 申请下载交易账单。
      */
     private static final String ApplyTradeBillURI = "/v1/bill/tradebill";
     /**
-     * 申请下载资金账单
+     * 申请下载资金账单。
      */
     private static final String ApplyFundFlowBillURI = "/v1/bill/fundflowbill";
     /**
-     * 申请下载分账账单
+     * 申请下载分账账单。
      */
     private static final String ApplySplitBillURI = "/v1/bill/splitbill";
 
@@ -53,9 +42,9 @@ public class ApiBillService {
         private DomainName domainName;
 
         /**
-         * 设置抖音支付域名 默认为api.douyinpay.com
+         * 设置抖音支付域名，默认为 api.douyinpay.com。
          *
-         * @param domainName 抖音支付域名
+         * @param domainName 抖音支付请求域名
          * @return Builder
          */
         public Builder domainName(DomainName domainName) {
@@ -64,9 +53,9 @@ public class ApiBillService {
         }
 
         /**
-         * 设置自定义httpclient
+         * 设置自定义 DouyinpayClient。
          *
-         * @param douyinpayClient
+         * @param douyinpayClient 抖音支付客户端
          * @return Builder
          */
         public Builder douyinpayClient(DouyinpayClient douyinpayClient) {
@@ -75,9 +64,9 @@ public class ApiBillService {
         }
 
         /**
-         * 构造服务
+         * 构造服务商账单服务。
          *
-         * @return AppService
+         * @return ApiBillService
          */
         public ApiBillService build() {
             return new ApiBillService(douyinpayClient, domainName);
@@ -94,6 +83,15 @@ public class ApiBillService {
         return domainName;
     }
 
+    /**
+     * 申请服务商交易账单下载地址。
+     *
+     * <p>交易账单按天生成，包含交易相关的金额、时间、营销等信息，供商户核对订单交易完成、退款、撤销等情况。
+     * 二级商户不单独提供对账单下载；如需下载某个子商户下的交易或退款数据，可传入 sub_mchid，平台商户不支持该字段。</p>
+     *
+     * @param request 请求参数，包含商户号、子商户号、账单日期和压缩类型
+     * @return 账单下载响应，包含下载地址和文件摘要信息
+     */
     public ApiBillReponse applyTradeBill(ApplyTradeBillRequest request) {
         String requestUrl = getRequestUrl();
         // 添加 query param
@@ -110,6 +108,15 @@ public class ApiBillService {
         return apiResponse.getApiResponse();
     }
 
+    /**
+     * 申请服务商资金账单下载地址。
+     *
+     * <p>资金账单按天生成，反映商户账户的资金变动情况，包含业务单号、收支金额和记账时间等信息。
+     * account_type 选填，可选值包括 BaseAccount（基本账户）、OperationAccount（运营账户）和 FeeAccount（手续费账户），默认值为 BaseAccount。</p>
+     *
+     * @param request 请求参数，包含商户号、子商户号、账单日期、账户类型和压缩类型
+     * @return 账单下载响应，包含下载地址和文件摘要信息
+     */
     public ApiBillReponse applyFundFlowBill(ApplyFundFlowBillRequest request) {
         String requestUrl = getRequestUrl();
         // 添加 query param
@@ -129,6 +136,15 @@ public class ApiBillService {
         return apiResponse.getApiResponse();
     }
 
+    /**
+     * 申请服务商分账账单下载地址。
+     *
+     * <p>分账账单按天生成，包含分账相关的金额、时间等信息，供商户核对到账等情况。
+     * 抖音侧未成功的分账单不会出现在对账单中；如需下载某个子商户下的分账账单，可传入 sub_mchid。</p>
+     *
+     * @param request 请求参数，包含商户号、子商户号、账单日期和压缩类型
+     * @return 账单下载响应，包含下载地址和文件摘要信息
+     */
     public ApiBillReponse applySplitBill(ApplySplitBillRequest request) {
         String requestUrl = getRequestUrl();
         // 添加 query param
