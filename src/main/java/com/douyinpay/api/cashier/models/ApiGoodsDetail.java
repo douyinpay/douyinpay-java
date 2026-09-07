@@ -18,8 +18,6 @@ public class ApiGoodsDetail {
    * 字段含义：抖音支付商品编码。
    * 格式规则：string[1,32]。
    * 业务规则：抖音支付侧的商品编码，选填。
-   * 示例：
-   * TODO: 官方文档未提供标准示例值，暂留空。
    */
   @SerializedName("douyinpay_goods_id")
   private String douyinpayGoodsId;

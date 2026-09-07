@@ -26,7 +26,7 @@ public class TransferReturnNotification {
     /** 转账退回状态 */
     @SerializedName("status")
     private String status;
-    /*** 退款完成时间*/
+    /** 退款完成时间 */
     @SerializedName("refund_time")
     private String refundTime;
     /** 金额信息 说明：金额详细信息 */

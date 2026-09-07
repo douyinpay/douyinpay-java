@@ -1,18 +1,14 @@
 package com.douyinpay.api.transfer.models;
 
-import com.douyinpay.api.refund.model.*;
 import com.douyinpay.api.tranferreturn.models.Amount;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TransferPayeeNotification {
     /** 应用ID */
     @SerializedName("appid")
     private String appId;
-    /** 商户号  */
+    /** 商户号 */
     @SerializedName("mchid")
     private String merchantId;
     /** 抖音系统内部的转账单据ID */
@@ -24,10 +20,10 @@ public class TransferPayeeNotification {
     /** 交易描述 */
     @SerializedName("status_desc")
     private String statusDesc;
-    /** 创建时间  */
+    /** 创建时间 */
     @SerializedName("create_time")
     private String createTime;
-    /** 成功时间  */
+    /** 成功时间 */
     @SerializedName("success_time")
     private String successTime;
     /** 付款方信息 */
@@ -39,10 +35,11 @@ public class TransferPayeeNotification {
     /** 订单名称 */
     @SerializedName("order_title")
     private String orderTitle;
-    /** 备注信息*/
+    /** 备注信息 */
     @SerializedName("remark")
     private String remark;
 
+    /** 扩展信息 */
     @SerializedName("ext_info")
     private String extInfo;
 

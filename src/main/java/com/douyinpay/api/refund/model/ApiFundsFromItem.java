@@ -8,10 +8,10 @@ import static com.douyinpay.util.StringUtil.toIndentedString;
 /** FundsFromItem */
 public class ApiFundsFromItem {
   /**
-   * 字段含义：金额信息。
-   * 格式规则：对象。
-   * 业务规则：包含退款金额、原订单金额和退款币种等字段。
-   * 示例：{"refund":100,"total":100,"currency":"CNY"}
+   * 字段含义：对应账户出资金额。
+   * 格式规则：整数。
+   * 业务规则：单位为分，只能为整数。
+   * 示例：100
    */
   @SerializedName("amount")
   private Long amount;
