@@ -17,13 +17,13 @@ public class ApiTransferReturnQueryResponse {
     private String outRequestNo; // 外部请求流水号
 
     @SerializedName("refund_amount")
-    private Amount refundAmount; // 退款请求
+    private Amount refundAmount; // 退款金额
 
     @SerializedName("status")
-    private String status; // 备注
+    private String status; // 退款状态
 
     @SerializedName("refund_date")
-    private String refundDate; // 扩展信息
+    private String refundDate; // 退款日期
 
     @SerializedName("fail_reason_desp")
     private String failReasonDesp; // 失败原因描述

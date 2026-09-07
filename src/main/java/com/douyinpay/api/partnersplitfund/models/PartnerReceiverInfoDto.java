@@ -7,7 +7,8 @@ public class PartnerReceiverInfoDto {
     /**
      * 字段含义：分账接收方类型。
      * 格式规则：枚举字符串，长度为 1-32 位。
-     * 业务规则：MERCHANT_ID 表示商户号；PERSONAL_SP_OPENID 表示用户在服务商 AppID 下的唯一标识；PERSONAL_SUB_OPENID 表示用户在特约商户 AppID 下的唯一标识。
+     * 业务规则：MERCHANT_ID 表示商户号；PERSONAL_SP_OPENID 表示用户在服务商 AppID
+     * 下的唯一标识；PERSONAL_SUB_OPENID 表示用户在特约商户 AppID 下的唯一标识。
      * 示例：MERCHANT_ID
      */
     @SerializedName("type")
@@ -16,7 +17,8 @@ public class PartnerReceiverInfoDto {
     /**
      * 字段含义：分账接收方账号。
      * 格式规则：字符串，长度为 1-64 位。
-     * 业务规则：接收方类型为 MERCHANT_ID 时填写商户号；为 PERSONAL_SP_OPENID 时填写由服务商 AppID 转换得到的个人 OpenID；为 PERSONAL_SUB_OPENID 时填写由特约商户 AppID 转换得到的个人 OpenID。
+     * 业务规则：接收方类型为 MERCHANT_ID 时填写商户号；为 PERSONAL_SP_OPENID 时填写由服务商 AppID 转换得到的个人
+     * OpenID；为 PERSONAL_SUB_OPENID 时填写由特约商户 AppID 转换得到的个人 OpenID。
      * 示例：6020230307605084
      */
     @SerializedName("account")
@@ -25,9 +27,10 @@ public class PartnerReceiverInfoDto {
     /**
      * 字段含义：分账接收方全称。
      * 格式规则：字符串，长度为 1-1024 位。
-     * 业务规则：接收方类型为 MERCHANT_ID 时填写商户全称；为 PERSONAL_SP_OPENID 或 PERSONAL_SUB_OPENID 时可选填个人姓名，传入时会校验实名一致性；该字段需使用抖音支付平台证书公钥按 RSA-PKCS#1 v1.5 算法加密，并在请求头中传入 Douyinpay-Serial。
+     * 业务规则：接收方类型为 MERCHANT_ID 时填写商户全称；为 PERSONAL_SP_OPENID 或 PERSONAL_SUB_OPENID
+     * 时可选填个人姓名，传入时会校验实名一致性；该字段需使用抖音支付平台证书公钥按 RSA-PKCS#1 v1.5 算法加密，并在请求头中传入
+     * Douyinpay-Serial。
      * 示例：
-     * TODO: 官方文档未提供标准示例值，暂留空。
      */
     @SerializedName("name")
     private String name;

@@ -71,7 +71,7 @@ public class ApiQueryServiceOrderForSPResponse {
     // 字段含义：服务商商户下用户标识。
     // 格式规则：string。
     // 业务规则：用户在服务商户对应appid下的唯一标识。传入sp_appid，未传入sub_appid时返回。
-    // 示例：示例：oUpF8uMuAJO_M2pxb1Q9zNjWeS6o。。
+    // 示例：oUpF8uMuAJO_M2pxb1Q9zNjWeS6o。
     @SerializedName("sp_openid") private String spOpenId;
     // 字段含义：商户数据包。
     // 格式规则：string。

@@ -50,7 +50,8 @@ public class ApiPrePayConsultRequest {
   /**
    * 字段含义：订单总金额。
    * 格式规则：string[1,11]。
-   * 业务规则：单位为分；若需要查询用户营销（例如获取 operation_tip），本字段为必传字段；有订单金额且参与计算的优惠金额大于 0 时，返回满足条件的营销信息。
+   * 业务规则：单位为分；若需要查询用户营销（例如获取 operation_tip），本字段为必传字段；有订单金额且参与计算的优惠金额大于 0
+   * 时，返回满足条件的营销信息。
    * 示例：2000
    */
   @SerializedName("total_amount")
@@ -66,7 +67,8 @@ public class ApiPrePayConsultRequest {
   /**
    * 字段含义：支付产品。
    * 格式规则：字符串数组，暂时只支持传一个支付产品。
-   * 业务规则：若需要查询用户营销（例如获取 operation_tip），本字段为必传字段；取值需与 commerical_product_code、trade_type 按官方文档映射表组合传入。
+   * 业务规则：若需要查询用户营销（例如获取 operation_tip），本字段为必传字段；取值需与
+   * commerical_product_code、trade_type 按官方文档映射表组合传入。
    * 示例：["NormalPay"]
    */
   @SerializedName("product_code")
@@ -82,7 +84,8 @@ public class ApiPrePayConsultRequest {
   /**
    * 字段含义：交易类型。
    * 格式规则：string。
-   * 业务规则：当前订单的交易类型；若需要查询用户营销（例如获取 operation_tip），本字段为必传字段；取值需与 product_code、commerical_product_code 按官方文档映射表组合传入。
+   * 业务规则：当前订单的交易类型；若需要查询用户营销（例如获取 operation_tip），本字段为必传字段；取值需与
+   * product_code、commerical_product_code 按官方文档映射表组合传入。
    * 示例：APP
    */
   @SerializedName("trade_type")
@@ -98,7 +101,8 @@ public class ApiPrePayConsultRequest {
   /**
    * 字段含义：商品列表信息。
    * 格式规则：对象数组。
-   * 业务规则：订单包含的商品列表信息；传入的商品数量与商品单价乘积总和不可超过订单金额，即 sum{quantity*unit_price} <= total_amount，不满足时返回参数错误。
+   * 业务规则：订单包含的商品列表信息；传入的商品数量与商品单价乘积总和不可超过订单金额，即 sum{quantity*unit_price} <=
+   * total_amount，不满足时返回参数错误。
    * 示例：[{"merchant_goods_id":"app-01","goods_name":"ipad","quantity":2,"unit_price":2000}]
    */
   @SerializedName("goods_detail")
@@ -106,7 +110,8 @@ public class ApiPrePayConsultRequest {
   /**
    * 字段含义：用户唯一标识。
    * 格式规则：string[1,64]。
-   * 业务规则：openid 是用户在应用下的唯一用户标识；openid、加密手机号、设备号能获取到任意一项则真实上送，三项均无法获取时支持全部留空；推荐优先传 openid 以获得最佳接口性能，传入后以 openid 为最高优先级查询用户身份；三项均未传时按抖音新用户查询新用户营销信息。
+   * 业务规则：openid 是用户在应用下的唯一用户标识；openid、加密手机号、设备号能获取到任意一项则真实上送，三项均无法获取时支持全部留空；推荐优先传
+   * openid 以获得最佳接口性能，传入后以 openid 为最高优先级查询用户身份；三项均未传时按抖音新用户查询新用户营销信息。
    * 示例：V3WvSshYq9wWnB
    */
   @SerializedName("openid")
@@ -114,7 +119,8 @@ public class ApiPrePayConsultRequest {
   /**
    * 字段含义：设备号。
    * 格式规则：string[1,64]。
-   * 业务规则：设备号类型由 device_type 字段指定；openid、加密手机号、设备号能获取到任意一项则真实上送；当 openid 无法获取时，推荐同时传入 device_id 和 blind_mobile_list 以提升匹配精度。
+   * 业务规则：设备号类型由 device_type 字段指定；openid、加密手机号、设备号能获取到任意一项则真实上送；当 openid
+   * 无法获取时，推荐同时传入 device_id 和 blind_mobile_list 以提升匹配精度。
    * 示例：14b07957e368d91
    */
   @SerializedName("device_id")
@@ -130,7 +136,8 @@ public class ApiPrePayConsultRequest {
   /**
    * 字段含义：手机号列表。
    * 格式规则：字符串数组，使用 SHA256 算法盲化后的手机号，目前最多支持同时查询两个手机号。
-   * 业务规则：仅支持境内手机号；openid、加密手机号、设备号能获取到任意一项则真实上送；当 openid 无法获取时，推荐同时传入 device_id 和 blind_mobile_list 以提升匹配精度。
+   * 业务规则：仅支持境内手机号；openid、加密手机号、设备号能获取到任意一项则真实上送；当 openid 无法获取时，推荐同时传入 device_id 和
+   * blind_mobile_list 以提升匹配精度。
    * 示例：["66d0fba82f83396b8c37c47e151f8076a479064eccd78517b604646040e8fcfd"]
    */
   @SerializedName("blind_mobile_list")
@@ -147,8 +154,6 @@ public class ApiPrePayConsultRequest {
    * 字段含义：拓展字段。
    * 格式规则：string[1,1024]，键值对类型的 JSON 数据。
    * 业务规则：用于传递拓展信息，需与抖音支付协商后传递。
-   * 示例：
-   * TODO: 官方文档未提供标准示例值，暂留空。
    */
   @SerializedName("ext_info")
   private String extInfo;
