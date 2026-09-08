@@ -22,6 +22,9 @@ public class ApiSceneInfo {
    */
   @SerializedName("device_id")
   private String deviceId;
+  /** 城市ID。 */
+  @SerializedName("city_id")
+  private String cityId;
   /**
    * 字段含义：用户设备号。
    * 格式规则：字符串，长度 1-32 位。
@@ -48,6 +51,14 @@ public class ApiSceneInfo {
     this.deviceId = deviceId;
   }
 
+  public String getCityId() {
+    return cityId;
+  }
+
+  public void setCityId(String cityId) {
+    this.cityId = cityId;
+  }
+
   public String getPayerDeviceId() {
     return payerDeviceId;
   }
@@ -62,6 +73,7 @@ public class ApiSceneInfo {
     sb.append("class ApiSceneInfo {\n");
     sb.append("    payerClientIp: ").append(toIndentedString(payerClientIp)).append("\n");
     sb.append("    deviceId: ").append(toIndentedString(deviceId)).append("\n");
+    sb.append("    cityId: ").append(toIndentedString(cityId)).append("\n");
     sb.append("    payerDeviceId: ").append(toIndentedString(payerDeviceId)).append("\n");
     sb.append("}");
     return sb.toString();
