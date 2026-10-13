@@ -7,7 +7,6 @@ ClientVersion 每次sdk升级，需要更新版本号
 ## v1.0.13 - 2026-10-12
 
 - 新增间连商户相关接口能力（com.douyinpay.api.indirectmerchant.ApiIndirectMerchantService）：入驻申请、查询/撤销申请单、查询商户、修改商户、绑定/查询应用 APPID、图片上传
-- 撤销申请单（cancelApply）、修改商户（modifyMerchant）返回 DouyinpayResponse<Void>，便于调用方获取原始响应 body 与响应头（如 request_id）用于审计排障
 - 新增间连商户申请状态通知解析（INDIRECT_MERCHANT_APPLYMENT_STATUS），复用通用 NotificationParser 验签与 AES-256-GCM 解密
 - 新增敏感字段加解密能力（DouyinpayClient.encryptSensitive/decryptSensitive）：入驻申请对证件持有人姓名、证件号码使用平台证书公钥加密，查询商户对下行密文使用服务商私钥解密
 - 新增图片上传 multipart 传输能力（DouyinpayClient.executeMultipart），签名正文仅覆盖 meta
