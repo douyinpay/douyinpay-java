@@ -3,6 +3,7 @@ package com.douyinpay.api.indirectmerchant;
 import com.douyinpay.api.DouyinpayClient;
 import com.douyinpay.api.DouyinpayMultipartRequest;
 import com.douyinpay.api.DouyinpayRequest;
+import com.douyinpay.api.DouyinpayResponse;
 import com.douyinpay.api.indirectmerchant.models.ApplyResponse;
 import com.douyinpay.api.indirectmerchant.models.BindAppRequest;
 import com.douyinpay.api.indirectmerchant.models.BindAppResponse;
@@ -102,9 +103,13 @@ public class ApiIndirectMerchantService {
     }
 
     private <T> T post(String path, Object body, Class<T> type) {
+        return postRaw(path, body, type).getApiResponse();
+    }
+
+    private <T> DouyinpayResponse<T> postRaw(String path, Object body, Class<T> type) {
         DouyinpayRequest request = new DouyinpayRequest(HttpMethod.POST, getRequestUrl(), path, null,
                 GsonUtil.objectToJson(body));
-        return douyinpayClient.execute(request, type).getApiResponse();
+        return douyinpayClient.execute(request, type);
     }
 
     private <T> T get(String path, Class<T> type) {
@@ -150,10 +155,14 @@ public class ApiIndirectMerchantService {
     /**
      * 撤销入驻申请单（cancel_apply），仅在待提交和审核中可撤销。
      *
+     * <p>该接口无业务响应体，返回原始 {@link DouyinpayResponse}，调用方可据此获取响应 body
+     * 与响应头（如 request_id）用于审计或排障。
+     *
      * @param request 撤销申请单请求
+     * @return 原始响应，不含业务数据（{@code getApiResponse()} 为 null）
      */
-    public void cancelApply(CancelApplyRequest request) {
-        post(BASE + "cancel_apply", request, Void.class);
+    public DouyinpayResponse<Void> cancelApply(CancelApplyRequest request) {
+        return postRaw(BASE + "cancel_apply", request, Void.class);
     }
 
     /**
@@ -190,11 +199,15 @@ public class ApiIndirectMerchantService {
     /**
      * 修改商户资料（modify），目前仅支持修改商户简称和客服电话。
      *
+     * <p>该接口无业务响应体，返回原始 {@link DouyinpayResponse}，调用方可据此获取响应 body
+     * 与响应头（如 request_id）用于审计或排障。
+     *
      * @param request 修改商户资料请求
+     * @return 原始响应，不含业务数据（{@code getApiResponse()} 为 null）
      */
-    public void modifyMerchant(ModifyRequest request) {
+    public DouyinpayResponse<Void> modifyMerchant(ModifyRequest request) {
         request.validate();
-        post(BASE + "modify", request, Void.class);
+        return postRaw(BASE + "modify", request, Void.class);
     }
 
     /**
@@ -273,7 +286,6 @@ public class ApiIndirectMerchantService {
         copy.businessInfo = request.businessInfo;
         copy.additionInfo = request.additionInfo;
         copy.indirectMerchantId = request.indirectMerchantId;
-        copy.extInfo = request.extInfo;
         copy.identificationInfo = encryptIdentificationCopy(request.identificationInfo);
         return copy;
     }

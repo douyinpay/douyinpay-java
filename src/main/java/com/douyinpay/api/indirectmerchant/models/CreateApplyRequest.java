@@ -1,7 +1,5 @@
 package com.douyinpay.api.indirectmerchant.models;
 
-import java.util.Map;
-
 /**
  * 间连商户入驻申请请求（create_apply）。
  *
@@ -48,9 +46,6 @@ public class CreateApplyRequest {
 
     /** 抖音支付间连商户号，传入已有商户号时会校验一致性，未传则按新入驻创建。 */
     public String indirectMerchantId;
-
-    /** 扩展信息，预留的额外业务字段。 */
-    public Map<String, Object> extInfo;
 
     /**
      * 校验入驻申请的商户定位组合与业务申请编号。
