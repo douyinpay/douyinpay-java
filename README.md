@@ -33,3 +33,13 @@ NotificationParser parser=new NotificationParser(rsaNotificationConfig);
 // 验签并解密报文
 DecryptObject decryptObject = parser.parse(requestParam,DecryptObject.class);
 ```
+
+## 间连商户接口
+
+可以使用 [indirectmerchant](/src/main/java/com/douyinpay/api/indirectmerchant) 中的 `ApiIndirectMerchantService` 调用间连商户相关接口，包含入驻申请、查询/撤销申请单、查询商户、修改商户、绑定/查询应用 APPID、图片上传等能力，以及申请状态通知（`INDIRECT_MERCHANT_APPLYMENT_STATUS`）的解析。
+
+- 入驻申请（`createApply`）中的证件持有人姓名、证件号码为敏感字段，SDK 发送前使用抖音支付平台证书公钥加密（加密作用于请求副本，不修改调用方传入的对象）。
+- 查询商户（`queryMerchant`）返回的证件持有人姓名、证件号码由抖音支付加密下发，SDK 使用服务商私钥自动解密。
+- 图片上传（`upload`）为 multipart/form-data 请求，参与签名计算的仅为 `meta` 的 JSON 串。
+
+接口的使用方法可以参考 `src/test/java/com/douyinpay/api/indirectmerchant` 下的测试用例。

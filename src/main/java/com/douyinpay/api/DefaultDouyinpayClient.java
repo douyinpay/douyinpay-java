@@ -4,7 +4,9 @@ import com.douyinpay.component.certificate.AutoCertificateProvider;
 import com.douyinpay.component.certificate.CertificateProvider;
 import com.douyinpay.component.crypto.AsymmetricFactory;
 import com.douyinpay.component.crypto.IAsymmetricCrypto;
+import com.douyinpay.component.crypto.ICryptor;
 import com.douyinpay.component.crypto.ISymmetricCrypto;
+import com.douyinpay.component.crypto.RsaCryptor;
 import com.douyinpay.component.crypto.SymmetricFactory;
 import com.douyinpay.component.crypto.IVerifier;
 import com.douyinpay.component.crypto.VerifierFactory;
@@ -22,6 +24,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.MultipartBody;
 import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
 
@@ -51,6 +54,11 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
     private IAsymmetricCrypto signer;//非对称算法
     private IVerifier verifier;
     private ISymmetricCrypto encryptor;//对称算法
+
+    /**
+     * 敏感字段加解密器（RSA PKCS#1 v1.5）：上送用平台证书公钥加密，下行用服务商私钥解密。
+     */
+    private final ICryptor sensitiveCryptor = new RsaCryptor();
 
     /**
      * 商户证书序列号
@@ -126,6 +134,37 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
     public PrivateKey getMerchantPrivateKey() {
         return merchantPrivateKey;
+    }
+
+    /**
+     * 使用抖音支付平台证书公钥对上送的敏感字段进行 RSA PKCS#1 v1.5 加密，返回 Base64 编码密文。
+     *
+     * @param plainText 待加密原文
+     * @return Base64 编码密文
+     * @throws DouyinpayException 平台证书缺失或加密失败时抛出
+     */
+    @Override
+    public String encryptSensitive(String plainText) {
+        X509Certificate certificate = getPlatformCertificate();
+        if (certificate == null) {
+            throw new DouyinpayException("platform certificate is required for sensitive field encryption");
+        }
+        return sensitiveCryptor.encrypt(plainText, certificate);
+    }
+
+    /**
+     * 使用服务商私钥对下行的敏感字段密文进行 RSA PKCS#1 v1.5 解密，返回原文。
+     *
+     * @param cipherText Base64 编码密文
+     * @return 解密后的原文
+     * @throws DouyinpayException 服务商私钥缺失或解密失败时抛出
+     */
+    @Override
+    public String decryptSensitive(String cipherText) {
+        if (merchantPrivateKey == null) {
+            throw new DouyinpayException("merchant private key is required for sensitive field decryption");
+        }
+        return sensitiveCryptor.decrypt(cipherText, merchantPrivateKey);
     }
 
     public static class AutoRSABuilder {
@@ -279,6 +318,43 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         }
 
 
+    }
+
+    @Override
+    public <T> DouyinpayResponse<T> executeMultipart(DouyinpayMultipartRequest input, Class<T> responseClass) {
+        Request.Builder builder = new Request.Builder().url(input.getUrl());
+        if (this.headers != null) this.headers.forEach(builder::addHeader);
+        if (input.getHeaders() != null) input.getHeaders().forEach(builder::addHeader);
+        String auth = input.getSchema(this.signer.getSignAlgorithmName()) + " " + buildToken(input);
+        builder.addHeader(Constants.AUTHORIZATION, auth);
+        builder.addHeader(Constants.ACCEPT, Constants.APPLICATION_JSON);
+        if (StringUtils.isNotEmpty(this.AgentName)) builder.addHeader(Constants.DOUYIN_PAY_SDK_AGENT, this.AgentName);
+        MultipartBody body = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("meta", null,
+                        RequestBody.create(MediaType.parse(Constants.APPLICATION_JSON), input.getMeta()))
+                .addFormDataPart("file", input.getFileName(),
+                        RequestBody.create(MediaType.parse(input.getFileType()), input.getFile()))
+                .build();
+        builder.addHeader(Constants.CONTENT_TYPE, body.contentType().toString());
+        builder.method(input.getHttpMethod().name(), body);
+        Request request = builder.build();
+        try (Response response = defaultOkHttpClient.newCall(request).execute()) {
+            if (response.body() == null) throw new DouyinpayException("http response body is empty");
+            String responseBody = response.body().string();
+            Map<String, String> responseHeaders = new ConcurrentHashMap<>();
+            for (int i = 0; i < response.headers().size(); i++) responseHeaders.put(response.headers().name(i), response.headers().value(i));
+            DouyinpayResponse<T> result = new DouyinpayResponse<>(input, response.code(),
+                    response.header(Constants.CONTENT_TYPE), responseHeaders, responseBody);
+            result.validate();
+            validatePlatformSign(result.getHeaders(), responseBody);
+            if (responseClass != null) result.setApiResponse(GsonUtil.getGson().fromJson(responseBody, responseClass));
+            return result;
+        } catch (DouyinpayException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new DouyinpayException("Send multipart request failed", e);
+        }
     }
 
 
