@@ -2,8 +2,11 @@ package com.douyinpay.component.certificate;
 
 import java.io.ByteArrayInputStream;
 import java.math.BigInteger;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.PublicKey;
+import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.CertificateEncodingException;
@@ -11,6 +14,7 @@ import java.security.cert.CertificateExpiredException;
 import java.security.cert.CertificateNotYetValidException;
 import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
+import java.security.NoSuchProviderException;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Date;
@@ -304,12 +308,14 @@ public class AutoCertificateService {
         }
 
         @Override
-        public void verify(PublicKey key) throws CertificateException {
+        public void verify(PublicKey key) throws CertificateException, NoSuchAlgorithmException,
+                InvalidKeyException, NoSuchProviderException, SignatureException {
             delegate.verify(key);
         }
 
         @Override
-        public void verify(PublicKey key, String sigProvider) throws CertificateException {
+        public void verify(PublicKey key, String sigProvider) throws CertificateException,
+                NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
             delegate.verify(key, sigProvider);
         }
 
