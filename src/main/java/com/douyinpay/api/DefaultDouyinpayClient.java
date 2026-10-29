@@ -33,6 +33,7 @@ import java.security.cert.X509Certificate;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoField;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,7 +45,12 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
     private static final int NONCE_LENGTH = 32;
 
-    private static final long RESPONSE_EXPIRED_MINUTES = 5 * 60;
+    private static final long RESPONSE_EXPIRED_SECONDS = 5 * 60;
+    /**
+     * @deprecated use RESPONSE_EXPIRED_SECONDS.
+     */
+    @Deprecated
+    private static final long RESPONSE_EXPIRED_MINUTES = RESPONSE_EXPIRED_SECONDS;
 
     private PrivateKey merchantPrivateKey;//私钥（pem格式）
 
@@ -110,7 +116,7 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.encryptor = SymmetricFactory.getByName(this.encryptType);
         this.merchantSerialNumber = requireNonNull(globalConfig.getMerchantSerialNumber());
 
-        this.headers = globalConfig.getCustomHeaders();
+        this.headers = copyHeaders(globalConfig.getCustomHeaders());
 
         this.merchantPrivateKey = this.signer.loadPrivateKey(globalConfig.praticalPrivateKey());
 
@@ -260,7 +266,7 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.encryptor = SymmetricFactory.getByName(this.encryptType);
         this.merchantSerialNumber = requireNonNull(config.getMerchantSerialNumber());
 
-        this.headers = config.getCustomHeaders();
+        this.headers = copyHeaders(config.getCustomHeaders());
         this.certificateProvider = config.getCertificateProvider();
         this.merchantPrivateKey = this.signer.loadPrivateKey(config.praticalPrivateKey());
 
@@ -409,7 +415,7 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         String requestId = headerMap.get(Constants.DOUYIN_REQUEST_ID);
         responseBody = responseBody == null ? "" : responseBody;
 
-        if (Duration.between(responseTime, Instant.now()).abs().toMinutes() >= RESPONSE_EXPIRED_MINUTES) {
+        if (Duration.between(responseTime, Instant.now()).abs().getSeconds() > RESPONSE_EXPIRED_SECONDS) {
             throw new DouyinpayException(String.format("httpResponse is expires,requestId[%s],timestamp[%s]", requestId, timestamp));
         }
 
@@ -422,6 +428,10 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
                     requestId, headerMap, responseBody));
         }
 
+    }
+
+    private static Map<String, String> copyHeaders(Map<String, String> headers) {
+        return headers == null ? null : new HashMap<>(headers);
     }
 
 
@@ -441,8 +451,10 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
                                   String encryptType,
                                   String praticalPrivateKey,
                                   String encryptKey,
-                                  String merchantSerialNumber
+                                  String merchantSerialNumber,
+                                  AutoPlatformCertificateConfig.InternalUseOnly internalUseOnly
     ) {
+        requireNonNull(internalUseOnly);
         this.mchId = requireNonNull(mchId);
         this.signType = requireNonNull(signType);
         this.encryptType = requireNonNull(encryptType);

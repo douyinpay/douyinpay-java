@@ -12,6 +12,7 @@ import com.douyinpay.util.GsonUtil;
 import com.google.gson.Gson;
 
 import java.security.cert.X509Certificate;
+import java.time.Instant;
 
 import static java.util.Objects.requireNonNull;
 
@@ -19,6 +20,8 @@ import static java.util.Objects.requireNonNull;
  * 通知解析器
  */
 public class NotificationParser {
+
+    private static final long MAX_CALLBACK_CLOCK_OFFSET_SECONDS = 300;
 
     private final Gson gson = GsonUtil.getGson();
 
@@ -97,6 +100,15 @@ public class NotificationParser {
                     String.format(
                             "Verify douyinpay notification parameters, signature is empty" + ".RequestParam[%s]",
                             requestParam));
+        }
+        long callbackTimestamp;
+        try {
+            callbackTimestamp = Long.parseLong(requestParam.getTimestamp());
+        } catch (NumberFormatException e) {
+            throw new DouyinpayException("Processing douyinpay notification, invalid timestamp");
+        }
+        if (Math.abs(Instant.now().getEpochSecond() - callbackTimestamp) > MAX_CALLBACK_CLOCK_OFFSET_SECONDS) {
+            throw new DouyinpayException("Processing douyinpay notification, callback timestamp expired");
         }
         if (!this.verifier.verifyPlatformSign(requestParam.getMessage(), this.publicKeyCertificate, requestParam.getSignature(), requestParam.getSerialNumber())) {
             throw new DouyinpayException(

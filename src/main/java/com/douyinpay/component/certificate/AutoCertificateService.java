@@ -1,8 +1,22 @@
 package com.douyinpay.component.certificate;
 
+import java.io.ByteArrayInputStream;
+import java.math.BigInteger;
+import java.security.Principal;
+import java.security.PublicKey;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateExpiredException;
+import java.security.cert.CertificateNotYetValidException;
+import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
 import java.time.Duration;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -134,6 +148,9 @@ public class AutoCertificateService {
 
     private static X509Certificate getAvailableCertificate(
             Map<String, X509Certificate> certificateMap) {
+        if (certificateMap == null || certificateMap.isEmpty()) {
+            return null;
+        }
         // 假设拿到的都是可用的，选取一个能用最久的
         X509Certificate longest = null;
         for (X509Certificate item : certificateMap.values()) {
@@ -141,19 +158,189 @@ public class AutoCertificateService {
                 longest = item;
             }
         }
-        return longest;
+        return copyCertificate(longest);
     }
 
     // 根据证书序列号获取证书
     public static X509Certificate getCertificate(
             String merchantId, String type, String serialNumber) {
         String key = calculateDownloadWorkerMapKey(merchantId, type);
-        return certificateMap.get(key).get(serialNumber);
+        Map<String, X509Certificate> certificates = certificateMap.get(key);
+        if (certificates == null) {
+            return null;
+        }
+        return copyCertificate(certificates.get(serialNumber));
     }
 
     // 获取最新可用的抖音支付平台证书
     public static X509Certificate getAvailableCertificate(String merchantId, String type) {
         String key = calculateDownloadWorkerMapKey(merchantId, type);
         return getAvailableCertificate(certificateMap.get(key));
+    }
+
+    private static X509Certificate copyCertificate(X509Certificate certificate) {
+        if (certificate == null) {
+            return null;
+        }
+        try {
+            X509Certificate copy = (X509Certificate) CertificateFactory.getInstance("X.509")
+                    .generateCertificate(new ByteArrayInputStream(certificate.getEncoded()));
+            return copy == certificate ? new DelegatingX509Certificate(certificate) : copy;
+        } catch (CertificateException e) {
+            throw new IllegalArgumentException("平台证书拷贝失败", e);
+        }
+    }
+
+    private static final class DelegatingX509Certificate extends X509Certificate {
+        private final X509Certificate delegate;
+
+        private DelegatingX509Certificate(X509Certificate delegate) {
+            this.delegate = delegate;
+        }
+
+        @Override
+        public void checkValidity() throws CertificateExpiredException, CertificateNotYetValidException {
+            delegate.checkValidity();
+        }
+
+        @Override
+        public void checkValidity(Date date) throws CertificateExpiredException, CertificateNotYetValidException {
+            delegate.checkValidity(date);
+        }
+
+        @Override
+        public int getVersion() {
+            return delegate.getVersion();
+        }
+
+        @Override
+        public BigInteger getSerialNumber() {
+            return delegate.getSerialNumber();
+        }
+
+        @Override
+        public Principal getIssuerDN() {
+            return delegate.getIssuerDN();
+        }
+
+        @Override
+        public Principal getSubjectDN() {
+            return delegate.getSubjectDN();
+        }
+
+        @Override
+        public Date getNotBefore() {
+            return delegate.getNotBefore();
+        }
+
+        @Override
+        public Date getNotAfter() {
+            return delegate.getNotAfter();
+        }
+
+        @Override
+        public byte[] getTBSCertificate() throws CertificateEncodingException {
+            return delegate.getTBSCertificate();
+        }
+
+        @Override
+        public byte[] getSignature() {
+            return delegate.getSignature();
+        }
+
+        @Override
+        public String getSigAlgName() {
+            return delegate.getSigAlgName();
+        }
+
+        @Override
+        public String getSigAlgOID() {
+            return delegate.getSigAlgOID();
+        }
+
+        @Override
+        public byte[] getSigAlgParams() {
+            return delegate.getSigAlgParams();
+        }
+
+        @Override
+        public boolean[] getIssuerUniqueID() {
+            return delegate.getIssuerUniqueID();
+        }
+
+        @Override
+        public boolean[] getSubjectUniqueID() {
+            return delegate.getSubjectUniqueID();
+        }
+
+        @Override
+        public boolean[] getKeyUsage() {
+            return delegate.getKeyUsage();
+        }
+
+        @Override
+        public List<String> getExtendedKeyUsage() throws CertificateParsingException {
+            return delegate.getExtendedKeyUsage();
+        }
+
+        @Override
+        public int getBasicConstraints() {
+            return delegate.getBasicConstraints();
+        }
+
+        @Override
+        public Collection<List<?>> getSubjectAlternativeNames() throws CertificateParsingException {
+            return delegate.getSubjectAlternativeNames();
+        }
+
+        @Override
+        public Collection<List<?>> getIssuerAlternativeNames() throws CertificateParsingException {
+            return delegate.getIssuerAlternativeNames();
+        }
+
+        @Override
+        public byte[] getEncoded() throws CertificateEncodingException {
+            return delegate.getEncoded();
+        }
+
+        @Override
+        public void verify(PublicKey key) throws CertificateException {
+            delegate.verify(key);
+        }
+
+        @Override
+        public void verify(PublicKey key, String sigProvider) throws CertificateException {
+            delegate.verify(key, sigProvider);
+        }
+
+        @Override
+        public String toString() {
+            return delegate.toString();
+        }
+
+        @Override
+        public PublicKey getPublicKey() {
+            return delegate.getPublicKey();
+        }
+
+        @Override
+        public Set<String> getCriticalExtensionOIDs() {
+            return delegate.getCriticalExtensionOIDs();
+        }
+
+        @Override
+        public Set<String> getNonCriticalExtensionOIDs() {
+            return delegate.getNonCriticalExtensionOIDs();
+        }
+
+        @Override
+        public byte[] getExtensionValue(String oid) {
+            return delegate.getExtensionValue(oid);
+        }
+
+        @Override
+        public boolean hasUnsupportedCriticalExtension() {
+            return delegate.hasUnsupportedCriticalExtension();
+        }
     }
 }

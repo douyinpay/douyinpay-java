@@ -11,6 +11,8 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GlobalConfig {
@@ -112,11 +114,11 @@ public class GlobalConfig {
     }
 
     public Map<String, String> getCustomHeaders() {
-        return customHeaders;
+        return customHeaders == null ? null : Collections.unmodifiableMap(new HashMap<>(customHeaders));
     }
 
     public void setCustomHeaders(Map<String, String> customHeaders) {
-        this.customHeaders = customHeaders;
+        this.customHeaders = customHeaders == null ? null : new HashMap<>(customHeaders);
     }
 
     public int getConnectTimeout() {

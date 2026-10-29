@@ -11,6 +11,8 @@ import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.util.PemUtil;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -20,6 +22,12 @@ import java.util.Map;
  */
 public final class AutoPlatformCertificateConfig {
 
+    private static final InternalUseOnly INTERNAL_USE_ONLY = new InternalUseOnly();
+
+    public static final class InternalUseOnly {
+        private InternalUseOnly() {
+        }
+    }
 
     private String mchId;//商户id
 
@@ -139,7 +147,7 @@ public final class AutoPlatformCertificateConfig {
                             .merchantId(mchId)
                             .signType(Constants.SIGN_TYPE_SM2)
                             .encryptKey(encryptKey)
-                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_SM2, Constants.ENCRYPT_TYPE_SM4, config.praticalPrivateKey(), encryptKey, merchantSerialNumber))
+                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_SM2, Constants.ENCRYPT_TYPE_SM4, config.praticalPrivateKey(), encryptKey, merchantSerialNumber, INTERNAL_USE_ONLY))
                             .build());
 
             return config;
@@ -208,7 +216,7 @@ public final class AutoPlatformCertificateConfig {
                             .merchantId(mchId)
                             .signType(Constants.SIGN_TYPE_RSA)
                             .encryptKey(encryptKey)
-                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_RSA, Constants.ENCRYPT_TYPE_AES, config.praticalPrivateKey(), encryptKey, merchantSerialNumber))
+                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_RSA, Constants.ENCRYPT_TYPE_AES, config.praticalPrivateKey(), encryptKey, merchantSerialNumber, INTERNAL_USE_ONLY))
                             .build());
 
             return config;
@@ -288,11 +296,11 @@ public final class AutoPlatformCertificateConfig {
     }
 
     public Map<String, String> getCustomHeaders() {
-        return customHeaders;
+        return customHeaders == null ? null : Collections.unmodifiableMap(new HashMap<>(customHeaders));
     }
 
     public void setCustomHeaders(Map<String, String> customHeaders) {
-        this.customHeaders = customHeaders;
+        this.customHeaders = customHeaders == null ? null : new HashMap<>(customHeaders);
     }
 
     public CertificateProvider getCertificateProvider() {
@@ -328,8 +336,6 @@ public final class AutoPlatformCertificateConfig {
     }
 
 }
-
-
 
 
 
