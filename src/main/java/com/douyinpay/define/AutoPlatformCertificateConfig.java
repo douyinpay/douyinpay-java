@@ -10,8 +10,9 @@ import com.douyinpay.component.crypto.Sm2Verifier;
 import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.util.PemUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,12 +23,10 @@ import java.util.Map;
  */
 public final class AutoPlatformCertificateConfig {
 
-    private static final InternalUseOnly INTERNAL_USE_ONLY = new InternalUseOnly();
+    private static final Logger logger = LoggerFactory.getLogger(AutoPlatformCertificateConfig.class);
+    private static final int DEFAULT_MAX_CLOCK_OFFSET_SECONDS = 300;
 
-    public static final class InternalUseOnly {
-        private InternalUseOnly() {
-        }
-    }
+    private int maxClockOffsetSeconds = DEFAULT_MAX_CLOCK_OFFSET_SECONDS;
 
     private String mchId;//商户id
 
@@ -147,7 +146,7 @@ public final class AutoPlatformCertificateConfig {
                             .merchantId(mchId)
                             .signType(Constants.SIGN_TYPE_SM2)
                             .encryptKey(encryptKey)
-                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_SM2, Constants.ENCRYPT_TYPE_SM4, config.praticalPrivateKey(), encryptKey, merchantSerialNumber, INTERNAL_USE_ONLY))
+                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_SM2, Constants.ENCRYPT_TYPE_SM4, config.praticalPrivateKey(), encryptKey, merchantSerialNumber))
                             .build());
 
             return config;
@@ -216,7 +215,7 @@ public final class AutoPlatformCertificateConfig {
                             .merchantId(mchId)
                             .signType(Constants.SIGN_TYPE_RSA)
                             .encryptKey(encryptKey)
-                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_RSA, Constants.ENCRYPT_TYPE_AES, config.praticalPrivateKey(), encryptKey, merchantSerialNumber, INTERNAL_USE_ONLY))
+                            .douyinpayClient(new DefaultDouyinpayClient(mchId, Constants.SIGN_TYPE_RSA, Constants.ENCRYPT_TYPE_AES, config.praticalPrivateKey(), encryptKey, merchantSerialNumber))
                             .build());
 
             return config;
@@ -296,7 +295,7 @@ public final class AutoPlatformCertificateConfig {
     }
 
     public Map<String, String> getCustomHeaders() {
-        return customHeaders == null ? null : Collections.unmodifiableMap(new HashMap<>(customHeaders));
+        return customHeaders == null ? null : new HashMap<>(customHeaders);
     }
 
     public void setCustomHeaders(Map<String, String> customHeaders) {
@@ -313,6 +312,30 @@ public final class AutoPlatformCertificateConfig {
 
     public int getConnectTimeout() {
         return connectTimeout;
+    }
+
+    /**
+     * 应答和回调时间戳与本机时间允许的最大偏差，单位：秒，默认 300 秒。
+     *
+     * @return 最大时间偏差
+     */
+    public int getMaxClockOffsetSeconds() {
+        return maxClockOffsetSeconds;
+    }
+
+    /**
+     * 设置应答和回调时间戳允许的最大偏差。非正数回退到默认值，不关闭时间校验。
+     *
+     * @param maxClockOffsetSeconds 最大时间偏差，单位：秒
+     */
+    public void setMaxClockOffsetSeconds(int maxClockOffsetSeconds) {
+        if (maxClockOffsetSeconds <= 0) {
+            logger.warn("response and callback timestamp tolerance must be positive; using {} seconds",
+                    DEFAULT_MAX_CLOCK_OFFSET_SECONDS);
+            this.maxClockOffsetSeconds = DEFAULT_MAX_CLOCK_OFFSET_SECONDS;
+            return;
+        }
+        this.maxClockOffsetSeconds = maxClockOffsetSeconds;
     }
 
     public void setConnectTimeout(int connectTimeout) {
@@ -336,6 +359,4 @@ public final class AutoPlatformCertificateConfig {
     }
 
 }
-
-
 

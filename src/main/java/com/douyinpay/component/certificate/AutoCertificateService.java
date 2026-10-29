@@ -1,26 +1,11 @@
 package com.douyinpay.component.certificate;
 
 import java.io.ByteArrayInputStream;
-import java.math.BigInteger;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.Principal;
-import java.security.PublicKey;
-import java.security.SignatureException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.security.cert.CertificateEncodingException;
-import java.security.cert.CertificateExpiredException;
-import java.security.cert.CertificateNotYetValidException;
-import java.security.cert.CertificateParsingException;
 import java.security.cert.X509Certificate;
-import java.security.NoSuchProviderException;
 import java.time.Duration;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -29,11 +14,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 
 /** 定时更新证书的服务，它是一个由静态函数构成的工具类 */
 public class AutoCertificateService {
     private static final Logger logger = LoggerFactory.getLogger(AutoCertificateService.class);
+    private static final BouncyCastleProvider certificateProvider = new BouncyCastleProvider();
 
     protected static final int UPDATE_INTERVAL_MINUTE = 60;
     private static final Duration defaultUpdateInterval = Duration.ofMinutes(UPDATE_INTERVAL_MINUTE);
@@ -187,166 +174,11 @@ public class AutoCertificateService {
             return null;
         }
         try {
-            X509Certificate copy = (X509Certificate) CertificateFactory.getInstance("X.509")
+            // 显式使用现有 BC 实现，兼容 RSA/SM2，并避免默认 JDK 工厂返回缓存中的同一对象。
+            return (X509Certificate) CertificateFactory.getInstance("X.509", certificateProvider)
                     .generateCertificate(new ByteArrayInputStream(certificate.getEncoded()));
-            return copy == certificate ? new DelegatingX509Certificate(certificate) : copy;
         } catch (CertificateException e) {
             throw new IllegalArgumentException("平台证书拷贝失败", e);
-        }
-    }
-
-    private static final class DelegatingX509Certificate extends X509Certificate {
-        private final X509Certificate delegate;
-
-        private DelegatingX509Certificate(X509Certificate delegate) {
-            this.delegate = delegate;
-        }
-
-        @Override
-        public void checkValidity() throws CertificateExpiredException, CertificateNotYetValidException {
-            delegate.checkValidity();
-        }
-
-        @Override
-        public void checkValidity(Date date) throws CertificateExpiredException, CertificateNotYetValidException {
-            delegate.checkValidity(date);
-        }
-
-        @Override
-        public int getVersion() {
-            return delegate.getVersion();
-        }
-
-        @Override
-        public BigInteger getSerialNumber() {
-            return delegate.getSerialNumber();
-        }
-
-        @Override
-        public Principal getIssuerDN() {
-            return delegate.getIssuerDN();
-        }
-
-        @Override
-        public Principal getSubjectDN() {
-            return delegate.getSubjectDN();
-        }
-
-        @Override
-        public Date getNotBefore() {
-            return delegate.getNotBefore();
-        }
-
-        @Override
-        public Date getNotAfter() {
-            return delegate.getNotAfter();
-        }
-
-        @Override
-        public byte[] getTBSCertificate() throws CertificateEncodingException {
-            return delegate.getTBSCertificate();
-        }
-
-        @Override
-        public byte[] getSignature() {
-            return delegate.getSignature();
-        }
-
-        @Override
-        public String getSigAlgName() {
-            return delegate.getSigAlgName();
-        }
-
-        @Override
-        public String getSigAlgOID() {
-            return delegate.getSigAlgOID();
-        }
-
-        @Override
-        public byte[] getSigAlgParams() {
-            return delegate.getSigAlgParams();
-        }
-
-        @Override
-        public boolean[] getIssuerUniqueID() {
-            return delegate.getIssuerUniqueID();
-        }
-
-        @Override
-        public boolean[] getSubjectUniqueID() {
-            return delegate.getSubjectUniqueID();
-        }
-
-        @Override
-        public boolean[] getKeyUsage() {
-            return delegate.getKeyUsage();
-        }
-
-        @Override
-        public List<String> getExtendedKeyUsage() throws CertificateParsingException {
-            return delegate.getExtendedKeyUsage();
-        }
-
-        @Override
-        public int getBasicConstraints() {
-            return delegate.getBasicConstraints();
-        }
-
-        @Override
-        public Collection<List<?>> getSubjectAlternativeNames() throws CertificateParsingException {
-            return delegate.getSubjectAlternativeNames();
-        }
-
-        @Override
-        public Collection<List<?>> getIssuerAlternativeNames() throws CertificateParsingException {
-            return delegate.getIssuerAlternativeNames();
-        }
-
-        @Override
-        public byte[] getEncoded() throws CertificateEncodingException {
-            return delegate.getEncoded();
-        }
-
-        @Override
-        public void verify(PublicKey key) throws CertificateException, NoSuchAlgorithmException,
-                InvalidKeyException, NoSuchProviderException, SignatureException {
-            delegate.verify(key);
-        }
-
-        @Override
-        public void verify(PublicKey key, String sigProvider) throws CertificateException,
-                NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, SignatureException {
-            delegate.verify(key, sigProvider);
-        }
-
-        @Override
-        public String toString() {
-            return delegate.toString();
-        }
-
-        @Override
-        public PublicKey getPublicKey() {
-            return delegate.getPublicKey();
-        }
-
-        @Override
-        public Set<String> getCriticalExtensionOIDs() {
-            return delegate.getCriticalExtensionOIDs();
-        }
-
-        @Override
-        public Set<String> getNonCriticalExtensionOIDs() {
-            return delegate.getNonCriticalExtensionOIDs();
-        }
-
-        @Override
-        public byte[] getExtensionValue(String oid) {
-            return delegate.getExtensionValue(oid);
-        }
-
-        @Override
-        public boolean hasUnsupportedCriticalExtension() {
-            return delegate.hasUnsupportedCriticalExtension();
         }
     }
 }

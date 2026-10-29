@@ -10,6 +10,7 @@ import com.douyinpay.define.AutoPlatformCertificateConfig;
 import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.util.GsonUtil;
 import com.google.gson.Gson;
+import org.apache.commons.lang3.StringUtils;
 
 import java.security.cert.X509Certificate;
 import java.time.Instant;
@@ -21,7 +22,7 @@ import static java.util.Objects.requireNonNull;
  */
 public class NotificationParser {
 
-    private static final long MAX_CALLBACK_CLOCK_OFFSET_SECONDS = 300;
+    private int maxClockOffsetSeconds;
 
     private final Gson gson = GsonUtil.getGson();
 
@@ -38,6 +39,7 @@ public class NotificationParser {
     public NotificationParser(NotificationConfig config) {
 
         this.encryptKey = config.getEncryptKey();
+        this.maxClockOffsetSeconds = config.getMaxClockOffsetSeconds();
         this.signer = AsymmetricFactory.getByName(config.getSignType());
         this.verifier = VerifierFactory.getByName(config.getSignType());
         this.encryptor = SymmetricFactory.getByName(config.getCipherType());
@@ -52,6 +54,7 @@ public class NotificationParser {
      */
     public NotificationParser(AutoPlatformCertificateConfig autoConfig) {
         this.encryptKey = autoConfig.getEncryptKey();
+        this.maxClockOffsetSeconds = autoConfig.getMaxClockOffsetSeconds();
         this.signer = AsymmetricFactory.getByName(autoConfig.getSignType());
         this.verifier = VerifierFactory.getByName(autoConfig.getSignType(), autoConfig.getCertificateProvider());
         this.encryptor = SymmetricFactory.getByName(autoConfig.getEncryptType());
@@ -73,52 +76,43 @@ public class NotificationParser {
 
     private void validateRequest(RequestParam requestParam) {
         if (requestParam == null) {
-            throw new DouyinpayException(
-                    "Verify douyinpay notification parameters, requestParam is null.");
+            throw new DouyinpayException("verify callback: request parameters are required");
         }
-        if (requestParam.getSignType() == null) {
-            throw new DouyinpayException(
-                    String.format(
-                            "Verify douyinpay notification parameters, signType is empty" + ".RequestParam[%s]",
-                            requestParam));
+        if (StringUtils.isBlank(requestParam.getSignType())) {
+            throw new DouyinpayException("verify callback: missing sign type");
         }
-        if (requestParam.getSerialNumber() == null) {
-            throw new DouyinpayException(
-                    String.format(
-                            "Verify douyinpay notification parameters, serialNumber is empty"
-                                    + ".RequestParam[%s]",
-                            requestParam));
+        if (StringUtils.isBlank(requestParam.getSerialNumber())) {
+            throw new DouyinpayException("verify callback: missing certificate serial number");
         }
         if (requestParam.getMessage() == null) {
-            throw new DouyinpayException(
-                    String.format(
-                            "Verify douyinpay notification parameters, message is empty" + ".RequestParam[%s]",
-                            requestParam));
+            throw new DouyinpayException("verify callback: missing message");
         }
-        if (requestParam.getSignature() == null) {
-            throw new DouyinpayException(
-                    String.format(
-                            "Verify douyinpay notification parameters, signature is empty" + ".RequestParam[%s]",
-                            requestParam));
+        if (StringUtils.isBlank(requestParam.getSignature())) {
+            throw new DouyinpayException("verify callback: missing signature");
+        }
+        if (StringUtils.isBlank(requestParam.getTimestamp())) {
+            throw new DouyinpayException("verify callback: missing timestamp");
+        }
+        boolean verified;
+        try {
+            verified = this.verifier.verifyPlatformSign(requestParam.getMessage(), this.publicKeyCertificate,
+                    requestParam.getSignature(), requestParam.getSerialNumber());
+        } catch (DouyinpayException | IllegalArgumentException e) {
+            throw new DouyinpayException("verify callback: signature verification failed", e);
+        }
+        if (!verified) {
+            throw new DouyinpayException("verify callback: invalid signature");
         }
         long callbackTimestamp;
         try {
             callbackTimestamp = Long.parseLong(requestParam.getTimestamp());
         } catch (NumberFormatException e) {
-            throw new DouyinpayException("Processing douyinpay notification, invalid timestamp");
+            throw new DouyinpayException("verify callback: invalid timestamp", e);
         }
-        if (Math.abs(Instant.now().getEpochSecond() - callbackTimestamp) > MAX_CALLBACK_CLOCK_OFFSET_SECONDS) {
-            throw new DouyinpayException("Processing douyinpay notification, callback timestamp expired");
-        }
-        if (!this.verifier.verifyPlatformSign(requestParam.getMessage(), this.publicKeyCertificate, requestParam.getSignature(), requestParam.getSerialNumber())) {
-            throw new DouyinpayException(
-                    String.format(
-                            "Processing douyinpay notification,signature verification failed,"
-                                    + "signType[%s]\tserial[%s]\tmessage[%s]\tsign[%s]",
-                            requestParam.getSignType(),
-                            requestParam.getSerialNumber(),
-                            requestParam.getMessage(),
-                            requestParam.getSignature()));
+        long now = Instant.now().getEpochSecond();
+        if (callbackTimestamp < now - maxClockOffsetSeconds
+                || callbackTimestamp > now + maxClockOffsetSeconds) {
+            throw new DouyinpayException("verify callback: timestamp expired");
         }
     }
 

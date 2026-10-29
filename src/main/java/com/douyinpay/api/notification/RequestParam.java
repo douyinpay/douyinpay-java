@@ -47,6 +47,11 @@ public class RequestParam {
     return signType;
   }
 
+  /**
+   * 获取通知请求头中的时间戳。
+   *
+   * @return Unix 时间戳，单位：秒
+   */
   public String getTimestamp() {
     return timestamp;
   }

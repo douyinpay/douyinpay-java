@@ -11,7 +11,9 @@ import com.douyinpay.component.crypto.SymmetricFactory;
 import com.douyinpay.component.crypto.IVerifier;
 import com.douyinpay.component.crypto.VerifierFactory;
 import com.douyinpay.component.http.DefaultHttpClientBuilder;
+import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.define.Constants;
+import com.douyinpay.define.DomainName;
 import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.define.GlobalConfig;
 import com.douyinpay.define.AutoPlatformCertificateConfig;
@@ -30,7 +32,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
-import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoField;
 import java.util.HashMap;
@@ -45,12 +46,12 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
     private static final int NONCE_LENGTH = 32;
 
-    private static final long RESPONSE_EXPIRED_SECONDS = 5 * 60;
-    /**
-     * @deprecated use RESPONSE_EXPIRED_SECONDS.
-     */
-    @Deprecated
-    private static final long RESPONSE_EXPIRED_MINUTES = RESPONSE_EXPIRED_SECONDS;
+    private static final int DEFAULT_MAX_CLOCK_OFFSET_SECONDS = 300;
+    private static final String PLATFORM_CERTIFICATES_PATH =
+            "/v1/merchant/certificates/getPlatformCertificates";
+
+    private boolean certificateDownloadOnly;
+    private int maxClockOffsetSeconds = DEFAULT_MAX_CLOCK_OFFSET_SECONDS;
 
     private PrivateKey merchantPrivateKey;//私钥（pem格式）
 
@@ -108,6 +109,7 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.connectTimeout = globalConfig.getConnectTimeout();
         this.readTimeout = globalConfig.getReadTimeout();
         this.writeTimeout = globalConfig.getWriteTimeout();
+        this.maxClockOffsetSeconds = globalConfig.getMaxClockOffsetSeconds();
 
         defaultOkHttpClient = new DefaultHttpClientBuilder().readTimeoutMs(this.readTimeout).connectTimeoutMs(this.connectTimeout).writeTimeoutMs(this.writeTimeout).build();
 
@@ -258,6 +260,7 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.connectTimeout = config.getConnectTimeout();
         this.readTimeout = config.getReadTimeout();
         this.writeTimeout = config.getWriteTimeout();
+        this.maxClockOffsetSeconds = config.getMaxClockOffsetSeconds();
 
         defaultOkHttpClient = new DefaultHttpClientBuilder().readTimeoutMs(this.readTimeout).connectTimeoutMs(this.connectTimeout).writeTimeoutMs(this.writeTimeout).build();
 
@@ -275,6 +278,14 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
     public <T> DouyinpayResponse<T> execute(DouyinpayRequest input, Class<T> reponseClass) throws DouyinpayException {
 
+        if (certificateDownloadOnly && (input == null
+                || input.getHttpMethod() != HttpMethod.GET
+                || !PLATFORM_CERTIFICATES_PATH.equals(input.getPath())
+                || !(DomainName.API.getValue() + PLATFORM_CERTIFICATES_PATH).equals(input.getUrl())
+                || input.getBody() != null)) {
+            throw new DouyinpayException("request payment: this client supports certificate download only; "
+                    + "use GlobalConfig or AutoRSABuilder/AutoSM2Builder for business requests");
+        }
 
         Request okHttpRequest = buildOkHttpRequest(input);
 
@@ -328,6 +339,10 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
     @Override
     public <T> DouyinpayResponse<T> executeMultipart(DouyinpayMultipartRequest input, Class<T> responseClass) {
+        if (certificateDownloadOnly) {
+            throw new DouyinpayException("request payment: this client supports certificate download only; "
+                    + "use GlobalConfig or AutoRSABuilder/AutoSM2Builder for business requests");
+        }
         Request.Builder builder = new Request.Builder().url(input.getUrl());
         if (this.headers != null) this.headers.forEach(builder::addHeader);
         if (input.getHeaders() != null) input.getHeaders().forEach(builder::addHeader);
@@ -411,21 +426,37 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         String nonceStr = headerMap.get(Constants.DOUYIN_PAY_NONCE);
         String signature = headerMap.get(Constants.DOUYIN_PAY_SIGNATURE);
         String douyinpaySerial = headerMap.get(Constants.DOUYIN_PAY_SERIAL);
-        Instant responseTime = Instant.ofEpochSecond(Long.parseLong(timestamp));
         String requestId = headerMap.get(Constants.DOUYIN_REQUEST_ID);
         responseBody = responseBody == null ? "" : responseBody;
 
-        if (Duration.between(responseTime, Instant.now()).abs().getSeconds() > RESPONSE_EXPIRED_SECONDS) {
-            throw new DouyinpayException(String.format("httpResponse is expires,requestId[%s],timestamp[%s]", requestId, timestamp));
+        if (StringUtils.isBlank(timestamp) || StringUtils.isBlank(nonceStr)
+                || StringUtils.isBlank(signature) || StringUtils.isBlank(douyinpaySerial)) {
+            throw new DouyinpayException("verify response: missing signature headers");
         }
 
         String message = String.format(Constants.VERIFY_RESPONSE_SIGNATURE_FORAMT, timestamp, nonceStr, responseBody);
 
-        if (!this.verifier.verifyPlatformSign(message, this.platformCertificate, signature, douyinpaySerial)) {
-            throw new DouyinpayException(String.format(
-                    "Validate response failed,the douiyinpay signature is incorrect\n." +
-                            "requestId[%s]\tresponseHeader[%s]\tresponseBody[%.1024s]",
-                    requestId, headerMap, responseBody));
+        if (!certificateDownloadOnly) {
+            boolean verified;
+            try {
+                verified = this.verifier.verifyPlatformSign(message, this.platformCertificate, signature, douyinpaySerial);
+            } catch (DouyinpayException | IllegalArgumentException e) {
+                throw new DouyinpayException(String.format("verify response: signature verification failed, requestId[%s]", requestId), e);
+            }
+            if (!verified) {
+                throw new DouyinpayException(String.format("verify response: invalid signature, requestId[%s]", requestId));
+            }
+        }
+        long responseTimestamp;
+        try {
+            responseTimestamp = Long.parseLong(timestamp);
+        } catch (NumberFormatException e) {
+            throw new DouyinpayException("verify response: invalid timestamp", e);
+        }
+        long now = Instant.now().getEpochSecond();
+        if (responseTimestamp < now - maxClockOffsetSeconds
+                || responseTimestamp > now + maxClockOffsetSeconds) {
+            throw new DouyinpayException(String.format("verify response: timestamp expired, requestId[%s]", requestId));
         }
 
     }
@@ -436,25 +467,28 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
 
 
     /**
-     * 仅auto 下载时的client构造器，不校验平台签名，慎用！！！
+     * 平台证书下载构造器，保留已发布的六参数签名。
+     * 仅允许从抖音支付官方 HTTPS 地址下载平台证书，不支持业务请求或文件上传。
+     * 下载通过 HTTPS 和 API 密钥解密验证证书；业务请求必须使用配置了平台证书的客户端验签。
      *
-     * @param mchId
-     * @param signType
-     * @param encryptType
-     * @param praticalPrivateKey
-     * @param encryptKey
-     * @param merchantSerialNumber
+     * @param mchId 商户号
+     * @param signType 签名算法，RSA 或 SM2
+     * @param encryptType 证书解密算法
+     * @param praticalPrivateKey Base64 编码的商户私钥
+     * @param encryptKey 商户 API 密钥
+     * @param merchantSerialNumber 商户证书序列号
+     * @deprecated 业务接入请使用 {@link DefaultDouyinpayClient#DefaultDouyinpayClient(GlobalConfig)}、
+     *             {@link AutoRSABuilder} 或 {@link AutoSM2Builder}。
      */
 
+    @Deprecated
     public DefaultDouyinpayClient(String mchId,
                                   String signType,
                                   String encryptType,
                                   String praticalPrivateKey,
                                   String encryptKey,
-                                  String merchantSerialNumber,
-                                  AutoPlatformCertificateConfig.InternalUseOnly internalUseOnly
+                                  String merchantSerialNumber
     ) {
-        requireNonNull(internalUseOnly);
         this.mchId = requireNonNull(mchId);
         this.signType = requireNonNull(signType);
         this.encryptType = requireNonNull(encryptType);
@@ -463,8 +497,9 @@ public class DefaultDouyinpayClient implements DouyinpayClient {
         this.encryptKey = requireNonNull(encryptKey);
         this.encryptor = SymmetricFactory.getByName(encryptType);
         this.merchantSerialNumber = requireNonNull(merchantSerialNumber);
-        this.defaultOkHttpClient = new DefaultHttpClientBuilder().readTimeoutMs(this.readTimeout).connectTimeoutMs(this.connectTimeout).writeTimeoutMs(this.writeTimeout).build();
-        this.verifier = (plainText, platformCertificate, sign, serialNumber) -> true;
+        this.defaultOkHttpClient = new DefaultHttpClientBuilder().readTimeoutMs(this.readTimeout).connectTimeoutMs(this.connectTimeout).writeTimeoutMs(this.writeTimeout).build()
+                .newBuilder().followRedirects(false).followSslRedirects(false).build();
+        this.certificateDownloadOnly = true;
     }
 
 }
