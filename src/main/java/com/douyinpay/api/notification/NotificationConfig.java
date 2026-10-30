@@ -3,6 +3,8 @@ package com.douyinpay.api.notification;
 import com.douyinpay.exception.DouyinpayException;
 import com.douyinpay.util.GsonUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -15,6 +17,10 @@ import java.nio.file.Paths;
  * 用于解析通知的配置
  */
 public class NotificationConfig {
+
+    private static final Logger logger = LoggerFactory.getLogger(NotificationConfig.class);
+    private static final int DEFAULT_MAX_CLOCK_OFFSET_SECONDS = 300;
+    private int maxClockOffsetSeconds = DEFAULT_MAX_CLOCK_OFFSET_SECONDS;
 
     /**
      * 签名类型
@@ -57,6 +63,15 @@ public class NotificationConfig {
         return encryptKey;
     }
 
+    /**
+     * 回调时间戳与本机时间允许的最大偏差，单位：秒，默认 300 秒。
+     *
+     * @return 最大时间偏差
+     */
+    public int getMaxClockOffsetSeconds() {
+        return maxClockOffsetSeconds;
+    }
+
     public InputStream getCetificate() {
         if (StringUtils.isEmpty(platformCertPath)) {
             throw new DouyinpayException("缺少平台证书配置信息");
@@ -78,6 +93,8 @@ public class NotificationConfig {
 
 
     public static class Builder {
+
+        private int maxClockOffsetSeconds = DEFAULT_MAX_CLOCK_OFFSET_SECONDS;
 
         private String signType;
 
@@ -114,8 +131,27 @@ public class NotificationConfig {
             return this;
         }
 
+        /**
+         * 设置回调时间戳允许的最大偏差。非正数回退到默认值，不关闭时间校验。
+         *
+         * @param maxClockOffsetSeconds 最大时间偏差，单位：秒
+         * @return 当前构造器
+         */
+        public NotificationConfig.Builder maxClockOffsetSeconds(int maxClockOffsetSeconds) {
+            if (maxClockOffsetSeconds <= 0) {
+                logger.warn("callback timestamp tolerance must be positive; using {} seconds",
+                        DEFAULT_MAX_CLOCK_OFFSET_SECONDS);
+                this.maxClockOffsetSeconds = DEFAULT_MAX_CLOCK_OFFSET_SECONDS;
+            } else {
+                this.maxClockOffsetSeconds = maxClockOffsetSeconds;
+            }
+            return this;
+        }
+
         public NotificationConfig build() {
-            return new NotificationConfig(signType, cipherType, platformCertPath, encryptKey);
+            NotificationConfig config = new NotificationConfig(signType, cipherType, platformCertPath, encryptKey);
+            config.maxClockOffsetSeconds = maxClockOffsetSeconds;
+            return config;
         }
     }
 

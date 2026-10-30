@@ -1,5 +1,8 @@
 package com.douyinpay.component.certificate;
 
+import java.io.ByteArrayInputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.time.Duration;
 import java.util.Map;
@@ -11,11 +14,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 
 /** 定时更新证书的服务，它是一个由静态函数构成的工具类 */
 public class AutoCertificateService {
     private static final Logger logger = LoggerFactory.getLogger(AutoCertificateService.class);
+    private static final BouncyCastleProvider certificateProvider = new BouncyCastleProvider();
 
     protected static final int UPDATE_INTERVAL_MINUTE = 60;
     private static final Duration defaultUpdateInterval = Duration.ofMinutes(UPDATE_INTERVAL_MINUTE);
@@ -134,6 +139,9 @@ public class AutoCertificateService {
 
     private static X509Certificate getAvailableCertificate(
             Map<String, X509Certificate> certificateMap) {
+        if (certificateMap == null || certificateMap.isEmpty()) {
+            return null;
+        }
         // 假设拿到的都是可用的，选取一个能用最久的
         X509Certificate longest = null;
         for (X509Certificate item : certificateMap.values()) {
@@ -141,19 +149,36 @@ public class AutoCertificateService {
                 longest = item;
             }
         }
-        return longest;
+        return copyCertificate(longest);
     }
 
     // 根据证书序列号获取证书
     public static X509Certificate getCertificate(
             String merchantId, String type, String serialNumber) {
         String key = calculateDownloadWorkerMapKey(merchantId, type);
-        return certificateMap.get(key).get(serialNumber);
+        Map<String, X509Certificate> certificates = certificateMap.get(key);
+        if (certificates == null) {
+            return null;
+        }
+        return copyCertificate(certificates.get(serialNumber));
     }
 
     // 获取最新可用的抖音支付平台证书
     public static X509Certificate getAvailableCertificate(String merchantId, String type) {
         String key = calculateDownloadWorkerMapKey(merchantId, type);
         return getAvailableCertificate(certificateMap.get(key));
+    }
+
+    private static X509Certificate copyCertificate(X509Certificate certificate) {
+        if (certificate == null) {
+            return null;
+        }
+        try {
+            // 显式使用现有 BC 实现，兼容 RSA/SM2，并避免默认 JDK 工厂返回缓存中的同一对象。
+            return (X509Certificate) CertificateFactory.getInstance("X.509", certificateProvider)
+                    .generateCertificate(new ByteArrayInputStream(certificate.getEncoded()));
+        } catch (CertificateException e) {
+            throw new IllegalArgumentException("平台证书拷贝失败", e);
+        }
     }
 }

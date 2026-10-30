@@ -11,9 +11,9 @@
 ```java
 // 构造 RequestParam
 //签名、随机数、时间戳从header中获取
-RequestParam requestParam =  new RequestParam.Builder().serialNumber("623DFCD5354E06BC")
+RequestParam requestParam =  new RequestParam.Builder().serialNumber(verifySerial)
         .nonce(verifyNonce)
-        .signature(signature);
+        .signature(signature)
         .signType(verifyAlgorithm)
         .timestamp(timestamp)
         .body(notifyStr)
@@ -23,16 +23,28 @@ RequestParam requestParam =  new RequestParam.Builder().serialNumber("623DFCD535
 NotificationConfig notificationConfig = new NotificationConfig.Builder()
         .signType(Constants.SIGN_TYPE_RSA)
         .cipherType(Constants.ENCRYPT_TYPE_AES)
-        .platformPublicKey("")
         .platformCertPath(platformPath)
         .encryptKey(aesKey).build();
 
 // 初始化 NotificationParser
-NotificationParser parser=new NotificationParser(rsaNotificationConfig);
+NotificationParser parser=new NotificationParser(notificationConfig);
 
 // 验签并解密报文
-DecryptObject decryptObject = parser.parse(requestParam,DecryptObject.class);
+try {
+    DecryptObject decryptObject = parser.parse(requestParam, DecryptObject.class);
+    // 验签成功后，再按业务单号或通知 ID 幂等处理业务。
+} catch (DouyinpayException e) {
+    // 按通知接口约定返回失败，并记录错误阶段；不要记录密钥、签名原文或完整通知。
+}
 ```
+
+SDK 在验签通过后检查应答和回调的时间戳，默认允许与本机时间相差最多 300 秒（含边界），超过时间窗则抛出 `DouyinpayException`。请保持服务器时间同步，并按业务单号或通知 ID 做持久化幂等处理；时间窗校验不能替代幂等，也不能识别时间窗内的重复通知。
+
+如需调整时间窗，普通客户端在初始化前调用 `GlobalConfig.setMaxClockOffsetSeconds(seconds)`；通知解析器使用 `NotificationConfig.Builder.maxClockOffsetSeconds(seconds)`。自动证书模式在构造客户端和通知解析器前调用 `AutoPlatformCertificateConfig.setMaxClockOffsetSeconds(seconds)`，两者共用该配置。只接受正数；非正数会记录警告并回退到 300 秒，不会关闭校验。扩大时间窗会增加重放风险，应按实际时钟偏差谨慎配置。平台重试通知是否刷新签名时间戳，需要接入方与平台确认；使用保留旧时间戳的重试报文时，要评估投递时延与时间窗。
+
+六参数 `DefaultDouyinpayClient` 构造器保留原签名并标记为废弃，仅允许访问官方 HTTPS 平台证书下载接口，禁止重定向、业务请求和文件上传。业务接入请使用 `DefaultDouyinpayClient(GlobalConfig)`、`AutoRSABuilder` 或 `AutoSM2Builder`，以便使用平台证书验签。初始化时直接捕获 `DouyinpayException` 并处理密钥、证书或下载失败。
+
+`GlobalConfig` 和 `AutoPlatformCertificateConfig` 的自定义 Header 在设置和读取时均返回副本。修改 `getCustomHeaders()` 的结果后，如需更新配置，请再次调用 `setCustomHeaders()`，并在构造客户端前完成设置。
 
 ## 间连商户接口
 

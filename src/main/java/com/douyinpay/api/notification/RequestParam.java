@@ -11,13 +11,15 @@ public class RequestParam {
   private final String message;
   private final String body;
   private final String signType;
+  private final String timestamp;
 
   private RequestParam(
-      String serialNumber, String signature, String message, String body, String signType) {
+      String serialNumber, String signature, String message, String body, String signType, String timestamp) {
     this.serialNumber = serialNumber;
     this.signature = signature;
     this.message = message;
     this.body = body;
+    this.timestamp = timestamp;
     if (signType == null || signType.isEmpty()) {
       this.signType = Constants.SIGN_TYPE_RSA;
     } else {
@@ -43,6 +45,15 @@ public class RequestParam {
 
   public String getSignType() {
     return signType;
+  }
+
+  /**
+   * 获取通知请求头中的时间戳。
+   *
+   * @return Unix 时间戳，单位：秒
+   */
+  public String getTimestamp() {
+    return timestamp;
   }
 
   @Override
@@ -91,7 +102,7 @@ public class RequestParam {
 
     public RequestParam build() {
       String message = timestamp + "\n" + nonce + "\n" + body + "\n";
-      return new RequestParam(serialNumber, signature, message, body, signType);
+      return new RequestParam(serialNumber, signature, message, body, signType, timestamp);
     }
   }
 }
