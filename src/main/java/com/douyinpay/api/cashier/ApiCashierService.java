@@ -5,6 +5,8 @@ import com.douyinpay.api.DouyinpayRequest;
 import com.douyinpay.api.DouyinpayResponse;
 import com.douyinpay.api.cashier.models.ApiPrePayConsultRequest;
 import com.douyinpay.api.cashier.models.ApiPrePayConsultResponse;
+import com.douyinpay.api.cashier.models.ApiQueryInvokeInfoRequest;
+import com.douyinpay.api.cashier.models.ApiQueryInvokeInfoResponse;
 import com.douyinpay.component.http.HttpMethod;
 import com.douyinpay.define.DomainName;
 import com.douyinpay.util.GsonUtil;
@@ -89,6 +91,28 @@ public class ApiCashierService {
 
         DouyinpayResponse<ApiPrePayConsultResponse> apiResponse = douyinpayClient.execute(douyinpayRequest,
                 ApiPrePayConsultResponse.class);
+
+        return apiResponse.getApiResponse();
+    }
+
+    /**
+     * 查询唤起收银台信息。
+     *
+     * 根据下单返回的 prepay_id 查询唤起抖音支付收银台链接。
+     *
+     * @param request 请求参数
+     * @return ApiQueryInvokeInfoResponse
+     */
+    public ApiQueryInvokeInfoResponse queryInvokeInfo(ApiQueryInvokeInfoRequest request) {
+        String requestPath = "/v1/cashier/query_invoke_info";
+        String requestUrl = getRequestUrl();
+
+        String body = GsonUtil.objectToJson(request);
+
+        DouyinpayRequest douyinpayRequest = new DouyinpayRequest(HttpMethod.POST, requestUrl, requestPath, null, body);
+
+        DouyinpayResponse<ApiQueryInvokeInfoResponse> apiResponse = douyinpayClient.execute(douyinpayRequest,
+                ApiQueryInvokeInfoResponse.class);
 
         return apiResponse.getApiResponse();
     }
